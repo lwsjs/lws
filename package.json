@@ -1,0 +1,20 @@
+{
+  "name": "lws",
+  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "version": "0.0.0",
+  "description": "lws",
+  "repository": "https://github.com/75lb/lws.git",
+  "license": "MIT",
+  "main": "./lib/lws.js",
+  "bin": {
+    "lws": "bin/cli.js"
+  },
+  "keywords": [],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "test-runner test/*.js",
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+  }
+}
