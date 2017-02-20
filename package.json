@@ -11,10 +11,23 @@
   },
   "keywords": [],
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.4.0"
   },
   "scripts": {
     "test": "test-runner test/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+  },
+  "dependencies": {
+    "ansi-escape-sequences": "^3.0.0",
+    "array-back": "^1.0.4",
+    "command-line-args": "^4.0.1",
+    "command-line-usage": "^4.0.0",
+    "config-master": "^3.0.0",
+    "reduce-flatten": "^1.0.1",
+    "walk-back": "^2.0.1"
+  },
+  "devDependencies": {
+    "req-then": "^0.6.1",
+    "test-runner": "^0.3.0"
   }
 }
