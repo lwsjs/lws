@@ -3,118 +3,87 @@ const TestRunner = require('test-runner')
 const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
-const express = require('express')
 
 const runner = new TestRunner({ sequential: true })
 
-runner.test('basic feature', function () {
+runner.test('one feature', async function () {
+  const port = 9000 + this.index
   class Feature {
     middleware (options) {
-      return function (req, res) {
-        res.end('one')
+      return (ctx, next) => {
+        ctx.body = 'one'
       }
     }
   }
   const lws = new Lws({
     stack: Feature,
-    port: 9000
+    port: port
   })
   lws.listen()
-  return request('http://localhost:9000')
-   .then(response => {
-     a.strictEqual(response.data.toString(), 'one')
-     lws.server.close()
-   })
+  const response = await request(`http://localhost:${port}`)
+  a.strictEqual(response.data.toString(), 'one')
+  lws.server.close()
 })
 
-runner.test('basic feature and feature path', function () {
+runner.test('one feature and feature path', async function () {
+  const port = 9000 + this.index
   class Feature {
     middleware (options) {
-      return function (req, res) {
-        res.write('one')
+      return (ctx, next) => {
+        ctx.body = 'one'
+        next()
       }
     }
   }
   const lws = new Lws({
     stack: [ Feature, 'test/fixture/two.js' ],
-    port: 9000
+    port: port
   })
   lws.listen()
-  return request('http://localhost:9000').then(response => {
-    a.strictEqual(response.data.toString(), 'onetwo')
-    lws.server.close()
-  })
+  const response = await request(`http://localhost:${port}`)
+  a.strictEqual(response.data.toString(), 'onetwo')
+  lws.server.close()
 })
 
-runner.test('Express feature', function () {
+runner.test('Two features', async function () {
+  const port = 9000 + this.index
   class Feature {
     middleware (options) {
-      const app = express()
-      app.use((req, res, next) => {
-        res.send('one')
-      })
-      return app
-    }
-  }
-  const lws = new Lws({
-    stack: Feature,
-    port: 9000
-  })
-  lws.listen()
-  return request('http://localhost:9000').then(response => {
-    a.strictEqual(response.data.toString(), 'one')
-    lws.server.close()
-  })
-})
-
-runner.test('Two express features', function () {
-  class Feature {
-    middleware (options) {
-      const app = express()
-      app.use((req, res, next) => {
-        req.data = 'one'
+      return (ctx, next) => {
+        ctx.body = 'one'
         next()
-      })
-      return app
+      }
     }
   }
   class Feature2 {
     middleware (options) {
-      const app = express()
-      app.use((req, res, next) => {
-        res.send(`${req.data}two`)
+      return (ctx, next) => {
+        ctx.body += 'two'
         next()
-      })
-      return app
+      }
     }
   }
   const lws = new Lws({
     stack: [ Feature, Feature2 ],
-    port: 9000
+    port: port
   })
   lws.listen()
-  return request('http://localhost:9000')
-    .then(response => {
-      a.strictEqual(response.data.toString(), 'onetwo')
-      lws.server.close()
-    })
-    .catch(err => {
-      lws.server.close()
-      throw err
-    })
+  const response = await request(`http://localhost:${port}`)
+  a.strictEqual(response.data.toString(), 'onetwo')
+  lws.server.close()
 })
 
-runner.skip('.parseCommandLineOptions()', function () {
+runner.test('.parseCommandLineOptions()', function () {
   const lws = new Lws({ version: true })
 
-  process.argv = [ 'node', 'script.js', '--help' ]
+  process.argv = [ 'node', 'example.js', '--help' ]
   a.strictEqual(lws.options.version, true)
   a.strictEqual(lws.options.help, undefined)
   lws.parseCommandLineOptions()
   a.strictEqual(lws.options.help, true)
 })
 
-runner.skip('.parseCommandLineOptions(): with extra feature options', function () {
+runner.test('.parseCommandLineOptions(): with extra feature options', function () {
   process.argv = [ 'node', 'script.js', '--one' ]
   const lws = new Lws()
   try {

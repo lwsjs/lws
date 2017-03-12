@@ -1,7 +1,7 @@
 class Feature {
   middleware (options) {
-    return function (req, res) {
-      res.end('two')
+    return (ctx, next) => {
+      ctx.body += 'two'
     }
   }
 }
