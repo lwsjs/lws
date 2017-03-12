@@ -20,15 +20,14 @@
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",
     "array-back": "^1.0.4",
-    "command-line-args": "^4.0.1",
+    "command-line-args": "^4.0.2",
     "command-line-usage": "^4.0.0",
     "config-master": "^3.0.0",
-    "koa": "^2.0.0-alpha.8",
+    "koa": "^2.1.0",
     "reduce-flatten": "^1.0.1",
     "walk-back": "^2.0.1"
   },
   "devDependencies": {
-    "express": "^4.14.1",
     "req-then": "^0.6.1",
     "test-runner": "^0.3.0"
   }
