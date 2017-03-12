@@ -4,7 +4,7 @@ const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
 
-const runner = new TestRunner({ sequential: true })
+const runner = new TestRunner()
 
 runner.test('one feature', async function () {
   const port = 9000 + this.index
@@ -19,7 +19,7 @@ runner.test('one feature', async function () {
     stack: Feature,
     port: port
   })
-  lws.listen()
+  lws.start()
   const response = await request(`http://localhost:${port}`)
   a.strictEqual(response.data.toString(), 'one')
   lws.server.close()
@@ -39,7 +39,7 @@ runner.test('one feature and feature path', async function () {
     stack: [ Feature, 'test/fixture/two.js' ],
     port: port
   })
-  lws.listen()
+  lws.start()
   const response = await request(`http://localhost:${port}`)
   a.strictEqual(response.data.toString(), 'onetwo')
   lws.server.close()
@@ -67,34 +67,14 @@ runner.test('Two features', async function () {
     stack: [ Feature, Feature2 ],
     port: port
   })
-  lws.listen()
+  lws.start()
   const response = await request(`http://localhost:${port}`)
   a.strictEqual(response.data.toString(), 'onetwo')
   lws.server.close()
 })
 
-runner.test('.parseCommandLineOptions()', function () {
-  const lws = new Lws({ version: true })
-
-  process.argv = [ 'node', 'example.js', '--help' ]
-  a.strictEqual(lws.options.version, true)
-  a.strictEqual(lws.options.help, undefined)
-  lws.parseCommandLineOptions()
-  a.strictEqual(lws.options.help, true)
-})
-
-runner.test('.parseCommandLineOptions(): with extra feature options', function () {
-  process.argv = [ 'node', 'script.js', '--one' ]
+runner.skip('--help', function () {
   const lws = new Lws()
-  try {
-    lws.parseCommandLineOptions()
-    throw new Error("shouldn't reach here")
-  } catch (err) {
-    a.strictEqual(err.name, 'UNKNOWN_OPTION')
-    a.strictEqual(lws.options.one, undefined)
-  }
-
-  process.argv = [ 'node', 'script.js', '--one', '--stack', 'test/fixture/feature.js' ]
-  lws.parseCommandLineOptions()
-  a.strictEqual(lws.options.one, true)
+  process.argv = [ 'node', 'script.js', '--help' ]
+  // need to be able to pass in the output stream in order to test it
 })

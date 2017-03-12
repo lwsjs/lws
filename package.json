@@ -24,7 +24,9 @@
     "command-line-usage": "^4.0.0",
     "config-master": "^3.0.0",
     "koa": "^2.1.0",
+    "lodash.assignwith": "^4.2.0",
     "reduce-flatten": "^1.0.1",
+    "typical": "^2.6.0",
     "walk-back": "^2.0.1"
   },
   "devDependencies": {
