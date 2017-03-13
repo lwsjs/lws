@@ -1,7 +1,6 @@
 [![view on npm](http://img.shields.io/npm/v/lws.svg)](https://www.npmjs.org/package/lws)
 [![npm module downloads](http://img.shields.io/npm/dt/lws.svg)](https://www.npmjs.org/package/lws)
 [![Build Status](https://travis-ci.org/75lb/lws.svg?branch=master)](https://travis-ci.org/75lb/lws)
-
 [![Dependency Status](https://david-dm.org/75lb/lws.svg)](https://david-dm.org/75lb/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
