@@ -6,7 +6,7 @@ const request = require('req-then')
 
 const runner = new TestRunner()
 
-runner.test('one feature', async function () {
+runner.test('stack: one feature', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
@@ -25,7 +25,7 @@ runner.test('one feature', async function () {
   lws.server.close()
 })
 
-runner.test('one feature and feature path', async function () {
+runner.test('stack: one feature, one feature path', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
@@ -45,7 +45,29 @@ runner.test('one feature and feature path', async function () {
   lws.server.close()
 })
 
-runner.test('Two features', async function () {
+runner.test('stack: one feature, one cli feature path', async function () {
+  const port = 9000 + this.index
+  class Feature {
+    middleware (options) {
+      return (ctx, next) => {
+        ctx.body = 'one'
+        next()
+      }
+    }
+  }
+  const lws = new Lws({
+    stack: [ Feature ],
+    port: port
+  })
+  process.argv = [ 'node', 'example.js', '--stack', 'test/fixture/two.js' ]
+  lws.start()
+  process.argv = [ 'node', 'example.js' ]
+  const response = await request(`http://localhost:${port}`)
+  lws.server.close()
+  a.strictEqual(response.data.toString(), 'onetwo')
+})
+
+runner.test('stack: Two features', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
@@ -69,8 +91,8 @@ runner.test('Two features', async function () {
   })
   lws.start()
   const response = await request(`http://localhost:${port}`)
-  a.strictEqual(response.data.toString(), 'onetwo')
   lws.server.close()
+  a.strictEqual(response.data.toString(), 'onetwo')
 })
 
 runner.skip('--help', function () {
