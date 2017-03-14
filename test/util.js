@@ -25,3 +25,28 @@ runner.test('.parseCommandLineOptions(): with extra feature options', function (
   const { options, optionDefinitions } = util.parseCommandLineOptions()
   a.strictEqual(options._all.one, true)
 })
+
+runner.test('.parseCommandLineOptions(): with passed in definitions', function () {
+  process.argv = [ 'node', 'script.js', '--one', '--stack', 'test/fixture/feature.js', '--two', 'two' ]
+  try {
+    const { options, optionDefinitions } = util.parseCommandLineOptions()
+  } catch (err) {
+    a.strictEqual(err.name, 'UNKNOWN_OPTION')
+  }
+  const { options, optionDefinitions } = util.parseCommandLineOptions([ { name: 'two' } ])
+  a.strictEqual(options._all.one, true)
+  a.strictEqual(options._all.two, 'two')
+})
+
+runner.test('deepMerge', function () {
+  const result = util.deepMerge(
+    { port: 8000 },
+    { stack: [ 'one' ] },
+    { stack: [ 'two' ], help: true }
+  )
+  a.deepStrictEqual(result, {
+    port: 8000,
+    stack: [ 'one', 'two' ],
+    help: true
+  })
+})
