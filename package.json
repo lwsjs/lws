@@ -22,7 +22,7 @@
     "array-back": "^1.0.4",
     "command-line-args": "^4.0.2",
     "command-line-usage": "^4.0.0",
-    "config-master": "^3.0.0",
+    "config-master": "^3.1.0",
     "koa": "^2.2.0",
     "lodash.assignwith": "^4.2.0",
     "reduce-flatten": "^1.0.1",
