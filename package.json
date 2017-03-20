@@ -25,7 +25,6 @@
     "koa": "^2.2.0",
     "lodash.assignwith": "^4.2.0",
     "reduce-flatten": "^1.0.1",
-    "table-layout": "^0.4.0",
     "typical": "^2.6.0",
     "walk-back": "^3.0.0"
   },
