@@ -100,3 +100,28 @@ runner.skip('--help', function () {
   process.argv = [ 'node', 'script.js', '--help' ]
   // need to be able to pass in the output stream in order to test it
 })
+
+runner.test('https', async function () {
+  const port = 9000 + this.index
+  class Feature {
+    middleware (options) {
+      return (ctx, next) => {
+        ctx.body = 'one'
+        next()
+      }
+    }
+  }
+  const lws = new Lws({
+    stack: [ Feature ],
+    https: true,
+    port: port
+  })
+  lws.start()
+  const url = require('url')
+  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
+  reqOptions.rejectUnauthorized = false
+  const response = await request(reqOptions)
+  lws.server.close()
+  a.strictEqual(response.res.statusCode, 200)
+  a.strictEqual(response.data.toString(), 'one')
+})
