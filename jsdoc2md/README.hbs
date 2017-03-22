@@ -4,6 +4,60 @@
 [![Dependency Status](https://david-dm.org/75lb/lws.svg)](https://david-dm.org/75lb/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
+# lws
+
+A application shell for creating modular, command-line web servers for productive front-end development.
+
+## Synopsis
+
+Running `lws` launches a web server.
+
+```
+$ lws
+Serving at http://mbp.local:8000, http://127.0.0.1:8000, http://192.168.0.32:8000
+```
+
+However, by default it's empty.
+
+```
+$ curl -I http://127.0.0.1:8000/README.md
+HTTP/1.1 404 Not Found
+Date: Wed, 22 Mar 2017 20:41:07 GMT
+Connection: keep-alive
+```
+
+You install and use features.
+
+```
+$ npm install lws-static
+$ curl -I http://127.0.0.1:8000/README.md
+HTTP/1.1 200 OK
+Content-Length: 3286
+Last-Modified: Wed, 22 Mar 2017 00:22:21 GMT
+Cache-Control: max-age=0
+Content-Type: text/x-markdown; charset=utf-8
+Date: Wed, 22 Mar 2017 20:39:18 GMT
+Connection: keep-alive
+```
+
+You can use a pre-build feature or make your own.
+
+```js
+class Feature {
+  middleware (options) {
+    return (ctx, next) => {
+      ctx.body = 'Example feature.'
+    }
+  }
+}
+
+module.exports = Feature
+```
+
+If you want a server with all the common features pre-installed, look at [local-web-server](https://github.com/75lb/local-web-server).
+
+# API Reference
+
 {{#module name="lws"}}{{>docs}}{{/module}}
 
 * * *
