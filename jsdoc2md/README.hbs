@@ -1,12 +1,12 @@
 [![view on npm](http://img.shields.io/npm/v/lws.svg)](https://www.npmjs.org/package/lws)
 [![npm module downloads](http://img.shields.io/npm/dt/lws.svg)](https://www.npmjs.org/package/lws)
-[![Build Status](https://travis-ci.org/75lb/lws.svg?branch=master)](https://travis-ci.org/75lb/lws)
-[![Dependency Status](https://david-dm.org/75lb/lws.svg)](https://david-dm.org/75lb/lws)
+[![Build Status](https://travis-ci.org/lwsjs/lws.svg?branch=master)](https://travis-ci.org/lwsjs/lws)
+[![Dependency Status](https://david-dm.org/lwsjs/lws.svg)](https://david-dm.org/lwsjs/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 # lws
 
-A application shell for creating modular, command-line web servers for productive front-end development.
+A application shell for creating a modular, local web server for productive front-end development.
 
 ## Synopsis
 
@@ -56,9 +56,27 @@ module.exports = Feature
 
 If you want a server with all the common features pre-installed, look at [local-web-server](https://github.com/75lb/local-web-server).
 
+## Install
+
+Command-line tool:
+
+```
+$ npm install -g lws
+```
+
+Install the API for use in nodejs:
+
+```
+$ npm install lws --save
+```
+
 # API Reference
 
 {{#module name="lws"}}{{>docs}}{{/module}}
+
+# Feature interface
+
+{{#module name="feature"}}{{>docs}}{{/module}}
 
 * * *
 

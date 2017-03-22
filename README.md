@@ -1,12 +1,12 @@
 [![view on npm](http://img.shields.io/npm/v/lws.svg)](https://www.npmjs.org/package/lws)
 [![npm module downloads](http://img.shields.io/npm/dt/lws.svg)](https://www.npmjs.org/package/lws)
-[![Build Status](https://travis-ci.org/75lb/lws.svg?branch=master)](https://travis-ci.org/75lb/lws)
-[![Dependency Status](https://david-dm.org/75lb/lws.svg)](https://david-dm.org/75lb/lws)
+[![Build Status](https://travis-ci.org/lwsjs/lws.svg?branch=master)](https://travis-ci.org/lwsjs/lws)
+[![Dependency Status](https://david-dm.org/lwsjs/lws.svg)](https://david-dm.org/lwsjs/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 # lws
 
-A application shell for creating modular, command-line web servers for productive front-end development.
+A application shell for creating a modular, local web server for productive front-end development.
 
 ## Synopsis
 
@@ -56,20 +56,34 @@ module.exports = Feature
 
 If you want a server with all the common features pre-installed, look at [local-web-server](https://github.com/75lb/local-web-server).
 
+## Install
+
+Command-line tool:
+
+```
+$ npm install -g lws
+```
+
+Install the API for use in nodejs:
+
+```
+$ npm install lws --save
+```
+
 # API Reference
 
 <a name="module_lws"></a>
 
 ## lws
-A module for creating command-line web servers suitable for full-stack javascript development.
+Creating command-line web servers suitable for full-stack javascript development.
 
 
 * [lws](#module_lws)
     * [Lws](#exp_module_lws--Lws) ⏏
         * [new Lws([options])](#new_module_lws--Lws_new)
-        * [.app](#module_lws--Lws.Lws+app)
-        * [.server](#module_lws--Lws.Lws+server)
-        * [.features](#module_lws--Lws.Lws+features) : <code>[Array.&lt;Feature&gt;](#Feature)</code>
+        * [.app](#module_lws--Lws.Lws+app) : <code>Koa</code>
+        * [.server](#module_lws--Lws.Lws+server) : <code>http.Server</code> \| <code>https.Server</code>
+        * [.features](#module_lws--Lws.Lws+features) : <code>Array.&lt;Feature&gt;</code>
         * [.start()](#module_lws--Lws+start)
         * [.getMiddlewares()](#module_lws--Lws+getMiddlewares) ⇒ <code>Array.&lt;middleware&gt;</code>
         * [.getServer()](#module_lws--Lws+getServer) ⇒ <code>Server</code>
@@ -86,29 +100,35 @@ A module for creating command-line web servers suitable for full-stack javascrip
 | Param | Type | Description |
 | --- | --- | --- |
 | [options] | <code>object</code> | Server options |
-| options.port} | <code>number</code> | Port |
-| options.hostname} | <code>string</code> | The hostname (or IP address) to listen on. Defaults to 0.0.0.0. |
-| options.config-file} | <code>string</code> | Config file, defaults to 'lws.config.js'. |
-| options.stack} | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Features&gt;</code> | Array of feature classes, or filenames of modules exporting a feature class. |
-| options.https} | <code>boolean</code> | Enable HTTPS using a built-in key and cert, registered to the domain 127.0.0.1. |
-| options.key} | <code>string</code> | SSL key. Supply along with --cert to launch a https server. |
-| options.cert} | <code>string</code> | SSL cert. Supply along with --key to launch a https server. |
+| [options.port] | <code>number</code> | Port |
+| [options.hostname] | <code>string</code> | The hostname (or IP address) to listen on. Defaults to 0.0.0.0. |
+| [options.config-file] | <code>string</code> | Config file, defaults to 'lws.config.js'. |
+| [options.stack] | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Features&gt;</code> | Array of feature classes, or filenames of modules exporting a feature class. |
+| [options.https] | <code>boolean</code> | Enable HTTPS using a built-in key and cert, registered to the domain 127.0.0.1. |
+| [options.key] | <code>string</code> | SSL key. Supply along with --cert to launch a https server. |
+| [options.cert] | <code>string</code> | SSL cert. Supply along with --key to launch a https server. |
 
+**Example**  
+```js
+const Lws = require('lws')
+const lws = new Lws()
+lws.start({ https: true})
+```
 <a name="module_lws--Lws.Lws+app"></a>
 
-#### lws.app
-Koa app
+#### lws.app : <code>Koa</code>
+The [Koa application](https://github.com/koajs/koa/blob/master/docs/api/index.md#application) instance in use.
 
 **Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
 <a name="module_lws--Lws.Lws+server"></a>
 
-#### lws.server
-node server
+#### lws.server : <code>http.Server</code> \| <code>https.Server</code>
+The node server in use, an instance of either [http.Server](https://nodejs.org/dist/latest-v7.x/docs/api/http.html#http_class_http_server) or [https.Server](https://nodejs.org/dist/latest-v7.x/docs/api/https.html#https_class_https_server).
 
 **Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
 <a name="module_lws--Lws.Lws+features"></a>
 
-#### lws.features : <code>[Array.&lt;Feature&gt;](#Feature)</code>
+#### lws.features : <code>Array.&lt;Feature&gt;</code>
 Feature instances
 
 **Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
@@ -136,6 +156,60 @@ Returns a listening server which processes requests using the middleware supplie
 Return stored config object.
 
 **Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
+
+
+# Feature interface
+
+<a name="module_feature"></a>
+
+## feature
+
+* [feature](#module_feature)
+    * [Feature](#exp_module_feature--Feature) ⏏
+        * [new Feature(lws)](#new_module_feature--Feature_new)
+        * [.optionDefinitions()](#module_feature--Feature+optionDefinitions) ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
+        * [.middleware()](#module_feature--Feature+middleware) ⇒ <code>KoaMiddleware</code>
+        * [.ready(lws)](#module_feature--Feature+ready)
+
+<a name="exp_module_feature--Feature"></a>
+
+### Feature ⏏
+Feature interface.
+
+**Kind**: Exported class  
+<a name="new_module_feature--Feature_new"></a>
+
+#### new Feature(lws)
+localWebServer instance passed to constructor in case feature needs access to http server instance.
+
+
+| Param | Type |
+| --- | --- |
+| lws | <code>Lws</code> | 
+
+<a name="module_feature--Feature+optionDefinitions"></a>
+
+#### feature.optionDefinitions() ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
+Return one or more options definitions to collect command-line input
+
+**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+<a name="module_feature--Feature+middleware"></a>
+
+#### feature.middleware() ⇒ <code>KoaMiddleware</code>
+Return one of more middleware functions with three args (req, res and next). Can be created by express, Koa or hand-rolled.
+
+**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+<a name="module_feature--Feature+ready"></a>
+
+#### feature.ready(lws)
+Called once the server is launched and ready to accept connections.
+
+**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+
+| Param | Type |
+| --- | --- |
+| lws | <code>Lws</code> | 
+
 
 
 * * *
