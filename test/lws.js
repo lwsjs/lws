@@ -21,8 +21,9 @@ runner.test('stack: one feature', async function () {
   })
   lws.start()
   const response = await request(`http://localhost:${port}`)
-  a.strictEqual(response.data.toString(), 'one')
   lws.server.close()
+  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(lws.options.stack.length, 1)
 })
 
 runner.test('stack: one feature, one feature path', async function () {
@@ -41,8 +42,9 @@ runner.test('stack: one feature, one feature path', async function () {
   })
   lws.start()
   const response = await request(`http://localhost:${port}`)
-  a.strictEqual(response.data.toString(), 'onetwo')
   lws.server.close()
+  a.strictEqual(response.data.toString(), 'onetwo')
+  a.strictEqual(lws.options.stack.length, 2)
 })
 
 runner.test('stack: one feature, one cli feature path', async function () {
@@ -61,9 +63,10 @@ runner.test('stack: one feature, one cli feature path', async function () {
   })
   process.argv = [ 'node', 'example.js', '--stack', 'test/fixture/two.js' ]
   lws.start()
-  process.argv = [ 'node', 'example.js' ]
+  process.argv = [ 'node', 'example.js' ] // reset as process.argv is global
   const response = await request(`http://localhost:${port}`)
   lws.server.close()
+  a.strictEqual(lws.options.stack.length, 2)
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
@@ -93,6 +96,7 @@ runner.test('stack: Two features', async function () {
   const response = await request(`http://localhost:${port}`)
   lws.server.close()
   a.strictEqual(response.data.toString(), 'onetwo')
+  a.strictEqual(lws.options.stack.length, 2)
 })
 
 runner.skip('--help', function () {
