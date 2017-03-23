@@ -68,12 +68,30 @@ Date: Wed, 22 Mar 2017 20:41:07 GMT
 Connection: keep-alive
 ```
 
-So, install one or more features and pass their names to `--stack`.
+So, install one or more features and pass their names to `--stack`. Notice the "Middleware" section of the usage guide now contains additional options added by the `lws-static` feature:
 
 ```
 $ npm install lws-static
 
+$ npm --stack lws-static --help
+
+...
+
+Middleware
+
+  -d, --directory path     Root directory, defaults to the current directory.
+  --static.maxage number   Browser cache max-age in milliseconds.
+  --static.defer           If true, serves after `yield next`, allowing any downstream middleware to
+                           respond first.
+  --static.index path      Default file name, defaults to `index.html`.
+
+```
+
+By launching `lws` with this feature we're now able to serve static files.
+
+```
 $ lws --stack lws-static
+Serving at http://mbp.local:8000, http://127.0.0.1:8000, http://192.168.0.32:8000
 
 $ curl -I http://127.0.0.1:8000/README.md
 
@@ -90,9 +108,15 @@ You can use pre-built features or make your own.
 
 ```js
 class Feature {
+  optionDefinitions () {
+    return [
+      { name: 'team', type: String }
+    ]
+  }
   middleware (options) {
     return (ctx, next) => {
-      ctx.body = 'Example feature.'
+      ctx.body = `Your team: ${options.team}`
+      await next()
     }
   }
 }
