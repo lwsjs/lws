@@ -6,9 +6,50 @@
 
 # lws
 
-A application shell for creating a modular, local web server for productive front-end development.
+A modular server application shell for creating a personalised local web server to support productive, full-stack Javascript development.
 
 ## Synopsis
+
+`lws` is a command-line tool, install it by running `npm install -g lws`. Here's a quick look at the usage:
+
+```
+$ lws --help
+
+lws
+
+  A modular server application shell for creating a personalised local web server to support productive, full-stack Javascript development.
+
+Synopsis
+
+  $ ws [--verbose] [--config-file file] [<server options>] [<middleware options>]
+  $ ws --config
+  $ ws --help
+  $ ws --version
+
+General
+
+  -h, --help               Print these usage instructions.
+  --config                 Print the active config.
+  -c, --config-file file   Config filename to use, defaults to "lws.config.js".
+  -v, --verbose            Verbose output.
+  --version                Print the version number.
+
+Server
+
+  -p, --port number     Web server port.
+  --hostname string     The hostname (or IP address) to listen on. Defaults to 0.0.0.0.
+  --stack feature ...   Feature stack.
+  --key file            SSL key. Supply along with --cert to launch a https server.
+  --cert file           SSL cert. Supply along with --key to launch a https server.
+  --https               Enable HTTPS using a built-in key and cert, registered to the domain
+                        127.0.0.1.
+
+Middleware
+
+  No middleware specified.
+
+  Project home: https://github.com/lwsjs/lws
+```
 
 Running `lws` launches a web server.
 
@@ -17,20 +58,25 @@ $ lws
 Serving at http://mbp.local:8000, http://127.0.0.1:8000, http://192.168.0.32:8000
 ```
 
-However, by default it's empty.
+However, by default it's empty. Any resource requested will return `404 Not Found`.
 
 ```
 $ curl -I http://127.0.0.1:8000/README.md
+
 HTTP/1.1 404 Not Found
 Date: Wed, 22 Mar 2017 20:41:07 GMT
 Connection: keep-alive
 ```
 
-You install and use features.
+So, install one or more features and pass their names to `--stack`.
 
 ```
 $ npm install lws-static
+
+$ lws --stack lws-static
+
 $ curl -I http://127.0.0.1:8000/README.md
+
 HTTP/1.1 200 OK
 Content-Length: 3286
 Last-Modified: Wed, 22 Mar 2017 00:22:21 GMT
@@ -40,7 +86,7 @@ Date: Wed, 22 Mar 2017 20:39:18 GMT
 Connection: keep-alive
 ```
 
-You can use a pre-build feature or make your own.
+You can use pre-built features or make your own.
 
 ```js
 class Feature {

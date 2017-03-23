@@ -2,7 +2,7 @@
   "name": "lws",
   "author": "Lloyd Brookes <75pound@gmail.com>",
   "version": "1.0.0-pre.2",
-  "description": "A application shell for creating modular, command-line web servers for productive front-end development.",
+  "description": "A modular, server application shell for creating a personalised local web server to support productive full-stack Javascript development.",
   "repository": "https://github.com/lwsjs/lws.git",
   "license": "MIT",
   "main": "./lib/lws.js",
