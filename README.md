@@ -155,9 +155,6 @@ Creating command-line web servers suitable for full-stack javascript development
         * [.server](#module_lws--Lws.Lws+server) : <code>http.Server</code> \| <code>https.Server</code>
         * [.features](#module_lws--Lws.Lws+features) : <code>Array.&lt;Feature&gt;</code>
         * [.start()](#module_lws--Lws+start)
-        * [.getMiddlewares()](#module_lws--Lws+getMiddlewares) ⇒ <code>Array.&lt;middleware&gt;</code>
-        * [.getServer()](#module_lws--Lws+getServer) ⇒ <code>Server</code>
-        * [.getStoredConfig()](#module_lws--Lws+getStoredConfig) ⇒ <code>object</code>
 
 <a name="exp_module_lws--Lws"></a>
 
@@ -206,24 +203,6 @@ Feature instances
 
 #### lws.start()
 Start the app.
-
-**Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
-<a name="module_lws--Lws+getMiddlewares"></a>
-
-#### lws.getMiddlewares() ⇒ <code>Array.&lt;middleware&gt;</code>
-Returns and array of middleware functions from a given stack.
-
-**Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
-<a name="module_lws--Lws+getServer"></a>
-
-#### lws.getServer() ⇒ <code>Server</code>
-Returns a listening server which processes requests using the middleware supplied.
-
-**Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
-<a name="module_lws--Lws+getStoredConfig"></a>
-
-#### lws.getStoredConfig() ⇒ <code>object</code>
-Return stored config object.
 
 **Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
 
