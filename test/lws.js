@@ -47,7 +47,7 @@ runner.test('stack at constructor: one feature, one feature path - expanded', as
   a.strictEqual(lws.options.stack.length, 2)
 })
 
-runner.test('stack: one feature, one cli feature path - stack merged', async function () {
+runner.skip('stack: one feature, one cli feature path - stack merged', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
