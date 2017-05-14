@@ -44,16 +44,16 @@ runner.test('loadModule: full module name, current dir default', function () {
   a.strictEqual(module.name, 'someModule')
 })
 
-runner.test('loadModule: full module name, moduleDir', function () {
+runner.test('loadModule: full module name, module-dir', function () {
   const module = util.loadModule('some-module', {
-    moduleDir: path.resolve('test', 'fixture', 'loadModule')
+    'module-dir': path.resolve('test', 'fixture', 'loadModule')
   })
   a.strictEqual(module.name, 'someModule')
 })
 
-runner.test('loadModule: full module name, multiple moduleDirs', function () {
+runner.test('loadModule: full module name, multiple module-dirs', function () {
   const module = util.loadModule('next-module', {
-    moduleDir: [
+    'module-dir': [
       path.resolve('test', 'fixture', 'loadModule'),
       path.resolve('test', 'fixture', 'loadModule2')
     ]
@@ -61,9 +61,9 @@ runner.test('loadModule: full module name, multiple moduleDirs', function () {
   a.strictEqual(module.name, 'nextModule')
 })
 
-runner.test('loadModule: partial module name, multiple moduleDirs, prefix', function () {
+runner.test('loadModule: partial module name, multiple module-dirs, prefix', function () {
   const module = util.loadModule('module', {
-    moduleDir: [
+    'module-dir': [
       path.resolve('test', 'fixture', 'loadModule'),
       path.resolve('test', 'fixture', 'loadModule2')
     ],
@@ -72,9 +72,9 @@ runner.test('loadModule: partial module name, multiple moduleDirs, prefix', func
   a.strictEqual(module.name, 'nextModule')
 })
 
-runner.test('loadModule: full module name, multiple moduleDirs, prefix', function () {
+runner.test('loadModule: full module name, multiple module-dirs, prefix', function () {
   const module = util.loadModule('next-module', {
-    moduleDir: [
+    'module-dir': [
       path.resolve('test', 'fixture', 'loadModule'),
       path.resolve('test', 'fixture', 'loadModule2')
     ],
@@ -83,9 +83,9 @@ runner.test('loadModule: full module name, multiple moduleDirs, prefix', functio
   a.strictEqual(module.name, 'nextModule')
 })
 
-runner.test('loadModule: partial module name (prefix supplied), moduleDir', function () {
+runner.test('loadModule: partial module name (prefix supplied), module-dir', function () {
   const module = util.loadModule('module', {
-    moduleDir: path.resolve('test', 'fixture', 'loadModule'),
+    'module-dir': path.resolve('test', 'fixture', 'loadModule'),
     prefix: 'some-'
   })
   a.strictEqual(module.name, 'someModule')
