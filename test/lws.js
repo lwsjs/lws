@@ -26,7 +26,7 @@ runner.test('stack: one feature', async function () {
   a.strictEqual(lws.options.stack.length, 1)
 })
 
-runner.test('stack: one feature, one feature path', async function () {
+runner.test('stack at constructor: one feature, one feature path - expanded', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
@@ -47,7 +47,7 @@ runner.test('stack: one feature, one feature path', async function () {
   a.strictEqual(lws.options.stack.length, 2)
 })
 
-runner.test('stack: one feature, one cli feature path', async function () {
+runner.test('stack: one feature, one cli feature path - stack merged', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
@@ -61,7 +61,7 @@ runner.test('stack: one feature, one cli feature path', async function () {
     stack: [ Feature ],
     port: port
   })
-  process.argv = [ 'node', 'example.js', '--stack', 'test/fixture/two.js' ]
+  process.argv = [ 'node', 'example.js', '--stack-amend', 'test/fixture/two.js' ]
   lws.start()
   process.argv = [ 'node', 'example.js' ] // reset as process.argv is global
   const response = await request(`http://localhost:${port}`)
@@ -70,7 +70,7 @@ runner.test('stack: one feature, one cli feature path', async function () {
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
-runner.test('stack: Two features', async function () {
+runner.test('stack: Two features at constructor', async function () {
   const port = 9000 + this.index
   class Feature {
     middleware (options) {
