@@ -1,8 +1,11 @@
 class Feature {
   middleware (options) {
     return (ctx, next) => {
-      ctx.body += 'two'
+      ctx.body = (ctx.body || '') + 'two'
     }
+  }
+  optionDefinitions () {
+    return [ { name: 'something' }]
   }
 }
 

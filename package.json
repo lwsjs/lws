@@ -15,12 +15,13 @@
   },
   "scripts": {
     "test": "test-runner test/*.js",
-    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
+    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js || cat coverage/lcov.info | ./node_modules/.bin/coveralls; echo"
   },
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",
     "array-back": "^1.0.4",
-    "command-line-args": "^4.0.2",
+    "command-line-args": "^4.0.4",
     "command-line-usage": "^4.0.0",
     "koa": "^2.2.0",
     "lodash.assignwith": "^4.2.0",
@@ -29,6 +30,7 @@
     "walk-back": "^3.0.0"
   },
   "devDependencies": {
+    "coveralls": "^2.13.1",
     "req-then": "^0.6.1",
     "test-runner": "^0.3.0"
   }

@@ -2,13 +2,18 @@
 [![npm module downloads](http://img.shields.io/npm/dt/lws.svg)](https://www.npmjs.org/package/lws)
 [![Build Status](https://travis-ci.org/lwsjs/lws.svg?branch=master)](https://travis-ci.org/lwsjs/lws)
 [![Dependency Status](https://david-dm.org/lwsjs/lws.svg)](https://david-dm.org/lwsjs/lws)
+[![Coverage Status](https://coveralls.io/repos/github/lwsjs/lws/badge.svg?branch=master)](https://coveralls.io/github/lwsjs/lws?branch=master)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 # lws
 
 A modular server application shell for creating a personalised local web server to support productive, full-stack Javascript development.
 
-## Synopsis
+# Why is it suitable for development
+
+Because it's something you can run quickly from the command line. No code required. Create and share features, run your own bespoke feature stack suiting your requirements at that particular moment.
+
+## Command line usage
 
 `lws` is a command-line tool, install it by running `npm install -g lws`. Here's a quick look at the usage:
 
@@ -186,25 +191,25 @@ lws.start({ https: true})
 #### lws.app : <code>Koa</code>
 The [Koa application](https://github.com/koajs/koa/blob/master/docs/api/index.md#application) instance in use.
 
-**Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
+**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
 <a name="module_lws--Lws.Lws+server"></a>
 
 #### lws.server : <code>http.Server</code> \| <code>https.Server</code>
 The node server in use, an instance of either [http.Server](https://nodejs.org/dist/latest-v7.x/docs/api/http.html#http_class_http_server) or [https.Server](https://nodejs.org/dist/latest-v7.x/docs/api/https.html#https_class_https_server).
 
-**Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
+**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
 <a name="module_lws--Lws.Lws+features"></a>
 
 #### lws.features : <code>Array.&lt;Feature&gt;</code>
 Feature instances
 
-**Kind**: instance property of <code>[Lws](#exp_module_lws--Lws)</code>  
+**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
 <a name="module_lws--Lws+start"></a>
 
 #### lws.start()
 Start the app.
 
-**Kind**: instance method of <code>[Lws](#exp_module_lws--Lws)</code>  
+**Kind**: instance method of [<code>Lws</code>](#exp_module_lws--Lws)  
 
 
 # Feature interface
@@ -241,19 +246,19 @@ localWebServer instance passed to constructor in case feature needs access to ht
 #### feature.optionDefinitions() ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
 Return one or more options definitions to collect command-line input
 
-**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+**Kind**: instance method of [<code>Feature</code>](#exp_module_feature--Feature)  
 <a name="module_feature--Feature+middleware"></a>
 
 #### feature.middleware() ⇒ <code>KoaMiddleware</code>
 Return one of more middleware functions with three args (req, res and next). Can be created by express, Koa or hand-rolled.
 
-**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+**Kind**: instance method of [<code>Feature</code>](#exp_module_feature--Feature)  
 <a name="module_feature--Feature+ready"></a>
 
 #### feature.ready(lws)
 Called once the server is launched and ready to accept connections.
 
-**Kind**: instance method of <code>[Feature](#exp_module_feature--Feature)</code>  
+**Kind**: instance method of [<code>Feature</code>](#exp_module_feature--Feature)  
 
 | Param | Type |
 | --- | --- |

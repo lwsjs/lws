@@ -33,9 +33,16 @@ runner.test('.parseCommandLineOptions(): with passed in definitions', function (
   } catch (err) {
     a.strictEqual(err.name, 'UNKNOWN_OPTION')
   }
+  try {
+    /* defining --two via constructor options is overridden */
+    const { options, optionDefinitions } = util.parseCommandLineOptions([ { name: 'two' } ])
+  } catch (err) {
+    a.strictEqual(err.name, 'UNKNOWN_OPTION')
+  }
+
+  process.argv = [ 'node', 'script.js', '--one', '--stack', 'test/fixture/feature.js' ]
   const { options, optionDefinitions } = util.parseCommandLineOptions([ { name: 'two' } ])
   a.strictEqual(options._all.one, true)
-  a.strictEqual(options._all.two, 'two')
 })
 
 runner.test('deepMerge', function () {
@@ -46,7 +53,38 @@ runner.test('deepMerge', function () {
   )
   a.deepStrictEqual(result, {
     port: 8000,
-    stack: [ 'one', 'two' ],
+    stack: [ 'two' ],
     help: true
+  })
+})
+
+runner.test('deepMerge: arrays', function () {
+  debugger
+  let result = util.deepMerge(
+    { stack: [ 'one' ] },
+    { stack: [] }
+  )
+  a.deepStrictEqual(result, {
+    stack: [ 'one' ]
+  })
+})
+
+runner.test('deepMerge: arrays 2', function () {
+  let result = util.deepMerge(
+    { stack: [] },
+    { stack: [ 'one' ] }
+  )
+  a.deepStrictEqual(result, {
+    stack: [ 'one' ]
+  })
+})
+
+runner.test('deepMerge: arrays 3', function () {
+  let result = util.deepMerge(
+    { stack: [ 'two' ] },
+    { stack: [ 'one' ] }
+  )
+  a.deepStrictEqual(result, {
+    stack: [ 'one' ]
   })
 })
