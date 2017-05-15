@@ -18,6 +18,20 @@ runner.test('loadModule: unknown path', function () {
   )
 })
 
+runner.test('loadModule: unknown path, module-dir', function () {
+  a.throws(
+    () => {
+      const mod = util.loadModule('./adsfdf', {
+        'module-dir': '/some/where/wrong'
+      })
+      console.error(require('util').inspect(mod, { depth: 6, colors: true }))
+    },
+    err => {
+      return err.code === 'MODULE_NOT_FOUND'
+    }
+  )
+})
+
 runner.test('loadModule: absolute path to lib', function () {
   const modulePath = path.resolve(__dirname, '..', 'node_modules/command-line-args/lib/command-line-args.js')
   const module = util.loadModule(modulePath)
@@ -41,6 +55,13 @@ runner.test('loadModule: full module name (prefix supplied)', function () {
 
 runner.test('loadModule: full module name, current dir default', function () {
   const module = util.loadModule('test/fixture/loadModule/some-module')
+  a.strictEqual(module.name, 'someModule')
+})
+
+runner.test('loadModule: full module name, current dir default, module-dir', function () {
+  const module = util.loadModule('test/fixture/loadModule/some-module', {
+    'module-dir': '/some/where'
+  })
   a.strictEqual(module.name, 'someModule')
 })
 
