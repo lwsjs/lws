@@ -7,11 +7,10 @@
 
 # lws
 
-A modular server application shell for creating a personalised local web server to support productive, full-stack Javascript development.
+A modular, server application shell for creating a personalised local web server. Intended to support rapid, full-stack Javascript development.
 
-# Why is it suitable for development
-
-Because it's something you can run quickly from the command line. No code required. Create and share features, run your own bespoke feature stack suiting your requirements at that particular moment.
+  * Run from the command line or extend to create a more specialised tool
+  * Create and share features
 
 ## Command line usage
 
@@ -156,9 +155,6 @@ Creating command-line web servers suitable for full-stack javascript development
 * [lws](#module_lws)
     * [Lws](#exp_module_lws--Lws) ⏏
         * [new Lws([options])](#new_module_lws--Lws_new)
-        * [.app](#module_lws--Lws.Lws+app) : <code>Koa</code>
-        * [.server](#module_lws--Lws.Lws+server) : <code>http.Server</code> \| <code>https.Server</code>
-        * [.features](#module_lws--Lws.Lws+features) : <code>Array.&lt;Feature&gt;</code>
         * [.start()](#module_lws--Lws+start)
 
 <a name="exp_module_lws--Lws"></a>
@@ -176,6 +172,7 @@ Creating command-line web servers suitable for full-stack javascript development
 | [options.hostname] | <code>string</code> | The hostname (or IP address) to listen on. Defaults to 0.0.0.0. |
 | [options.config-file] | <code>string</code> | Config file, defaults to 'lws.config.js'. |
 | [options.stack] | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Features&gt;</code> | Array of feature classes, or filenames of modules exporting a feature class. |
+| [options.module-dir] | <code>Array.&lt;string&gt;</code> | One or more directories to search for feature modules. |
 | [options.https] | <code>boolean</code> | Enable HTTPS using a built-in key and cert, registered to the domain 127.0.0.1. |
 | [options.key] | <code>string</code> | SSL key. Supply along with --cert to launch a https server. |
 | [options.cert] | <code>string</code> | SSL cert. Supply along with --key to launch a https server. |
@@ -186,24 +183,6 @@ const Lws = require('lws')
 const lws = new Lws()
 lws.start({ https: true})
 ```
-<a name="module_lws--Lws.Lws+app"></a>
-
-#### lws.app : <code>Koa</code>
-The [Koa application](https://github.com/koajs/koa/blob/master/docs/api/index.md#application) instance in use.
-
-**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
-<a name="module_lws--Lws.Lws+server"></a>
-
-#### lws.server : <code>http.Server</code> \| <code>https.Server</code>
-The node server in use, an instance of either [http.Server](https://nodejs.org/dist/latest-v7.x/docs/api/http.html#http_class_http_server) or [https.Server](https://nodejs.org/dist/latest-v7.x/docs/api/https.html#https_class_https_server).
-
-**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
-<a name="module_lws--Lws.Lws+features"></a>
-
-#### lws.features : <code>Array.&lt;Feature&gt;</code>
-Feature instances
-
-**Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
 <a name="module_lws--Lws+start"></a>
 
 #### lws.start()
@@ -221,9 +200,12 @@ Start the app.
 * [feature](#module_feature)
     * [Feature](#exp_module_feature--Feature) ⏏
         * [new Feature(lws)](#new_module_feature--Feature_new)
-        * [.optionDefinitions()](#module_feature--Feature+optionDefinitions) ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
-        * [.middleware()](#module_feature--Feature+middleware) ⇒ <code>KoaMiddleware</code>
-        * [.ready(lws)](#module_feature--Feature+ready)
+        * _instance_
+            * [.optionDefinitions()](#module_feature--Feature+optionDefinitions) ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
+            * [.middleware()](#module_feature--Feature+middleware) ⇒ <code>KoaMiddleware</code>
+            * [.ready(lws)](#module_feature--Feature+ready)
+        * _static_
+            * [.load()](#module_feature--Feature.load) ⇒ <code>Feature</code>
 
 <a name="exp_module_feature--Feature"></a>
 
@@ -253,6 +235,7 @@ Return one or more options definitions to collect command-line input
 Return one of more middleware functions with three args (req, res and next). Can be created by express, Koa or hand-rolled.
 
 **Kind**: instance method of [<code>Feature</code>](#exp_module_feature--Feature)  
+**Emits**: <code>event:log</code>, <code>event:start</code>  
 <a name="module_feature--Feature+ready"></a>
 
 #### feature.ready(lws)
@@ -264,6 +247,12 @@ Called once the server is launched and ready to accept connections.
 | --- | --- |
 | lws | <code>Lws</code> | 
 
+<a name="module_feature--Feature.load"></a>
+
+#### Feature.load() ⇒ <code>Feature</code>
+Load a module and verify it's of the correct type
+
+**Kind**: static method of [<code>Feature</code>](#exp_module_feature--Feature)  
 
 
 * * *
