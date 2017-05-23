@@ -21,7 +21,7 @@
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",
     "array-back": "^1.0.4",
-    "command-line-args": "^4.0.4",
+    "command-line-args": "^4.0.5",
     "command-line-commands": "^2.0.0",
     "command-line-usage": "^4.0.0",
     "koa": "^2.2.0",
