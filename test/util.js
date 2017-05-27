@@ -59,7 +59,6 @@ runner.test('deepMerge', function () {
 })
 
 runner.test('deepMerge: arrays', function () {
-  debugger
   let result = util.deepMerge(
     { stack: [ 'one' ] },
     { stack: [] }
