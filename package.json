@@ -28,6 +28,7 @@
     "command-line-usage": "^4.0.0",
     "http2": "^3.3.6",
     "koa": "^2.2.0",
+    "load-module": "^0.1.3",
     "lodash.assignwith": "^4.2.0",
     "reduce-flatten": "^1.0.1",
     "spdy": "^3.4.7",
