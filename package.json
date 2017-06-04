@@ -24,7 +24,6 @@
     "array-base": "^1.0.1",
     "byte-size": "^3.0.0",
     "command-line-args": "^4.0.5",
-    "command-line-commands": "^2.0.0",
     "command-line-usage": "^4.0.0",
     "http2": "^3.3.6",
     "koa": "^2.2.0",
