@@ -32,8 +32,6 @@
     "lodash.camelcase": "^4.3.0",
     "readable-stream": "^2.2.11",
     "reduce-flatten": "^1.0.1",
-    "safe-buffer": "^5.1.0",
-    "spdy": "^3.4.7",
     "typical": "^2.6.1",
     "walk-back": "^3.0.0"
   },
