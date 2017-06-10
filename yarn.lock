@@ -110,9 +110,9 @@ chalk@^1.1.1:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-cli-commands@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/cli-commands/-/cli-commands-0.3.1.tgz#e40cbb1c69fd8229b7ac78ae4976d896e6571c2d"
+cli-commands@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/cli-commands/-/cli-commands-0.3.2.tgz#72868f2867c3d983aa75b415d2be79f8fb337590"
   dependencies:
     command-line-args "^4.0.6"
     command-line-commands "^2.0.0"
@@ -552,9 +552,9 @@ lcov-parse@0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/lcov-parse/-/lcov-parse-0.0.10.tgz#1b0b8ff9ac9c7889250582b70b71315d9da6d9a3"
 
-load-module@^0.2.0:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/load-module/-/load-module-0.2.1.tgz#37aa6ffd738ae76231987a1ef9d0463d878ecdf1"
+load-module@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/load-module/-/load-module-0.2.2.tgz#5cc20edd7ba64f70787ae628d275784562b19819"
   dependencies:
     array-back "^1.0.4"
 
