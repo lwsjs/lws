@@ -1,6 +1,6 @@
 'use strict'
 const TestRunner = require('test-runner')
-const LwsHttps = require('../lib/lws-https')(require('../'))
+const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
 
@@ -16,7 +16,7 @@ runner.test('https', async function () {
       }
     }
   }
-  const lws = new LwsHttps({
+  const lws = new Lws({
     stack: [ One ],
     https: true,
     port: port

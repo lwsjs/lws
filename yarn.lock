@@ -518,9 +518,9 @@ lcov-parse@0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/lcov-parse/-/lcov-parse-0.0.10.tgz#1b0b8ff9ac9c7889250582b70b71315d9da6d9a3"
 
-load-module@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/load-module/-/load-module-0.2.2.tgz#5cc20edd7ba64f70787ae628d275784562b19819"
+load-module@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/load-module/-/load-module-0.2.3.tgz#66b8636f6ee54b07bb53abac3678f370d3d5e462"
   dependencies:
     array-back "^1.0.4"
 
