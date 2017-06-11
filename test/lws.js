@@ -6,12 +6,24 @@ const request = require('req-then')
 
 const runner = new TestRunner()
 
-runner.skip('--help', function () {
-  const lws = new Lws()
-  process.argv = [ 'node', 'script.js', '--help' ]
-  // need to be able to pass in the output stream in order to test it
-})
-
-runner.test('general option precedence', function () {
-
+runner.test('http', async function () {
+  const port = 9100 + this.index
+  class One {
+    middleware (options) {
+      return (ctx, next) => {
+        ctx.body = 'one'
+        next()
+      }
+    }
+  }
+  const lws = new Lws({
+    stack: [ One ],
+    port: port
+  })
+  lws.launch()
+  const url = require('url')
+  const response = await request(`http://127.0.0.1:${port}`)
+  lws.server.close()
+  a.strictEqual(response.res.statusCode, 200)
+  a.strictEqual(response.data.toString(), 'one')
 })

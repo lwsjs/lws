@@ -16,7 +16,7 @@
   "scripts": {
     "test": "test-runner test/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
-    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js || cat coverage/lcov.info | ./node_modules/.bin/coveralls; echo"
+    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js || cat coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",

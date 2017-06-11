@@ -1,13 +1,13 @@
 'use strict'
 const TestRunner = require('test-runner')
-const Server = require('../lib/server')
+const LwsHttps = require('../lib/lws-https')(require('../'))
 const a = require('assert')
 const request = require('req-then')
 
 const runner = new TestRunner()
 
-runner.test('http', async function () {
-  const port = 9100 + this.index
+runner.test('https', async function () {
+  const port = 9200 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -16,14 +16,17 @@ runner.test('http', async function () {
       }
     }
   }
-  const server = new Server()
-  server.launch({
+  const lws = new LwsHttps({
     stack: [ One ],
+    https: true,
     port: port
   })
+  lws.launch()
   const url = require('url')
-  const response = await request(`http://127.0.0.1:${port}`)
-  server.server.close()
+  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
+  reqOptions.rejectUnauthorized = false
+  const response = await request(reqOptions)
+  lws.server.close()
   a.strictEqual(response.res.statusCode, 200)
   a.strictEqual(response.data.toString(), 'one')
 })
