@@ -1,4 +1,4 @@
-class Feature {
+class Two {
   middleware (options) {
     return (ctx, next) => {
       ctx.body = (ctx.body || '') + 'two'
@@ -9,4 +9,4 @@ class Feature {
   }
 }
 
-module.exports = Feature
+module.exports = Two
