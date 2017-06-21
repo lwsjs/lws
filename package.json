@@ -22,22 +22,21 @@
     "ansi-escape-sequences": "^3.0.0",
     "array-back": "^1.0.4",
     "array-base": "^1.0.1",
-    "byte-size": "^3.0.0",
+    "byte-size": "^4.0.0",
     "cli-commands": "^0.3.2",
     "command-line-args": "^4.0.6",
     "command-line-usage": "^4.0.0",
-    "koa": "^2.2.0",
+    "koa": "^2.3.0",
     "load-module": "^0.2.3",
     "lodash.assignwith": "^4.2.0",
     "lodash.camelcase": "^4.3.0",
-    "readable-stream": "^2.2.11",
     "reduce-flatten": "^1.0.1",
     "typical": "^2.6.1",
     "walk-back": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
-    "req-then": "^0.6.1",
+    "req-then": "^0.6.2",
     "test-runner": "^0.4.0"
   }
 }
