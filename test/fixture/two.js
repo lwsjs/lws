@@ -1,4 +1,4 @@
-class Two {
+module.exports = Base => class extends Base {
   middleware (options) {
     return (ctx, next) => {
       ctx.body = (ctx.body || '') + 'two'
@@ -8,5 +8,3 @@ class Two {
     return [ { name: 'something' }]
   }
 }
-
-module.exports = Two

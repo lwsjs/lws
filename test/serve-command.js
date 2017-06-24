@@ -8,7 +8,7 @@ const runner = new TestRunner()
 
 runner.test('stack initialOptions: one feature', async function () {
   const port = 9000 + this.index
-  class One {
+  const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -21,13 +21,13 @@ runner.test('stack initialOptions: one feature', async function () {
     port: port
   })
   const response = await request(`http://localhost:${port}`)
-  server.server.close()
+  server.close()
   a.strictEqual(response.data.toString(), 'one')
 })
 
 runner.test('stack initialOptions: Two features', async function () {
   const port = 9000 + this.index
-  class One {
+  const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -35,7 +35,7 @@ runner.test('stack initialOptions: Two features', async function () {
       }
     }
   }
-  class Two {
+  const Two = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body += 'two'
@@ -49,13 +49,13 @@ runner.test('stack initialOptions: Two features', async function () {
     port: port
   })
   const response = await request(`http://localhost:${port}`)
-  server.server.close()
+  server.close()
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
 runner.test('stack initialOptions: one feature, one path', async function () {
   const port = 9000 + this.index
-  class One {
+  const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -69,13 +69,13 @@ runner.test('stack initialOptions: one feature, one path', async function () {
     port: port
   })
   const response = await request(`http://localhost:${port}`)
-  server.server.close()
+  server.close()
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
 runner.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
   const port = 9000 + this.index
-  class One {
+  const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -90,13 +90,13 @@ runner.test('stack initialOptions and argv: command-line Stack takes precedence'
     port: port
   })
   const response = await request(`http://localhost:${port}`)
-  server.server.close()
+  server.close()
   a.strictEqual(response.data.toString(), 'two')
 })
 
 runner.test('stack initialOptions and argv: one feature with cli option', async function () {
   const port = 9000 + this.index
-  class One {
+  const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = options.something
@@ -114,6 +114,6 @@ runner.test('stack initialOptions and argv: one feature with cli option', async 
     port: port
   })
   const response = await request(`http://localhost:${port}`)
-  server.server.close()
+  server.close()
   a.strictEqual(response.data.toString(), 'yeah')
 })
