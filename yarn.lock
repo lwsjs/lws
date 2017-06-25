@@ -156,6 +156,15 @@ command-line-usage@^4.0.0:
     table-layout "^0.4.0"
     typical "^2.6.0"
 
+command-line-usage@^4.1.0-0:
+  version "4.1.0-0"
+  resolved "https://registry.yarnpkg.com/command-line-usage/-/command-line-usage-4.1.0-0.tgz#2219c8fb610131bec47ea139e75a7c38c4097b1b"
+  dependencies:
+    ansi-escape-sequences "^3.0.0"
+    array-back "^2.0.0"
+    table-layout "^0.4.0"
+    typical "^2.6.1"
+
 commander@^2.9.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.10.0.tgz#e1f5d3245de246d1a5ca04702fa1ad1bd7e405fe"
