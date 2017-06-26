@@ -3,6 +3,8 @@ const TestRunner = require('test-runner')
 const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
+const usage = require('../lib/usage')
+usage.disable()
 
 const runner = new TestRunner()
 

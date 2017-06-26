@@ -32,6 +32,7 @@
     "lodash.camelcase": "^4.3.0",
     "reduce-flatten": "^1.0.1",
     "typical": "^2.6.1",
+    "usage-stats": "^0.9.3",
     "walk-back": "^3.0.0"
   },
   "devDependencies": {
