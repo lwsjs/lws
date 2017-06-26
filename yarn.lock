@@ -98,9 +98,9 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-byte-size@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/byte-size/-/byte-size-4.0.0.tgz#1b6c23d9b2a0eaa6a4c11e6313b815c099323db7"
+byte-size@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/byte-size/-/byte-size-4.0.1.tgz#59b2f8277277e1e538fee1e4d02b0ddd82fb09c6"
 
 caseless@~0.11.0:
   version "0.11.0"
