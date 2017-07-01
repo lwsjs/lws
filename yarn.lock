@@ -645,11 +645,11 @@ reduce-flatten@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/reduce-flatten/-/reduce-flatten-1.0.1.tgz#258c78efd153ddf93cb561237f61184f3696e327"
 
-req-then@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/req-then/-/req-then-0.6.2.tgz#7f9e6ebbcab327adc9280aa92b3698d3fc1c5b0d"
+req-then@^0.6.2, req-then@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/req-then/-/req-then-0.6.4.tgz#9f9c04626afd311ae01d727846a0a1075c0e1965"
   dependencies:
-    array-back "^1.0.4"
+    array-back "^2.0.0"
     defer-promise "^1.0.1"
     lodash.pick "^4.4.0"
     stream-read-all "^0.1.0"
