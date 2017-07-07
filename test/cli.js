@@ -26,3 +26,24 @@ runner.test('cli.run: bad option', async function () {
   process.argv = origArgv
   a.strictEqual(server, undefined)
 })
+
+runner.test('cli.run: --help', async function () {
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--help' ]
+  CliApp.run()
+  process.argv = origArgv
+})
+
+runner.test('cli.run: --version', async function () {
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--version' ]
+  CliApp.run()
+  process.argv = origArgv
+})
+
+runner.test('cli.run: --config', async function () {
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--config' ]
+  CliApp.run()
+  process.argv = origArgv
+})
