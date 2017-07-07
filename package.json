@@ -16,12 +16,11 @@
   "scripts": {
     "test": "test-runner test/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo",
-    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js || cat coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",
     "array-back": "^2.0.0",
-    "array-base": "^1.0.1",
     "byte-size": "^4.0.2",
     "cli-commands": "^0.3.2",
     "command-line-args": "^4.0.6",
@@ -39,6 +38,7 @@
   "devDependencies": {
     "coveralls": "^2.13.1",
     "req-then": "^0.6.4",
-    "test-runner": "^0.4.0"
+    "test-runner": "^0.4.0",
+    "test-runner-counter": "^0.1.1"
   }
 }

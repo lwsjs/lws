@@ -45,12 +45,6 @@ array-back@^2.0.0:
   dependencies:
     typical "^2.6.1"
 
-array-base@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/array-base/-/array-base-1.0.1.tgz#ea133b0c12c25fe3330ab6842c99927771a1bafa"
-  dependencies:
-    array-back "^1.0.4"
-
 asn1@~0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.3.tgz#dac8787713c9966849fc8180777ebe9c1ddf3b86"
@@ -739,6 +733,10 @@ table-layout@^0.4.0:
     lodash.padend "^4.6.1"
     typical "^2.6.0"
     wordwrapjs "^2.0.0"
+
+test-runner-counter@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/test-runner-counter/-/test-runner-counter-0.1.1.tgz#10c928795a847d71a6d0ae0c49effac20fbe105a"
 
 test-runner@^0.4.0:
   version "0.4.0"
