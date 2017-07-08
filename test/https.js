@@ -19,7 +19,7 @@ runner.test('https', async function () {
     }
   }
   const lws = new Lws()
-  const server = lws.create({
+  const server = lws.listen({
     stack: [ One ],
     https: true,
     port: port

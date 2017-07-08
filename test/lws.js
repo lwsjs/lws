@@ -20,7 +20,7 @@ runner.test('lws: simple http', async function () {
     }
   }
   const lws = new Lws()
-  const server = lws.create({
+  const server = lws.listen({
     stack: [ One ],
     port: port
   })
@@ -42,7 +42,7 @@ runner.test('lws: hostname', async function () {
     }
   }
   const lws = new Lws()
-  const server = lws.create({
+  const server = lws.listen({
     stack: [ One ],
     port: port,
     hostname: 'localhost'
@@ -77,7 +77,7 @@ runner.test('lws: --websocket', async function () {
     }
   }
   const lws = new Lws()
-  const server = lws.create({
+  const server = lws.listen({
     websocket: One,
     port: port
   })
