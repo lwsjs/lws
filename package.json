@@ -30,6 +30,7 @@
     "lodash.assignwith": "^4.2.0",
     "lodash.camelcase": "^4.3.0",
     "reduce-flatten": "^1.0.1",
+    "semver": "^5.3.0",
     "typical": "^2.6.1",
     "usage-stats": "^0.9.4",
     "walk-back": "^3.0.0",
