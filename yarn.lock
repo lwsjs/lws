@@ -136,10 +136,10 @@ command-line-args@^4.0.6:
     typical "^2.6.1"
 
 command-line-commands@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/command-line-commands/-/command-line-commands-2.0.0.tgz#1abda11633e8d37bcb1a39f73b8d939a2d85ef39"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/command-line-commands/-/command-line-commands-2.0.1.tgz#c58aa13dc78c06038ed67077e57ad09a6f858f46"
   dependencies:
-    array-back "^1.0.4"
+    array-back "^2.0.0"
 
 command-line-usage@^4.0.0:
   version "4.0.0"
