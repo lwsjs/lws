@@ -91,3 +91,29 @@ runner.test('lws: --websocket', async function () {
   })
   return counter.promise
 })
+
+runner.test('lws: --max-connections, --keep-alive-timeout', async function () {
+  const port = 9100 + this.index
+  const One = Base => class extends Base {
+    middleware (options) {
+      return (ctx, next) => {
+        ctx.body = 'one'
+        next()
+      }
+    }
+  }
+  const lws = new Lws()
+  const server = lws.listen({
+    stack: [ One ],
+    port: port,
+    maxConnections: 10,
+    keepAliveTimeout: 10000
+  })
+  const url = require('url')
+  const reqOptions = url.parse(`http://127.0.0.1:${port}`)
+  reqOptions.rejectUnauthorized = false
+  const response = await request(reqOptions)
+  server.close()
+  a.strictEqual(response.res.statusCode, 200)
+  a.strictEqual(response.data.toString(), 'one')
+})
