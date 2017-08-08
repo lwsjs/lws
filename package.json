@@ -19,22 +19,22 @@
     "cover": "istanbul cover ./node_modules/.bin/test-runner test/*.js && cat coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "dependencies": {
-    "ansi-escape-sequences": "^3.0.0",
+    "ansi-escape-sequences": "^4.0.0",
     "array-back": "^2.0.0",
     "byte-size": "^4.0.2",
     "cli-commands": "^0.3.2",
     "command-line-args": "^4.0.6",
-    "command-line-usage": "^4.1.0-0",
+    "command-line-usage": "^4.1.0-1",
     "koa": "^2.3.0",
     "load-module": "^0.2.3",
     "lodash.assignwith": "^4.2.0",
     "lodash.camelcase": "^4.3.0",
     "reduce-flatten": "^1.0.1",
-    "semver": "^5.3.0",
+    "semver": "^5.4.1",
     "typical": "^2.6.1",
     "usage-stats": "^0.9.4",
     "walk-back": "^3.0.0",
-    "ws": "^3.0.0"
+    "ws": "^3.1.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
