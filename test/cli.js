@@ -40,6 +40,8 @@ runner.test('cli.run: port not available', async function () {
   const server2 = CliApp.run()
   server2.on('error', err => {
     counter.pass('should fail')
+    a.strictEqual(process.exitCode, 1)
+    process.exitCode = 0
     server.close()
     server2.close()
   })
