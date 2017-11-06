@@ -9,7 +9,7 @@ usage.disable()
 const runner = new TestRunner()
 
 runner.test('stack initialOptions: one feature', async function () {
-  const port = 9200 + this.index
+  const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
@@ -28,7 +28,7 @@ runner.test('stack initialOptions: one feature', async function () {
 })
 
 runner.test('stack initialOptions: Two features', async function () {
-  const port = 9200 + this.index
+  const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
@@ -56,7 +56,7 @@ runner.test('stack initialOptions: Two features', async function () {
 })
 
 runner.test('stack initialOptions: one feature, one path', async function () {
-  const port = 9200 + this.index
+  const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
@@ -76,7 +76,7 @@ runner.test('stack initialOptions: one feature, one path', async function () {
 })
 
 runner.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
-  const port = 9200 + this.index
+  const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
@@ -97,7 +97,7 @@ runner.test('stack initialOptions and argv: command-line Stack takes precedence'
 })
 
 runner.test('stack initialOptions and argv: one feature with cli option', async function () {
-  const port = 9200 + this.index
+  const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
       return (ctx, next) => {
