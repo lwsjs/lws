@@ -6,7 +6,7 @@ const request = require('req-then')
 const usage = require('../lib/usage')
 usage.disable()
 
-const runner = new TestRunner()
+const runner = new TestRunner({ sequential: true })
 
 runner.test('cli.run', async function () {
   const port = 7500 + this.index

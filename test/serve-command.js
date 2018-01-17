@@ -21,7 +21,7 @@ runner.test('stack initialOptions: one feature', async function () {
   const server = serve.execute({
     stack: One,
     port: port
-  })
+  }, [])
   const response = await request(`http://localhost:${port}`)
   server.close()
   a.strictEqual(response.data.toString(), 'one')
@@ -49,7 +49,7 @@ runner.test('stack initialOptions: Two features', async function () {
   const server = serve.execute({
     stack: [ One, Two ],
     port: port
-  })
+  }, [])
   const response = await request(`http://localhost:${port}`)
   server.close()
   a.strictEqual(response.data.toString(), 'onetwo')
@@ -69,7 +69,7 @@ runner.test('stack initialOptions: one feature, one path', async function () {
   const server = serve.execute({
     stack: [ One, 'test/fixture/two.js' ],
     port: port
-  })
+  }, [])
   const response = await request(`http://localhost:${port}`)
   server.close()
   a.strictEqual(response.data.toString(), 'onetwo')
@@ -86,11 +86,10 @@ runner.test('stack initialOptions and argv: command-line Stack takes precedence'
     }
   }
   const serve = new ServeCommand()
-  process.argv = [ 'node', 'example.js', '--stack', 'test/fixture/two.js' ]
   let server = serve.execute({
     stack: [ One ], // One will be overridden by command-line choice of Two
     port: port
-  })
+  }, [ '--stack', 'test/fixture/two.js' ])
   const response = await request(`http://localhost:${port}`)
   server.close()
   a.strictEqual(response.data.toString(), 'two')
@@ -110,13 +109,10 @@ runner.test('stack initialOptions and argv: one feature with cli option', async 
     }
   }
   const serve = new ServeCommand()
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'example.js', '--something', 'yeah' ]
   let server = serve.execute({
     stack: [ One ],
     port: port
-  })
-  process.argv = origArgv
+  }, [ '--something', 'yeah' ])
   const response = await request(`http://localhost:${port}`)
   server.close()
   a.strictEqual(response.data.toString(), 'yeah')
