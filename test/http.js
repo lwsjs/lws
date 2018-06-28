@@ -61,7 +61,6 @@ runner.test('lws: hostname', async function () {
   } catch (err) {
     a.fail("shouldn't reach here")
   }
-
 })
 
 runner.test('lws: --websocket', async function () {
@@ -84,7 +83,7 @@ runner.test('lws: --websocket', async function () {
   const WebSocket = require('ws')
   const ws = new WebSocket(`ws://127.0.0.1:${port}`)
 
-  ws.on('open', function open() {
+  ws.on('open', function open () {
     ws.send('something')
     server.close()
     ws.close()

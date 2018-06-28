@@ -5,6 +5,6 @@ module.exports = Base => class extends Base {
     }
   }
   optionDefinitions () {
-    return [ { name: 'something' }]
+    return [ { name: 'something' } ]
   }
 }

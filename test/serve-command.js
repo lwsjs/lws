@@ -105,7 +105,7 @@ runner.test('stack initialOptions and argv: one feature with cli option', async 
       }
     }
     optionDefinitions () {
-      return [ { name: 'something' }]
+      return [ { name: 'something' } ]
     }
   }
   const serve = new ServeCommand()

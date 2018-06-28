@@ -20,7 +20,6 @@ runner.test('cli.run', async function () {
 })
 
 runner.test('cli.run: bad option, should fail and printError', async function () {
-  const port = 7500 + this.index
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--should-fail' ]
   const server = CliApp.run()
