@@ -2,7 +2,7 @@
  * @module lws
  */
 
-const util = require('./util')
+const util = require('./lib/util')
 const t = require('typical')
 const EventEmitter = require('events')
 const arrayify = require('array-back')
@@ -54,7 +54,7 @@ class Lws extends EventEmitter {
       options.stack = arrayify(options.stack)
 
       /* validate stack */
-      const Stack = require('./stack')
+      const Stack = require('./lib/stack')
       if (!(options.stack instanceof Stack)) {
         options.stack = Stack.create(options.stack, options)
       }
@@ -109,14 +109,14 @@ class Lws extends EventEmitter {
     }
 
     /* The base HTTP server factory */
-    let ServerFactory = require('./server-factory')
+    let ServerFactory = require('./lib/server-factory')
 
     /* use HTTPS server factory */
     if (options.https || (!options.http2 && ((options.key && options.cert) || options.pfx))) {
-      ServerFactory = require('./server-factory-https')(ServerFactory)
+      ServerFactory = require('./lib/server-factory-https')(ServerFactory)
     /* use HTTP2 server factory */
     } else if (options.http2) {
-      ServerFactory = require('./server-factory-http2')(ServerFactory)
+      ServerFactory = require('./lib/server-factory-http2')(ServerFactory)
 
     /* use user-supplied server factory */
     } else if (options.server) {
@@ -136,7 +136,7 @@ class Lws extends EventEmitter {
   }
 
   attachWebsocket (server, options) {
-    const WebsocketBase = require('./websocket-base')
+    const WebsocketBase = require('./lib/websocket-base')
     const wsModule = typeof options.websocket === 'string' ? loadModule(options.websocket, { prefix: options.modulePrefix, paths: options.moduleDir }) : options.websocket
     const WebsocketModule = wsModule(WebsocketBase)
     const websocketModule = new WebsocketModule()
