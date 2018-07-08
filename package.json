@@ -31,7 +31,6 @@
     "node-version-matches": "^1.0.0",
     "reduce-flatten": "^2.0.0",
     "typical": "^2.6.1",
-    "usage-stats": "^0.9.4",
     "walk-back": "^3.0.0",
     "ws": "^5.2.1"
   },

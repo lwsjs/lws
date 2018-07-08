@@ -3,8 +3,6 @@ const Counter = require('test-runner-counter')
 const a = require('assert')
 const CliApp = require('../lib/cli-app')
 const request = require('req-then')
-const usage = require('../lib/usage')
-usage.disable()
 
 const runner = new TestRunner({ sequential: true })
 
@@ -33,11 +31,11 @@ runner.test('cli.run: port not available', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const server = CliApp.run()
-  server.on('error', err => {
+  server.on('error', () => {
     counter.fail('should not reach here')
   })
   const server2 = CliApp.run()
-  server2.on('error', err => {
+  server2.on('error', () => {
     counter.pass('should fail')
     a.strictEqual(process.exitCode, 1)
     process.exitCode = 0
