@@ -16,6 +16,12 @@
     "test": "test-runner test/*.js",
     "cover": "nyc --reporter=text-lcov test-runner test/*.js | coveralls"
   },
+  "files": [
+    "index.js",
+    "ssl",
+    "lib",
+    "bin"
+  ],
   "dependencies": {
     "ansi-escape-sequences": "^4.0.0",
     "array-back": "^2.0.0",
