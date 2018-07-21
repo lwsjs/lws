@@ -33,6 +33,7 @@
     "load-module": "^1.0.0",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^1.0.0",
+    "opn": "^5.3.0",
     "reduce-flatten": "^2.0.0",
     "typical": "^2.6.1",
     "walk-back": "^3.0.0",
