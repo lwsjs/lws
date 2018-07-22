@@ -29,6 +29,7 @@ runner.test('cli.run: port not available', async function () {
   const counter = Counter.create(1)
   const port = 7500 + this.index
   const origArgv = process.argv.slice()
+  const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const server = CliApp.run()
   server.on('error', () => {
@@ -38,7 +39,7 @@ runner.test('cli.run: port not available', async function () {
   server2.on('error', () => {
     counter.pass('should fail')
     a.strictEqual(process.exitCode, 1)
-    process.exitCode = 0
+    process.exitCode = origExitCode
     server.close()
     server2.close()
   })
