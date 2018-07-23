@@ -19,10 +19,13 @@ runner.test('cli.run', async function () {
 
 runner.test('cli.run: bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
+  const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--should-fail' ]
   const server = CliApp.run()
   process.argv = origArgv
   a.strictEqual(server, undefined)
+  a.strictEqual(process.exitCode, 1)
+  process.exitCode = origExitCode
 })
 
 runner.test('cli.run: port not available', async function () {
@@ -31,18 +34,12 @@ runner.test('cli.run: port not available', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const server = CliApp.run()
-  server.on('error', () => {
-    counter.fail('should not reach here')
-  })
   const server2 = CliApp.run()
-  server2.on('error', () => {
-    counter.pass('should fail')
-    a.strictEqual(process.exitCode, 1)
-    process.exitCode = 0
-    server.close()
-    server2.close()
+  server2.on('error', err => {
+      counter.pass('should fail')
+      server.close()
+      server2.close()
   })
-  process.argv = origArgv
   return counter.promise
 })
 
