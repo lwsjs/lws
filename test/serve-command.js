@@ -1,4 +1,3 @@
-'use strict'
 const TestRunner = require('test-runner')
 const ServeCommand = require('../lib/command/serve')
 const a = require('assert')

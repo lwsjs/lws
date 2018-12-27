@@ -1,4 +1,3 @@
-'use strict'
 const TestRunner = require('test-runner')
 const Counter = require('test-runner-counter')
 const Lws = require('../')

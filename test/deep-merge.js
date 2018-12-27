@@ -1,4 +1,3 @@
-'use strict'
 const TestRunner = require('test-runner')
 const util = require('../lib/util')
 const a = require('assert')

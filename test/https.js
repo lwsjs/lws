@@ -1,4 +1,3 @@
-'use strict'
 const TestRunner = require('test-runner')
 const Lws = require('../')
 const a = require('assert')
