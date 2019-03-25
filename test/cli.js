@@ -1,12 +1,12 @@
-const TestRunner = require('test-runner')
-const Counter = require('test-runner-counter')
+const Tom = require('test-runner').Tom
 const a = require('assert')
 const CliApp = require('../lib/cli-app')
 const request = require('req-then')
+const sleep = require('sleep-anywhere')
 
-const runner = new TestRunner({ sequential: true })
+const tom = module.exports = new Tom('cli')
 
-runner.test('cli.run', async function () {
+tom.test('cli.run', async function () {
   const port = 7500 + this.index
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
@@ -17,7 +17,7 @@ runner.test('cli.run', async function () {
   a.strictEqual(response.res.statusCode, 404)
 })
 
-runner.test('cli.run: bad option, should fail and printError', async function () {
+tom.test('cli.run: bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
   const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--should-fail' ]
@@ -28,36 +28,37 @@ runner.test('cli.run: bad option, should fail and printError', async function ()
   process.exitCode = origExitCode
 })
 
-runner.test('cli.run: port not available', async function () {
-  const counter = Counter.create(1)
+tom.test('cli.run: port not available', async function () {
   const port = 7500 + this.index
+  const events = []
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const server = CliApp.run()
   const server2 = CliApp.run()
   server2.on('error', err => {
-      counter.pass('should fail')
+      events.push('server2 fail')
       server.close()
       server2.close()
   })
-  return counter.promise
+  await sleep(10)
+  a.deepStrictEqual(events, [ 'server2 fail' ])
 })
 
-runner.test('cli.run: --help', async function () {
+tom.test('cli.run: --help', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--help' ]
   CliApp.run()
   process.argv = origArgv
 })
 
-runner.test('cli.run: --version', async function () {
+tom.test('cli.run: --version', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--version' ]
   CliApp.run()
   process.argv = origArgv
 })
 
-runner.test('cli.run: --config', async function () {
+tom.test('cli.run: --config', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--config' ]
   CliApp.run()

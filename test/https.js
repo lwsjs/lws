@@ -1,11 +1,11 @@
-const TestRunner = require('test-runner')
+const Tom = require('test-runner').Tom
 const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('https')
 
-runner.test('https: --https', async function () {
+tom.test('--https', async function () {
   const port = 9200 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -30,7 +30,7 @@ runner.test('https: --https', async function () {
   a.strictEqual(response.data.toString(), 'one')
 })
 
-runner.test('https: --key and --cert', async function () {
+tom.test('--key and --cert', async function () {
   const port = 9200 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -56,7 +56,7 @@ runner.test('https: --key and --cert', async function () {
   a.strictEqual(response.data.toString(), 'one')
 })
 
-runner.test('https: --pfx', async function () {
+tom.test('--pfx', async function () {
   const port = 9200 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -81,7 +81,7 @@ runner.test('https: --pfx', async function () {
   a.strictEqual(response.data.toString(), 'one')
 })
 
-runner.test('https: --pfx, --max-connections, --keep-alive-timeout', async function () {
+tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
   const port = 9200 + this.index
   const One = Base => class extends Base {
     middleware (options) {

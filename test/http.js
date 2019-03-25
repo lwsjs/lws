@@ -1,12 +1,44 @@
-const TestRunner = require('test-runner')
-const Counter = require('test-runner-counter')
+const Tom = require('test-runner').Tom
 const Lws = require('../')
 const a = require('assert')
 const request = require('req-then')
+const sleep = require('sleep-anywhere')
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('http')
 
-runner.test('lws: simple http', async function () {
+tom.test('--websocket', async function () {
+  const port = 9100 + this.index
+  const counts = []
+  const One = Base => class extends Base {
+    websocket (wss) {
+      wss.on('connection', ws => {
+        ws.on('message', data => {
+          counts.push(data)
+        })
+      })
+    }
+  }
+  const lws = new Lws()
+  const server = lws.listen({
+    websocket: One,
+    port: port
+  })
+  const WebSocket = require('ws')
+  const ws = new WebSocket(`ws://127.0.0.1:${port}`)
+
+  ws.on('open', function open () {
+    ws.send('something')
+    setTimeout(function () {
+      ws.send('another')
+      server.close()
+      ws.close()
+    }, 100)
+  })
+  await sleep(300)
+  a.deepStrictEqual(counts, [ 'something', 'another' ])
+})
+
+tom.test('simple http', async function () {
   const port = 9100 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -27,7 +59,7 @@ runner.test('lws: simple http', async function () {
   a.strictEqual(response.data.toString(), 'one')
 })
 
-runner.test('lws: hostname', async function () {
+tom.test('hostname', async function () {
   const port = 9100 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -60,35 +92,7 @@ runner.test('lws: hostname', async function () {
   }
 })
 
-runner.test('lws: --websocket', async function () {
-  const counter = Counter.create(1)
-  const port = 9100 + this.index
-  const One = Base => class extends Base {
-    websocket (wss) {
-      wss.on('connection', ws => {
-        ws.on('message', data => {
-          counter.pass()
-        })
-      })
-    }
-  }
-  const lws = new Lws()
-  const server = lws.listen({
-    websocket: One,
-    port: port
-  })
-  const WebSocket = require('ws')
-  const ws = new WebSocket(`ws://127.0.0.1:${port}`)
-
-  ws.on('open', function open () {
-    ws.send('something')
-    server.close()
-    ws.close()
-  })
-  return counter.promise
-})
-
-runner.test('lws: --max-connections, --keep-alive-timeout', async function () {
+tom.test('--max-connections, --keep-alive-timeout', async function () {
   const port = 9100 + this.index
   const One = Base => class extends Base {
     middleware (options) {

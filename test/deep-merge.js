@@ -1,10 +1,10 @@
-const TestRunner = require('test-runner')
+const Tom = require('test-runner').Tom
 const util = require('../lib/util')
 const a = require('assert')
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('deepMerge')
 
-runner.test('deepMerge', function () {
+tom.test('simple', function () {
   const result = util.deepMerge(
     { port: 8000 },
     { stack: [ 'one' ] },
@@ -17,7 +17,7 @@ runner.test('deepMerge', function () {
   })
 })
 
-runner.test('deepMerge: arrays', function () {
+tom.test('arrays', function () {
   let result = util.deepMerge(
     { stack: [ 'one' ] },
     { stack: [] }
@@ -27,7 +27,7 @@ runner.test('deepMerge: arrays', function () {
   })
 })
 
-runner.test('deepMerge: arrays 2', function () {
+tom.test('arrays 2', function () {
   let result = util.deepMerge(
     { stack: [] },
     { stack: [ 'one' ] }
@@ -37,7 +37,7 @@ runner.test('deepMerge: arrays 2', function () {
   })
 })
 
-runner.test('deepMerge: arrays 3', function () {
+tom.test('arrays 3', function () {
   let result = util.deepMerge(
     { stack: [ 'two' ] },
     { stack: [ 'one' ] }

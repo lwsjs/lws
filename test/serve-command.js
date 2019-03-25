@@ -1,11 +1,11 @@
-const TestRunner = require('test-runner')
+const Tom = require('test-runner').Tom
 const ServeCommand = require('../lib/command/serve')
 const a = require('assert')
 const request = require('req-then')
 
-const runner = new TestRunner()
+const tom = module.exports = new Tom('serve')
 
-runner.test('stack initialOptions: one feature', async function () {
+tom.test('stack initialOptions: one feature', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -24,7 +24,7 @@ runner.test('stack initialOptions: one feature', async function () {
   a.strictEqual(response.data.toString(), 'one')
 })
 
-runner.test('stack initialOptions: Two features', async function () {
+tom.test('stack initialOptions: Two features', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -52,7 +52,7 @@ runner.test('stack initialOptions: Two features', async function () {
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
-runner.test('stack initialOptions: one feature, one path', async function () {
+tom.test('stack initialOptions: one feature, one path', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -72,7 +72,7 @@ runner.test('stack initialOptions: one feature, one path', async function () {
   a.strictEqual(response.data.toString(), 'onetwo')
 })
 
-runner.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
+tom.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -92,7 +92,7 @@ runner.test('stack initialOptions and argv: command-line Stack takes precedence'
   a.strictEqual(response.data.toString(), 'two')
 })
 
-runner.test('stack initialOptions and argv: one feature with cli option', async function () {
+tom.test('stack initialOptions and argv: one feature with cli option', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
