@@ -38,10 +38,16 @@ class Lws extends EventEmitter {
    * @returns {Server}
    */
   listen (options) {
-    options = Object.assign({
-      port: 8000,
-      modulePrefix: 'lws-'
-    }, options)
+    const optionsFromConfigFile = util.getStoredConfig(options.configFile)
+    options = util.deepMerge(
+      {},
+      {
+        port: 8000,
+        modulePrefix: 'lws-'
+      },
+      options,
+      optionsFromConfigFile
+    )
 
     const server = this.createServer(options)
     if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections
