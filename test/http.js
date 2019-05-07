@@ -6,38 +6,6 @@ const sleep = require('sleep-anywhere')
 
 const tom = module.exports = new Tom('http')
 
-tom.test('--websocket', async function () {
-  const port = 9100 + this.index
-  const counts = []
-  const One = Base => class extends Base {
-    websocket (wss) {
-      wss.on('connection', ws => {
-        ws.on('message', data => {
-          counts.push(data)
-        })
-      })
-    }
-  }
-  const lws = new Lws()
-  const server = lws.listen({
-    websocket: One,
-    port: port
-  })
-  const WebSocket = require('ws')
-  const ws = new WebSocket(`ws://127.0.0.1:${port}`)
-
-  ws.on('open', function open () {
-    ws.send('something')
-    setTimeout(function () {
-      ws.send('another')
-      server.close()
-      ws.close()
-    }, 100)
-  })
-  await sleep(300)
-  a.deepStrictEqual(counts, [ 'something', 'another' ])
-})
-
 tom.test('simple http', async function () {
   const port = 9100 + this.index
   const One = Base => class extends Base {

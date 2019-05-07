@@ -36,8 +36,7 @@
     "open": "^6.2.0",
     "reduce-flatten": "^2.0.0",
     "typical": "^5.0.0",
-    "walk-back": "^3.0.1",
-    "ws": "^7.0.0"
+    "walk-back": "^3.0.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.3",

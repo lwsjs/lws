@@ -33,23 +33,20 @@ class Lws extends EventEmitter {
    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
    * @param [options.stack] {string[]|Middlewares[]} - Array of feature classes, or filenames of modules exporting a feature class.
    * @param [options.server] {string|ServerFactory} - Custom server factory, e.g. lws-http2.
-   * @param [options.websocket] {string|Websocket} - Path to a websocket module
    * @param [options.moduleDir] {string[]} - One or more directories to search for feature modules.
    * @returns {Server}
    */
   listen (options) {
     const optionsFromConfigFile = util.getStoredConfig(options.configFile)
-    // console.log(optionsFromConfigFile)
     options = util.deepMerge(
       {},
       {
         port: 8000,
         modulePrefix: 'lws-'
       },
-      options,
-      optionsFromConfigFile
+      optionsFromConfigFile,
+      options
     )
-    // console.log(options)
 
     const server = this.createServer(options)
     if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections
@@ -78,11 +75,6 @@ class Lws extends EventEmitter {
       const middlewares = options.stack.getMiddlewareFunctions(options)
       middlewares.forEach(middleware => app.use(middleware))
       server.on('request', app.callback())
-    }
-
-    /* websocket */
-    if (options.websocket) {
-      this.attachWebsocket(server, options)
     }
 
     /* start server */
@@ -141,61 +133,6 @@ class Lws extends EventEmitter {
     const factory = new ServerFactory()
     this.propagate(factory)
     return factory.create(options)
-  }
-
-  attachWebsocket (server, options) {
-    const WebsocketBase = require('./lib/websocket-base')
-    const wsModule = typeof options.websocket === 'string' ? loadModule(options.websocket, { prefix: options.modulePrefix, paths: options.moduleDir }) : options.websocket
-    const WebsocketModule = wsModule(WebsocketBase)
-    const websocketModule = new WebsocketModule()
-    let wsOptions = { perMessageDeflate: false }
-    if (websocketModule.wsOptions) {
-      wsOptions = Object.assign({}, wsOptions, websocketModule.wsOptions())
-    }
-    const Websocket = require('ws')
-    this.emit('verbose', 'websocket.server.config', wsOptions)
-    wsOptions.server = server
-    const wss = new Websocket.Server(wsOptions)
-    this.propagate(websocketModule)
-    let webSocketId = 1
-    wss.on('connection', (ws, req) => {
-      ws.webSocketId = webSocketId++
-      this.emit('verbose', 'websocket.server.connection', { socketId: req.socket.id, webSocketId: ws.webSocketId })
-      ws.on('close', (code, reason) => {
-        this.emit('verbose', 'websocket.socket.close', { socketId: req.socket.id, webSocketId: ws.webSocketId, code, reason })
-      })
-      ws.on('message', data => {
-        this.emit('verbose', 'websocket.socket.message', {
-          socketId: req.socket.id,
-          webSocketId: ws.webSocketId,
-          data
-        })
-      })
-      ws.on('ping', data => {
-        this.emit('verbose', 'websocket.socket.ping', {
-          socketId: req.socket.id,
-          webSocketId: ws.webSocketId,
-          data
-        })
-      })
-      ws.on('pong', data => {
-        this.emit('verbose', 'websocket.socket.pong', {
-          socketId: req.socket.id,
-          webSocketId: ws.webSocketId,
-          data
-        })
-      })
-      ws.on('unexpected-response', (req, res) => {
-        this.emit('verbose', 'websocket.socket.unexpected-response', {
-          socketId: req.socket.id,
-          webSocketId: ws.webSocketId
-        })
-      })
-    })
-    wss.on('headers', (headers) => {
-      this.emit('verbose', 'websocket.server.headers', { headers })
-    })
-    websocketModule.websocket(wss)
   }
 }
 
