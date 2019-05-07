@@ -1,9 +1,14 @@
 const Tom = require('test-runner').Tom
 const Lws = require('../')
 const a = require('assert')
-const request = require('req-then')
+const fetch = require('node-fetch')
 
 const tom = module.exports = new Tom('https')
+
+const https = require('https')
+const agent = new https.Agent({
+  rejectUnauthorized: false
+})
 
 tom.test('--https', async function () {
   const port = 9200 + this.index
@@ -22,12 +27,11 @@ tom.test('--https', async function () {
     port: port
   })
   const url = require('url')
-  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
-  reqOptions.rejectUnauthorized = false
-  const response = await request(reqOptions)
+  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })
 
 tom.test('--key and --cert', async function () {
@@ -48,12 +52,11 @@ tom.test('--key and --cert', async function () {
     port: port
   })
   const url = require('url')
-  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
-  reqOptions.rejectUnauthorized = false
-  const response = await request(reqOptions)
+  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })
 
 tom.test('--pfx', async function () {
@@ -73,12 +76,11 @@ tom.test('--pfx', async function () {
     port: port
   })
   const url = require('url')
-  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
-  reqOptions.rejectUnauthorized = false
-  const response = await request(reqOptions)
+  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })
 
 tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
@@ -100,10 +102,9 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
     keepAliveTimeout: 10000
   })
   const url = require('url')
-  const reqOptions = url.parse(`https://127.0.0.1:${port}`)
-  reqOptions.rejectUnauthorized = false
-  const response = await request(reqOptions)
+  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })

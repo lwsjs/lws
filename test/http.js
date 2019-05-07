@@ -1,7 +1,7 @@
 const Tom = require('test-runner').Tom
 const Lws = require('../')
 const a = require('assert')
-const request = require('req-then')
+const fetch = require('node-fetch')
 const sleep = require('sleep-anywhere')
 
 const tom = module.exports = new Tom('http')
@@ -53,10 +53,11 @@ tom.test('simple http', async function () {
     stack: [ One ],
     port: port
   })
-  const response = await request(`http://127.0.0.1:${port}`)
+  const response = await fetch(`http://127.0.0.1:${port}`)
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })
 
 tom.test('hostname', async function () {
@@ -78,14 +79,14 @@ tom.test('hostname', async function () {
   })
 
   try {
-    await request(`http://127.0.0.1:${port}`)
+    await fetch(`http://127.0.0.1:${port}`)
     a.fail("shouldn't reach here")
   } catch (err) {
   }
 
   try {
-    const response = await request(`http://localhost:${port}`)
-    a.strictEqual(response.res.statusCode, 200)
+    const response = await fetch(`http://localhost:${port}`)
+    a.strictEqual(response.status, 200)
     server.close()
   } catch (err) {
     a.fail("shouldn't reach here")
@@ -112,8 +113,9 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
   const url = require('url')
   const reqOptions = url.parse(`http://127.0.0.1:${port}`)
   reqOptions.rejectUnauthorized = false
-  const response = await request(reqOptions)
+  const response = await fetch(reqOptions)
   server.close()
-  a.strictEqual(response.res.statusCode, 200)
-  a.strictEqual(response.data.toString(), 'one')
+  a.strictEqual(response.status, 200)
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })

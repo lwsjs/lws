@@ -39,6 +39,7 @@ class Lws extends EventEmitter {
    */
   listen (options) {
     const optionsFromConfigFile = util.getStoredConfig(options.configFile)
+    // console.log(optionsFromConfigFile)
     options = util.deepMerge(
       {},
       {
@@ -48,6 +49,7 @@ class Lws extends EventEmitter {
       options,
       optionsFromConfigFile
     )
+    // console.log(options)
 
     const server = this.createServer(options)
     if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections

@@ -1,7 +1,7 @@
 const Tom = require('test-runner').Tom
 const ServeCommand = require('../lib/command/serve')
 const a = require('assert')
-const request = require('req-then')
+const fetch = require('node-fetch')
 
 const tom = module.exports = new Tom('serve')
 
@@ -19,9 +19,10 @@ tom.test('stack initialOptions: one feature', async function () {
     stack: One,
     port: port
   }, [])
-  const response = await request(`http://localhost:${port}`)
+  const response = await fetch(`http://localhost:${port}`)
   server.close()
-  a.strictEqual(response.data.toString(), 'one')
+  const body = await response.text()
+  a.strictEqual(body, 'one')
 })
 
 tom.test('stack initialOptions: Two features', async function () {
@@ -47,9 +48,10 @@ tom.test('stack initialOptions: Two features', async function () {
     stack: [ One, Two ],
     port: port
   }, [])
-  const response = await request(`http://localhost:${port}`)
+  const response = await fetch(`http://localhost:${port}`)
   server.close()
-  a.strictEqual(response.data.toString(), 'onetwo')
+  const body = await response.text()
+  a.strictEqual(body, 'onetwo')
 })
 
 tom.test('stack initialOptions: one feature, one path', async function () {
@@ -64,12 +66,13 @@ tom.test('stack initialOptions: one feature, one path', async function () {
   }
   const serve = new ServeCommand()
   const server = serve.execute({
-    stack: [ One, 'test/fixture/two.js' ],
+    stack: [ One, './test/fixture/two.js' ],
     port: port
   }, [])
-  const response = await request(`http://localhost:${port}`)
+  const response = await fetch(`http://localhost:${port}`)
   server.close()
-  a.strictEqual(response.data.toString(), 'onetwo')
+  const body = await response.text()
+  a.strictEqual(body, 'onetwo')
 })
 
 tom.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
@@ -86,10 +89,11 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
   let server = serve.execute({
     stack: [ One ], // One will be overridden by command-line choice of Two
     port: port
-  }, [ '--stack', 'test/fixture/two.js' ])
-  const response = await request(`http://localhost:${port}`)
+  }, [ '--stack', './test/fixture/two.js' ])
+  const response = await fetch(`http://localhost:${port}`)
   server.close()
-  a.strictEqual(response.data.toString(), 'two')
+  const body = await response.text()
+  a.strictEqual(body, 'two')
 })
 
 tom.test('stack initialOptions and argv: one feature with cli option', async function () {
@@ -110,7 +114,8 @@ tom.test('stack initialOptions and argv: one feature with cli option', async fun
     stack: [ One ],
     port: port
   }, [ '--something', 'yeah' ])
-  const response = await request(`http://localhost:${port}`)
+  const response = await fetch(`http://localhost:${port}`)
   server.close()
-  a.strictEqual(response.data.toString(), 'yeah')
+  const body = await response.text()
+  a.strictEqual(body, 'yeah')
 })
