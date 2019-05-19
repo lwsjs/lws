@@ -30,17 +30,17 @@
     "command-line-args": "^5.1.1",
     "command-line-usage": "^5.0.5",
     "koa": "^2.7.0",
-    "load-module": "^1.0.0",
+    "load-module": "^2.0.0",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^1.0.1",
-    "open": "^6.2.0",
+    "open": "^6.3.0",
     "reduce-flatten": "^2.0.0",
     "typical": "^5.0.0",
     "walk-back": "^3.0.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.3",
-    "node-fetch": "^2.5.0",
+    "node-fetch": "^2.6.0",
     "sleep-anywhere": "^1.1.2",
     "test-runner": "^0.6.0"
   }
