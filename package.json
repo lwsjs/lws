@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "test-runner test/*.js",
-    "cover": "nyc --reporter=text-lcov test-runner test/*.js | coveralls"
+    "cover": "nyc --reporter=text-lcov npm test | coveralls"
   },
   "files": [
     "index.js",
@@ -41,6 +41,7 @@
   "devDependencies": {
     "coveralls": "^3.0.3",
     "node-fetch": "^2.6.0",
+    "nyc": "^14.1.1",
     "sleep-anywhere": "^1.1.2",
     "test-runner": "^0.6.0"
   }
