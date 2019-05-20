@@ -17,7 +17,8 @@ tom.test('stack initialOptions: one feature', async function () {
   const serve = new ServeCommand()
   const server = serve.execute({
     stack: One,
-    port: port
+    port: port,
+    logError: function () {}
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -46,7 +47,8 @@ tom.test('stack initialOptions: Two features', async function () {
   const serve = new ServeCommand()
   const server = serve.execute({
     stack: [ One, Two ],
-    port: port
+    port: port,
+    logError: function () {}
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -67,7 +69,8 @@ tom.test('stack initialOptions: one feature, one path', async function () {
   const serve = new ServeCommand()
   const server = serve.execute({
     stack: [ One, './test/fixture/two.js' ],
-    port: port
+    port: port,
+    logError: function () {}
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -88,7 +91,8 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
   const serve = new ServeCommand()
   let server = serve.execute({
     stack: [ One ], // One will be overridden by command-line choice of Two
-    port: port
+    port: port,
+    logError: function () {}
   }, [ '--stack', './test/fixture/two.js' ])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -112,7 +116,8 @@ tom.test('stack initialOptions and argv: one feature with cli option', async fun
   const serve = new ServeCommand()
   let server = serve.execute({
     stack: [ One ],
-    port: port
+    port: port,
+    logError: function () {}
   }, [ '--something', 'yeah' ])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
