@@ -10,9 +10,10 @@ tom.test('cli.run', async function () {
   const port = 7500 + this.index
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
-  const server = LwsCli.run({
+  const cli = new LwsCli({
     logError: function () {}
   })
+  const server = cli.start()
   process.argv = origArgv
   const response = await fetch(`http://127.0.0.1:${port}/`)
   server.close()
@@ -21,43 +22,37 @@ tom.test('cli.run', async function () {
 
 tom.test('cli.run: bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
-  const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--should-fail' ]
   let logMsg
-  const server = LwsCli.run({
+  const cli = new LwsCli({
     logError: function (msg) {
       logMsg = msg
     }
   })
-  a.ok(/Unknown option: --should-fail/.test(logMsg))
+  a.throws(
+    () => cli.start(),
+    /Unknown option: --should-fail/
+  )
   process.argv = origArgv
-  a.strictEqual(server, undefined)
-  a.strictEqual(process.exitCode, 1)
-  process.exitCode = origExitCode
 })
 
 tom.test('cli.run: port not available', async function () {
   const port = 7500 + this.index
-  const events = []
+  const actuals = []
   const origArgv = process.argv.slice()
   let logMsg = ''
   process.argv = [ 'node', 'something', '--port', `${port}` ]
-  const server = LwsCli.run({
-    logError: function () {}
-  })
-  const server2 = LwsCli.run({
-    logError: function (msg) {
-      logMsg = msg
-    }
-  })
+  const cli = new LwsCli({ logError: function () {} })
+  const server = cli.start()
+  const server2 = cli.start()
   server2.on('error', err => {
-    events.push('server2 fail')
+    actuals.push(err.message)
     server.close()
     server2.close()
   })
   await sleep(10)
-  a.deepStrictEqual(events, [ 'server2 fail' ])
-  a.ok(/EADDRINUSE/.test(logMsg))
+  a.deepStrictEqual(actuals.length, 1)
+  a.ok(/EADDRINUSE/.test(actuals[0]))
   process.argv = origArgv
 })
 
@@ -65,11 +60,12 @@ tom.test('cli.run: --help', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--help' ]
   let usage = null
-  LwsCli.run({
+  const cli = new LwsCli({
     log: function (msg) {
       usage = msg
     }
   })
+  cli.start()
   process.argv = origArgv
   a.ok(/modular web server/.test(usage))
 })
@@ -78,9 +74,10 @@ tom.test('cli.run: --version', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--version' ]
   let logMsg = ''
-  LwsCli.run({
-    log: function (msg ) { logMsg = msg }
+  const cli = new LwsCli({
+    log: function (msg) { logMsg = msg }
   })
+  cli.start()
   const version = require('../package.json').version
   a.strictEqual(version, logMsg.trim())
   process.argv = origArgv
@@ -90,9 +87,10 @@ tom.test('cli.run: --config', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--config' ]
   let logMsg = ''
-  LwsCli.run({
-    log: function (msg ) { logMsg = msg }
+  const cli = new LwsCli({
+    log: function (msg) { logMsg = msg }
   })
+  cli.start()
   a.ok(/CliView/.test(logMsg))
   process.argv = origArgv
 })

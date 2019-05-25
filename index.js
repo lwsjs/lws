@@ -184,7 +184,7 @@ function createServerEventStream (server, options) {
   server.on('checkExpectation', write('server.checkExpectation'))
   server.on('clientError', (error, socket) => {
     write('server.clientError', error)()
-    if (socket) socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
+    if (socket && !socket.destroyed) socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
   })
   server.on('connect', write('server.connect'))
   server.on('upgrade', (req, socket, head) => {

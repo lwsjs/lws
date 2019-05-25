@@ -1,11 +1,11 @@
 const Tom = require('test-runner').Tom
-const ServeCommand = require('../lib/command/serve')
+const LwsCli = require('../lib/cli-app')
 const a = require('assert')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('serve')
+const tom = module.exports = new Tom('cli 2')
 
-tom.test('stack initialOptions: one feature', async function () {
+tom.test('stack initialOptions: one middleware', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -14,11 +14,10 @@ tom.test('stack initialOptions: one feature', async function () {
       }
     }
   }
-  const serve = new ServeCommand()
-  const server = serve.execute({
+  const cli = new LwsCli({ logError: function () {} })
+  const server = cli.start({
     stack: One,
-    port: port,
-    logError: function () {}
+    port: port
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -26,7 +25,7 @@ tom.test('stack initialOptions: one feature', async function () {
   a.strictEqual(body, 'one')
 })
 
-tom.test('stack initialOptions: Two features', async function () {
+tom.test('stack initialOptions: Two middlewares', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -44,8 +43,8 @@ tom.test('stack initialOptions: Two features', async function () {
       }
     }
   }
-  const serve = new ServeCommand()
-  const server = serve.execute({
+  const cli = new LwsCli()
+  const server = cli.start({
     stack: [ One, Two ],
     port: port,
     logError: function () {}
@@ -56,7 +55,7 @@ tom.test('stack initialOptions: Two features', async function () {
   a.strictEqual(body, 'onetwo')
 })
 
-tom.test('stack initialOptions: one feature, one path', async function () {
+tom.test('stack initialOptions: one middleware, one path', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -66,8 +65,8 @@ tom.test('stack initialOptions: one feature, one path', async function () {
       }
     }
   }
-  const serve = new ServeCommand()
-  const server = serve.execute({
+  const cli = new LwsCli()
+  const server = cli.start({
     stack: [ One, './test/fixture/two.js' ],
     port: port,
     logError: function () {}
@@ -88,8 +87,8 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
       }
     }
   }
-  const serve = new ServeCommand()
-  let server = serve.execute({
+  const cli = new LwsCli()
+  let server = cli.start({
     stack: [ One ], // One will be overridden by command-line choice of Two
     port: port,
     logError: function () {}
@@ -100,7 +99,7 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
   a.strictEqual(body, 'two')
 })
 
-tom.test('stack initialOptions and argv: one feature with cli option', async function () {
+tom.test('stack initialOptions and argv: one middleware with cli option', async function () {
   const port = 9300 + this.index
   const One = Base => class extends Base {
     middleware (options) {
@@ -113,8 +112,8 @@ tom.test('stack initialOptions and argv: one feature with cli option', async fun
       return [ { name: 'something' } ]
     }
   }
-  const serve = new ServeCommand()
-  let server = serve.execute({
+  const cli = new LwsCli()
+  let server = cli.start({
     stack: [ One ],
     port: port,
     logError: function () {}
