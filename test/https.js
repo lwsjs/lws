@@ -26,7 +26,6 @@ tom.test('--https', async function () {
     https: true,
     port: port
   })
-  const url = require('url')
   const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
@@ -51,7 +50,6 @@ tom.test('--key and --cert', async function () {
     cert: 'ssl/lws-cert.pem',
     port: port
   })
-  const url = require('url')
   const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
@@ -75,7 +73,6 @@ tom.test('--pfx', async function () {
     pfx: 'ssl/lws.pfx',
     port: port
   })
-  const url = require('url')
   const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
@@ -101,7 +98,6 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
     maxConnections: 10,
     keepAliveTimeout: 10000
   })
-  const url = require('url')
   const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)

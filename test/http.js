@@ -2,7 +2,6 @@ const Tom = require('test-runner').Tom
 const Lws = require('../')
 const a = require('assert')
 const fetch = require('node-fetch')
-const sleep = require('sleep-anywhere')
 
 const tom = module.exports = new Tom('http')
 

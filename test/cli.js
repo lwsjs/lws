@@ -4,9 +4,9 @@ const LwsCli = require('../lib/cli-app')
 const fetch = require('node-fetch')
 const sleep = require('sleep-anywhere')
 
-const tom = module.exports = new Tom('cli')
+const tom = module.exports = new Tom('cli.start')
 
-tom.test('cli.run', async function () {
+tom.test('empty stack', async function () {
   const port = 7500 + this.index
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
@@ -20,27 +20,25 @@ tom.test('cli.run', async function () {
   a.strictEqual(response.status, 404)
 })
 
-tom.test('cli.run: bad option, should fail and printError', async function () {
+tom.test('bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
+  const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--should-fail' ]
-  let logMsg
+  let logMsg = ''
   const cli = new LwsCli({
-    logError: function (msg) {
-      logMsg = msg
-    }
+    logError: function (msg) { logMsg = msg }
   })
-  a.throws(
-    () => cli.start(),
-    /Unknown option: --should-fail/
-  )
+  cli.start()
+  a.ok(/--should-fail/.test(logMsg))
   process.argv = origArgv
+  process.exitCode = origExitCode
 })
 
-tom.test('cli.run: port not available', async function () {
+tom.test('port not available', async function () {
   const port = 7500 + this.index
   const actuals = []
   const origArgv = process.argv.slice()
-  let logMsg = ''
+  const origExitCode = process.exitCode
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const cli = new LwsCli({ logError: function () {} })
   const server = cli.start()
@@ -54,9 +52,10 @@ tom.test('cli.run: port not available', async function () {
   a.deepStrictEqual(actuals.length, 1)
   a.ok(/EADDRINUSE/.test(actuals[0]))
   process.argv = origArgv
+  process.exitCode = origExitCode
 })
 
-tom.test('cli.run: --help', async function () {
+tom.test('--help', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--help' ]
   let usage = null
@@ -70,7 +69,7 @@ tom.test('cli.run: --help', async function () {
   a.ok(/modular web server/.test(usage))
 })
 
-tom.test('cli.run: --version', async function () {
+tom.test('--version', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--version' ]
   let logMsg = ''
@@ -83,7 +82,7 @@ tom.test('cli.run: --version', async function () {
   process.argv = origArgv
 })
 
-tom.test('cli.run: --config', async function () {
+tom.test('--config', async function () {
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--config' ]
   let logMsg = ''
