@@ -31,12 +31,13 @@ class Lws extends EventEmitter {
    * @param [options.pfx] {string} - Path to an PFX or PKCS12 encoded private key and certificate chain. An alternative to providing --key and --cert.
    * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
-   * @param [options.stack] {string[]|Middlewares[]} - Array of feature classes, or filenames of modules exporting a feature class.
+   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
    * @param [options.server] {string|ServerFactory} - Custom server factory, e.g. lws-http2.
-   * @param [options.moduleDir] {string[]} - One or more directories to search for feature modules.
+   * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
    * @returns {Server}
    */
   listen (options) {
+    /* merge options */
     const optionsFromConfigFile = util.getStoredConfig(options.configFile)
     options = util.deepMerge(
       {},
@@ -48,34 +49,36 @@ class Lws extends EventEmitter {
       options
     )
 
+    /* create server */
     const server = this.createServer(options)
     if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections
     if (t.isDefined(options.keepAliveTimeout)) server.keepAliveTimeout = options.keepAliveTimeout
-    /* attach to view to server */
-    createServerEventStream(server, options)
+
+    /* attach the view to server */
+    this.createServerEventStream(server, options)
+
+    /* stream server verbose events to lws */
     this.propagate(server)
 
-    if (options.stack) {
-      options.stack = arrayify(options.stack)
+    options.stack = arrayify(options.stack)
 
-      /* validate stack */
-      const Stack = require('./lib/stack')
-      if (!(options.stack instanceof Stack)) {
-        options.stack = Stack.create(options.stack, options)
-      }
-      /* propagate stack middleware events */
-      this.propagate(options.stack)
-
-      /* build Koa application, add it to server */
-      const Koa = require('koa')
-      const app = new Koa()
-      app.on('error', err => {
-        this.emit('verbose', 'koa.error', err)
-      })
-      const middlewares = options.stack.getMiddlewareFunctions(options)
-      middlewares.forEach(middleware => app.use(middleware))
-      server.on('request', app.callback())
+    /* validate stack */
+    const Stack = require('./lib/stack')
+    if (!(options.stack instanceof Stack)) {
+      options.stack = Stack.create(options.stack, options)
     }
+    /* propagate stack middleware events */
+    this.propagate(options.stack)
+
+    /* build Koa application, add it to server */
+    const Koa = require('koa')
+    const app = new Koa()
+    app.on('error', err => {
+      this.emit('verbose', 'koa.error', err)
+    })
+    const middlewares = options.stack.getMiddlewareFunctions(options)
+    middlewares.forEach(middleware => app.use(middleware))
+    server.on('request', app.callback())
 
     /* start server */
     server.listen(options.port, options.hostname)
@@ -134,86 +137,71 @@ class Lws extends EventEmitter {
     this.propagate(factory)
     return factory.create(options)
   }
-}
 
-/**
- * Pipe server events into 'verbose' event stream
- * @ignore
- */
-function createServerEventStream (server, options) {
-  function write (name, value) {
-    return function () {
-      server.emit('verbose', name, value)
+  /* Pipe server events into 'verbose' event stream */
+  createServerEventStream (server, options) {
+    const write = (name, value) => {
+      return () => {
+        this.emit('verbose', name, value)
+      }
     }
+
+    function socketProperties (socket) {
+      const byteSize = require('byte-size')
+      return {
+        socketId: socket.id,
+        bytesRead: byteSize(socket.bytesRead).toString(),
+        bytesWritten: byteSize(socket.bytesWritten).toString()
+      }
+    }
+
+    let cId = 1
+
+    /* stream connection events */
+    server.on('connection', (socket) => {
+      socket.id = cId++
+      write('server.socket.new', socketProperties(socket))()
+      socket.on('connect', write('server.socket.connect', socketProperties(socket, cId)))
+      socket.on('data', function () {
+        write('server.socket.data', socketProperties(this))()
+      })
+      socket.on('drain', function () {
+        write('server.socket.drain', socketProperties(this))()
+      })
+      socket.on('timeout', function () {
+        write('server.socket.timeout', socketProperties(this))()
+      })
+      socket.on('close', function () {
+        write('server.socket.close', socketProperties(this))()
+      })
+      socket.on('error', function (err) {
+        write('server.socket.error', { err })()
+      })
+      socket.on('end', write('server.socket.end', socketProperties(socket, cId)))
+      socket.on('lookup', write('server.socket.connect', socketProperties(socket, cId)))
+    })
+
+    /* stream server events */
+    server.on('close', write('server.close'))
+
+    let requestId = 1
+    server.on('request', req => {
+      req.requestId = requestId++
+    })
+
+    /* on server-up message */
+    server.on('listening', () => {
+      const isSecure = t.isDefined(server.addContext)
+      let ipList
+      if (options.hostname) {
+        ipList = [ `${isSecure ? 'https' : 'http'}://${options.hostname}:${options.port}` ]
+      } else {
+        ipList = util.getIPList()
+          .map(iface => `${isSecure ? 'https' : 'http'}://${iface.address}:${options.port}`)
+      }
+      write('server.listening', ipList)()
+    })
   }
-
-  function socketProperties (socket) {
-    const byteSize = require('byte-size')
-    return {
-      socketId: socket.id,
-      bytesRead: byteSize(socket.bytesRead).toString(),
-      bytesWritten: byteSize(socket.bytesWritten).toString()
-    }
-  }
-
-  let cId = 1
-  server.on('connection', (socket) => {
-    socket.id = cId++
-    write('server.socket.new', socketProperties(socket))()
-    socket.on('connect', write('server.socket.connect', socketProperties(socket, cId)))
-    socket.on('data', function () {
-      write('server.socket.data', socketProperties(this))()
-    })
-    socket.on('drain', function () {
-      write('server.socket.drain', socketProperties(this))()
-    })
-    socket.on('timeout', function () {
-      write('server.socket.timeout', socketProperties(this))()
-    })
-    socket.on('close', function () {
-      write('server.socket.close', socketProperties(this))()
-    })
-    socket.on('error', function (err) {
-      write('server.socket.error', { err })()
-    })
-    socket.on('end', write('server.socket.end', socketProperties(socket, cId)))
-    socket.on('lookup', write('server.socket.connect', socketProperties(socket, cId)))
-  })
-  server.on('close', write('server.close'))
-  server.on('checkContinue', write('server.checkContinue'))
-  server.on('checkExpectation', write('server.checkExpectation'))
-  server.on('clientError', (error, socket) => {
-    write('server.clientError', error)()
-    if (socket && !socket.destroyed) socket.end('HTTP/1.1 400 Bad Request\r\n\r\n')
-  })
-  server.on('connect', write('server.connect'))
-  server.on('upgrade', (req, socket, head) => {
-    write('server.upgrade', {
-      method: req.method,
-      url: req.url,
-      headers: req.headers,
-      socketId: socket.id,
-      head: head.toString()
-    })()
-  })
-
-  let requestId = 1
-  server.on('request', req => {
-    req.requestId = requestId++
-  })
-
-  /* on server-up message */
-  server.on('listening', () => {
-    const isSecure = t.isDefined(server.addContext)
-    let ipList
-    if (options.hostname) {
-      ipList = [ `${isSecure ? 'https' : 'http'}://${options.hostname}:${options.port}` ]
-    } else {
-      ipList = util.getIPList()
-        .map(iface => `${isSecure ? 'https' : 'http'}://${iface.address}:${options.port}`)
-    }
-    write('server.listening', ipList)()
-  })
 }
 
 module.exports = Lws

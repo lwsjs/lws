@@ -66,7 +66,6 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
-        next()
       }
     }
   }
@@ -74,9 +73,11 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
   const server = lws.listen({
     stack: [ One ],
     port: port,
-    maxConnections: 10,
-    keepAliveTimeout: 10000
+    maxConnections: 11,
+    keepAliveTimeout: 10001
   })
+  a.strictEqual(server.keepAliveTimeout, 10001)
+  a.strictEqual(server.maxConnections, 11)
   const url = require('url')
   const reqOptions = url.parse(`http://127.0.0.1:${port}`)
   reqOptions.rejectUnauthorized = false

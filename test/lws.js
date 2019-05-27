@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 
 const tom = module.exports = new Tom('lws')
 
-tom.test('lws.listen', async function () {
+tom.test('configFile', async function () {
   const lws = new Lws()
   const port = 9900 + this.index
   const server = lws.listen({

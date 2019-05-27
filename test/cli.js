@@ -6,20 +6,6 @@ const sleep = require('sleep-anywhere')
 
 const tom = module.exports = new Tom('cli.start')
 
-tom.test('empty stack', async function () {
-  const port = 7500 + this.index
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--port', `${port}` ]
-  const cli = new LwsCli({
-    logError: function () {}
-  })
-  const server = cli.start()
-  process.argv = origArgv
-  const response = await fetch(`http://127.0.0.1:${port}/`)
-  server.close()
-  a.strictEqual(response.status, 404)
-})
-
 tom.test('bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
   const origExitCode = process.exitCode

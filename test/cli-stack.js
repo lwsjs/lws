@@ -3,7 +3,7 @@ const LwsCli = require('../lib/cli-app')
 const a = require('assert')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('cli 2')
+const tom = module.exports = new Tom('cli-stack')
 
 tom.test('stack initialOptions: one middleware', async function () {
   const port = 9300 + this.index
@@ -122,4 +122,18 @@ tom.test('stack initialOptions and argv: one middleware with cli option', async 
   server.close()
   const body = await response.text()
   a.strictEqual(body, 'yeah')
+})
+
+tom.test('empty stack', async function () {
+  const port = 7500 + this.index
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--port', `${port}` ]
+  const cli = new LwsCli({
+    logError: function () {}
+  })
+  const server = cli.start()
+  process.argv = origArgv
+  const response = await fetch(`http://127.0.0.1:${port}/`)
+  server.close()
+  a.strictEqual(response.status, 404)
 })

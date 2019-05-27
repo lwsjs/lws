@@ -95,9 +95,11 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
     stack: [ One ],
     pfx: 'ssl/lws.pfx',
     port: port,
-    maxConnections: 10,
-    keepAliveTimeout: 10000
+    maxConnections: 11,
+    keepAliveTimeout: 10001
   })
+  a.strictEqual(server.keepAliveTimeout, 10001)
+  a.strictEqual(server.maxConnections, 11)
   const response = await fetch(`https://127.0.0.1:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
