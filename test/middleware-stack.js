@@ -11,6 +11,12 @@ tom.test('from', async function () {
   a.strictEqual(stack[0].constructor.name, 'One')
 })
 
+tom.skip('default description', async function () {
+  class One {}
+  const stack = MiddlewareStack.from([ One ])
+  a.ok(/description required/.test(stack[0].description()))
+})
+
 tom.test('propagate verbose events', async function () {
   class One extends EventEmitter {}
   const stack = MiddlewareStack.from([ One ])
