@@ -26,7 +26,7 @@ tom.test('--https', async function () {
     https: true,
     port: port
   })
-  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
+  const response = await fetch(`https://localhost:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
   const body = await response.text()
@@ -50,7 +50,7 @@ tom.test('--key and --cert', async function () {
     cert: 'ssl/lws-cert.pem',
     port: port
   })
-  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
+  const response = await fetch(`https://localhost:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
   const body = await response.text()
@@ -73,7 +73,7 @@ tom.test('--pfx', async function () {
     pfx: 'ssl/lws.pfx',
     port: port
   })
-  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
+  const response = await fetch(`https://localhost:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
   const body = await response.text()
@@ -100,7 +100,7 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
   })
   a.strictEqual(server.keepAliveTimeout, 10001)
   a.strictEqual(server.maxConnections, 11)
-  const response = await fetch(`https://127.0.0.1:${port}`, { agent })
+  const response = await fetch(`https://localhost:${port}`, { agent })
   server.close()
   a.strictEqual(response.status, 200)
   const body = await response.text()

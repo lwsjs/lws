@@ -30,7 +30,6 @@ class Lws extends EventEmitter {
    * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
    * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
-   * @param [options.server] {string|ServerFactory} - Custom server factory, e.g. lws-http2.
    * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
    * @returns {Server}
    */
@@ -54,55 +53,19 @@ class Lws extends EventEmitter {
 
     /* stream server events to a verbose event */
     this._createServerEventStream(server, options)
-
-    /* stream server verbose events to lws */
     this.propagate(server)
 
-    const arrayify = require('array-back')
-    options.stack = arrayify(options.stack)
-
-    /* validate stack */
-    const Stack = require('./lib/middleware-stack')
-    if (!(options.stack instanceof Stack)) {
-      options.stack = Stack.from(options.stack, options)
-    }
-    /* propagate stack middleware events */
-    this.propagate(options.stack)
-
-    /* build Koa application using the supplied middleware, add it to server */
-    const Koa = require('koa')
-    const app = new Koa()
-    app.on('error', err => {
-      this.emit('verbose', 'koa.error', err)
-    })
-    const middlewares = options.stack.getMiddlewareFunctions(options)
-    for (const middleware of middlewares) {
-      app.use(middleware)
-    }
-    server.on('request', app.callback())
+    /* attach middleware */
+    this.attachMiddleware(server, options)
 
     /* start server */
     server.listen(options.port, options.hostname)
-
-    /* emit memory usage stats every 30s */
-    const interval = setInterval(() => {
-      const byteSize = require('byte-size')
-      const memUsage = process.memoryUsage()
-      memUsage.rss = byteSize(memUsage.rss).toString()
-      memUsage.heapTotal = byteSize(memUsage.heapTotal).toString()
-      memUsage.heapUsed = byteSize(memUsage.heapUsed).toString()
-      memUsage.external = byteSize(memUsage.external).toString()
-      this.emit('verbose', 'process.memoryUsage', memUsage)
-    }, 60000)
-    interval.unref()
-
     return server
   }
 
   /**
-   * Returns a nodejs Server instance.
+   * Returns a HTTP, HTTPS or HTTP2 server instance.
    * @returns {Server}
-   * @ignore
    */
   createServer (options) {
     /* validation */
@@ -125,6 +88,31 @@ class Lws extends EventEmitter {
     const factory = new ServerFactory()
     this.propagate(factory)
     return factory.create(options)
+  }
+
+  attachMiddleware (server, options = {}) {
+    const arrayify = require('array-back')
+    options.stack = arrayify(options.stack)
+
+    /* validate stack */
+    const Stack = require('./lib/middleware-stack')
+    if (!(options.stack instanceof Stack)) {
+      options.stack = Stack.from(options.stack, options)
+    }
+    /* propagate stack middleware events */
+    this.propagate(options.stack)
+
+    /* build Koa application using the supplied middleware, add it to server */
+    const Koa = require('koa')
+    const app = new Koa()
+    app.on('error', err => {
+      this.emit('verbose', 'koa.error', err)
+    })
+    const middlewares = options.stack.getMiddlewareFunctions(options)
+    for (const middleware of middlewares) {
+      app.use(middleware)
+    }
+    server.on('request', app.callback())
   }
 
   /* Pipe server events into 'verbose' event stream */
@@ -190,6 +178,18 @@ class Lws extends EventEmitter {
       }
       write('server.listening', ipList)()
     })
+
+    /* emit memory usage stats every 30s */
+    const interval = setInterval(() => {
+      const byteSize = require('byte-size')
+      const memUsage = process.memoryUsage()
+      memUsage.rss = byteSize(memUsage.rss).toString()
+      memUsage.heapTotal = byteSize(memUsage.heapTotal).toString()
+      memUsage.heapUsed = byteSize(memUsage.heapUsed).toString()
+      memUsage.external = byteSize(memUsage.external).toString()
+      this.emit('verbose', 'process.memoryUsage', memUsage)
+    }, 60000)
+    interval.unref()
   }
 }
 

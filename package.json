@@ -15,7 +15,7 @@
   "scripts": {
     "test": "test-runner test/*.js",
     "cover": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc2md lib/middleware-plugin.js > doc/middleware-plugin.md"
+    "docs": "jsdoc2md lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md index.js > doc/lws.md"
   },
   "files": [
     "index.js",
