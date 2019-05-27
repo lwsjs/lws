@@ -1,8 +1,7 @@
 class Two {
   middleware (options) {
-    return function two (ctx, next) {
-      ctx.body = (ctx.body || '') + 'two'
-      next()
+    return function twoMiddleware (ctx) {
+      ctx.body = 'two'
     }
   }
   optionDefinitions () {

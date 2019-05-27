@@ -5,8 +5,6 @@
 const util = require('./lib/util')
 const t = require('typical')
 const EventEmitter = require('events')
-const arrayify = require('array-back')
-const loadModule = require('load-module')
 
 /**
  * @alias module:lws
@@ -49,35 +47,38 @@ class Lws extends EventEmitter {
       options
     )
 
-    /* create server */
+    /* create a HTTP, HTTPS or HTTP2 server */
     const server = this.createServer(options)
     if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections
     if (t.isDefined(options.keepAliveTimeout)) server.keepAliveTimeout = options.keepAliveTimeout
 
-    /* attach the view to server */
+    /* stream server events to a verbose event */
     this.createServerEventStream(server, options)
 
     /* stream server verbose events to lws */
     this.propagate(server)
 
+    const arrayify = require('array-back')
     options.stack = arrayify(options.stack)
 
     /* validate stack */
-    const Stack = require('./lib/stack')
+    const Stack = require('./lib/middleware-stack')
     if (!(options.stack instanceof Stack)) {
-      options.stack = Stack.create(options.stack, options)
+      options.stack = Stack.from(options.stack, options)
     }
     /* propagate stack middleware events */
     this.propagate(options.stack)
 
-    /* build Koa application, add it to server */
+    /* build Koa application using the supplied middleware, add it to server */
     const Koa = require('koa')
     const app = new Koa()
     app.on('error', err => {
       this.emit('verbose', 'koa.error', err)
     })
     const middlewares = options.stack.getMiddlewareFunctions(options)
-    middlewares.forEach(middleware => app.use(middleware))
+    for (const middleware of middlewares) {
+      app.use(middleware)
+    }
     server.on('request', app.callback())
 
     /* start server */
@@ -126,6 +127,7 @@ class Lws extends EventEmitter {
       if (util.builtinModules.includes(options.server)) {
         throw new Error('please supply a third party module name to --server, not a node built-in module name')
       }
+      const loadModule = require('load-module')
       const module = loadModule(options.server, { prefix: options.modulePrefix, paths: options.moduleDir })
       if (t.isFunction(module)) {
         ServerFactory = module(ServerFactory)
@@ -142,7 +144,7 @@ class Lws extends EventEmitter {
   createServerEventStream (server, options) {
     const write = (name, value) => {
       return () => {
-        this.emit('verbose', name, value)
+        server.emit('verbose', name, value)
       }
     }
 

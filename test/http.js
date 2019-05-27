@@ -7,7 +7,7 @@ const tom = module.exports = new Tom('http')
 
 tom.test('simple http', async function () {
   const port = 9100 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -29,7 +29,7 @@ tom.test('simple http', async function () {
 
 tom.test('hostname', async function () {
   const port = 9100 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         const fs = require('fs')
@@ -62,7 +62,7 @@ tom.test('hostname', async function () {
 
 tom.test('--max-connections, --keep-alive-timeout', async function () {
   const port = 9100 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'

@@ -12,7 +12,7 @@ const agent = new https.Agent({
 
 tom.test('--https', async function () {
   const port = 9200 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -35,7 +35,7 @@ tom.test('--https', async function () {
 
 tom.test('--key and --cert', async function () {
   const port = 9200 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -59,7 +59,7 @@ tom.test('--key and --cert', async function () {
 
 tom.test('--pfx', async function () {
   const port = 9200 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -82,7 +82,7 @@ tom.test('--pfx', async function () {
 
 tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
   const port = 9200 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'

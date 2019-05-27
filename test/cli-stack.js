@@ -7,7 +7,7 @@ const tom = module.exports = new Tom('cli-stack')
 
 tom.test('stack initialOptions: one middleware', async function () {
   const port = 9300 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -27,7 +27,7 @@ tom.test('stack initialOptions: one middleware', async function () {
 
 tom.test('stack initialOptions: Two middlewares', async function () {
   const port = 9300 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -35,7 +35,7 @@ tom.test('stack initialOptions: Two middlewares', async function () {
       }
     }
   }
-  const Two = Base => class extends Base {
+  class Two {
     middleware (options) {
       return (ctx, next) => {
         ctx.body += 'two'
@@ -43,11 +43,10 @@ tom.test('stack initialOptions: Two middlewares', async function () {
       }
     }
   }
-  const cli = new LwsCli()
+  const cli = new LwsCli({ logError: function () {} })
   const server = cli.start({
     stack: [ One, Two ],
-    port: port,
-    logError: function () {}
+    port: port
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -57,19 +56,18 @@ tom.test('stack initialOptions: Two middlewares', async function () {
 
 tom.test('stack initialOptions: one middleware, one path', async function () {
   const port = 9300 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
-      return (ctx, next) => {
+      return function one (ctx, next) {
         ctx.body = 'one'
         next()
       }
     }
   }
-  const cli = new LwsCli()
+  const cli = new LwsCli({ logError: function () {} })
   const server = cli.start({
     stack: [ One, './test/fixture/two.js' ],
-    port: port,
-    logError: function () {}
+    port: port
   }, [])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -79,7 +77,7 @@ tom.test('stack initialOptions: one middleware, one path', async function () {
 
 tom.test('stack initialOptions and argv: command-line Stack takes precedence', async function () {
   const port = 9300 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = 'one'
@@ -87,12 +85,11 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
       }
     }
   }
-  const cli = new LwsCli()
+  const cli = new LwsCli({ logError: function () {} })
   let server = cli.start({
     stack: [ One ], // One will be overridden by command-line choice of Two
-    port: port,
-    logError: function () {}
-  }, [ '--stack', './test/fixture/two.js' ])
+    port: port
+  }, [ '--stack', './test/fixture/middleware.js' ])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
@@ -101,7 +98,7 @@ tom.test('stack initialOptions and argv: command-line Stack takes precedence', a
 
 tom.test('stack initialOptions and argv: one middleware with cli option', async function () {
   const port = 9300 + this.index
-  const One = Base => class extends Base {
+  class One {
     middleware (options) {
       return (ctx, next) => {
         ctx.body = options.something

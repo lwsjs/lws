@@ -1,7 +1,6 @@
 const Tom = require('test-runner').Tom
 const a = require('assert')
 const LwsCli = require('../lib/cli-app')
-const fetch = require('node-fetch')
 const sleep = require('sleep-anywhere')
 
 const tom = module.exports = new Tom('cli.start')
