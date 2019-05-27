@@ -53,7 +53,7 @@ class Lws extends EventEmitter {
     if (t.isDefined(options.keepAliveTimeout)) server.keepAliveTimeout = options.keepAliveTimeout
 
     /* stream server events to a verbose event */
-    this.createServerEventStream(server, options)
+    this._createServerEventStream(server, options)
 
     /* stream server verbose events to lws */
     this.propagate(server)
@@ -113,27 +113,14 @@ class Lws extends EventEmitter {
     }
 
     /* The base HTTP server factory */
-    let ServerFactory = require('./lib/server-factory')
+    let ServerFactory = require('./lib/server-factory/http')
 
     /* use HTTPS server factory */
     if (options.https || (!options.http2 && ((options.key && options.cert) || options.pfx))) {
-      ServerFactory = require('./lib/server-factory-https')(ServerFactory)
+      ServerFactory = require('./lib/server-factory/https')
     /* use HTTP2 server factory */
     } else if (options.http2) {
-      ServerFactory = require('./lib/server-factory-http2')(ServerFactory)
-
-    /* use user-supplied server factory */
-    } else if (options.server) {
-      if (util.builtinModules.includes(options.server)) {
-        throw new Error('please supply a third party module name to --server, not a node built-in module name')
-      }
-      const loadModule = require('load-module')
-      const module = loadModule(options.server, { prefix: options.modulePrefix, paths: options.moduleDir })
-      if (t.isFunction(module)) {
-        ServerFactory = module(ServerFactory)
-      } else {
-        throw new Error('Invalid module supplied to --server, it should export a function.')
-      }
+      ServerFactory = require('./lib/server-factory/http2')
     }
     const factory = new ServerFactory()
     this.propagate(factory)
@@ -141,7 +128,7 @@ class Lws extends EventEmitter {
   }
 
   /* Pipe server events into 'verbose' event stream */
-  createServerEventStream (server, options) {
+  _createServerEventStream (server, options) {
     const write = (name, value) => {
       return () => {
         server.emit('verbose', name, value)
