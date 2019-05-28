@@ -31,25 +31,20 @@ class Lws extends EventEmitter {
    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
    * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
    * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
+   * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
    * @returns {Server}
    */
   listen (options) {
     /* merge options */
-    const optionsFromConfigFile = util.getStoredConfig(options.configFile)
+    const storedConfig = util.getStoredConfig(options.configFile)
     options = util.deepMerge(
-      {},
-      {
-        port: 8000,
-        modulePrefix: 'lws-'
-      },
-      optionsFromConfigFile,
+      this.getDefaults(),
+      storedConfig,
       options
     )
 
     /* create a HTTP, HTTPS or HTTP2 server */
     const server = this.createServer(options)
-    if (t.isDefined(options.maxConnections)) server.maxConnections = options.maxConnections
-    if (t.isDefined(options.keepAliveTimeout)) server.keepAliveTimeout = options.keepAliveTimeout
 
     /* stream server events to a verbose event */
     this._createServerEventStream(server, options)
@@ -63,8 +58,24 @@ class Lws extends EventEmitter {
     return server
   }
 
+  getDefaults () {
+    return {
+      port: 8000,
+      modulePrefix: 'lws-'
+    }
+  }
+
   /**
    * Returns a HTTP, HTTPS or HTTP2 server instance.
+   * @param [options] {object} - Server options
+   * @param [options.maxConnections] {number} - The maximum number of concurrent connections supported by the server.
+   * @param [options.keepAliveTimeout] {number} - The period (in milliseconds) of inactivity a connection will remain open before being destroyed. Set to `0` to keep connections open indefinitely.
+   * @param [options.https] {boolean} - Enable HTTPS using a built-in key and cert registered to the domain 127.0.0.1.
+   * @param [options.key] {string} - SSL key file path. Supply along with --cert to launch a https server.
+   * @param [options.cert] {string} - SSL cert file path. Supply along with --key to launch a https server.
+   * @param [options.pfx] {string} - Path to an PFX or PKCS12 encoded private key and certificate chain. An alternative to providing --key and --cert.
+   * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
+   * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
    * @returns {Server}
    */
   createServer (options) {
@@ -90,17 +101,23 @@ class Lws extends EventEmitter {
     return factory.create(options)
   }
 
+  /**
+   * Attach a Middleware stack to a running server.
+   */
   attachMiddleware (server, options = {}) {
     const arrayify = require('array-back')
-    options.stack = arrayify(options.stack)
+    let stack = arrayify(options.stack)
 
     /* validate stack */
     const Stack = require('./lib/middleware-stack')
-    if (!(options.stack instanceof Stack)) {
-      options.stack = Stack.from(options.stack, options)
+    if (!(stack instanceof Stack)) {
+      stack = Stack.from(stack, {
+        paths: options.moduleDir,
+        prefix: options.modulePrefix
+      })
     }
     /* propagate stack middleware events */
-    this.propagate(options.stack)
+    this.propagate(stack)
 
     /* build Koa application using the supplied middleware, add it to server */
     const Koa = require('koa')
@@ -108,7 +125,7 @@ class Lws extends EventEmitter {
     app.on('error', err => {
       this.emit('verbose', 'koa.error', err)
     })
-    const middlewares = options.stack.getMiddlewareFunctions(options)
+    const middlewares = stack.getMiddlewareFunctions(options)
     for (const middleware of middlewares) {
       app.use(middleware)
     }

@@ -78,3 +78,25 @@ tom.test('--config', async function () {
   a.ok(/CliView/.test(logMsg))
   process.argv = origArgv
 })
+
+tom.skip('--open', async function () {
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--open' ]
+  const cli = new LwsCli({
+    log: function () { }
+  })
+  const server = cli.start()
+  server.close()
+  process.argv = origArgv
+})
+
+tom.skip('--open --https', async function () {
+  const origArgv = process.argv.slice()
+  process.argv = [ 'node', 'something', '--open', '--https' ]
+  const cli = new LwsCli({
+    log: function () { }
+  })
+  const server = cli.start()
+  server.close()
+  process.argv = origArgv
+})

@@ -1,3 +1,3 @@
 module.exports = {
-  stack: ['two.js']
+  stack: [ 'two.js' ]
 }

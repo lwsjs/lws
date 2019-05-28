@@ -6,6 +6,7 @@
     * [Lws](#exp_module_lws--Lws) ⏏
         * [.listen([options])](#module_lws--Lws+listen) ⇒ <code>Server</code>
         * [.createServer()](#module_lws--Lws+createServer) ⇒ <code>Server</code>
+        * [.attachMiddleware()](#module_lws--Lws+attachMiddleware)
 
 <a name="exp_module_lws--Lws"></a>
 
@@ -34,12 +35,17 @@ Returns a listening HTTP/HTTPS server.
 | [options.ciphers] | <code>string</code> | Optional cipher suite specification, replacing the default. |
 | [options.secureProtocol] | <code>string</code> | Optional SSL method to use, default is "SSLv23_method". |
 | [options.stack] | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Middlewares&gt;</code> | Array of middleware classes, or filenames of modules exporting a middleware class. |
-| [options.server] | <code>string</code> \| <code>ServerFactory</code> | Custom server factory, e.g. lws-http2. |
 | [options.moduleDir] | <code>Array.&lt;string&gt;</code> | One or more directories to search for middleware modules. |
 
 <a name="module_lws--Lws+createServer"></a>
 
 #### lws.createServer() ⇒ <code>Server</code>
 Returns a HTTP, HTTPS or HTTP2 server instance.
+
+**Kind**: instance method of [<code>Lws</code>](#exp_module_lws--Lws)  
+<a name="module_lws--Lws+attachMiddleware"></a>
+
+#### lws.attachMiddleware()
+Attach a Middleware stack to a running server.
 
 **Kind**: instance method of [<code>Lws</code>](#exp_module_lws--Lws)  

@@ -5,9 +5,6 @@ class Two {
       next()
     }
   }
-  optionDefinitions () {
-    return [ { name: 'something' } ]
-  }
 }
 
 module.exports = Two
