@@ -15,11 +15,11 @@ tom.test('verbose write', async function () {
   a.ok(/test:/.test(logMsg))
 })
 
-tom.test('koa.error write', async function () {
+tom.test('middleware.error write', async function () {
   const view = new CliView()
   const err = new Error('test error')
   let logMsg = ''
-  view.write('koa.error', err, {
+  view.write('middleware.error', err, {
     logError: function (msg) { logMsg = msg }
   })
   a.ok(/test error/.test(logMsg))

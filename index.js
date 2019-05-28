@@ -1,22 +1,19 @@
-/**
- * @module lws
- */
-
 const util = require('./lib/util')
 const t = require('typical')
 const EventEmitter = require('events')
+
+/**
+ * @module lws
+ */
 
 /**
  * @alias module:lws
  * @emits verbose
  */
 class Lws extends EventEmitter {
-  propagate (from) {
-    from.on('verbose', (key, value) => this.emit('verbose', key, value))
-  }
 
   /**
-   * Returns a listening HTTP/HTTPS server.
+   * Returns a listening HTTP/HTTPS/HTTP2 server.
    * @param [options] {object} - Server options
    * @param [options.port] {number} - Port
    * @param [options.hostname] {string} -The hostname (or IP address) to listen on. Defaults to 0.0.0.0.
@@ -36,19 +33,14 @@ class Lws extends EventEmitter {
    */
   listen (options) {
     /* merge options */
-    const storedConfig = util.getStoredConfig(options.configFile)
-    options = util.deepMerge(
-      this.getDefaults(),
-      storedConfig,
-      options
-    )
+    options = this.mergeOptions(options)
 
     /* create a HTTP, HTTPS or HTTP2 server */
     const server = this.createServer(options)
 
     /* stream server events to a verbose event */
     this._createServerEventStream(server, options)
-    this.propagate(server)
+    util.propagate('verbose', server, this)
 
     /* attach middleware */
     this.attachMiddleware(server, options)
@@ -58,11 +50,28 @@ class Lws extends EventEmitter {
     return server
   }
 
+  /**
+   * Get built-in defaults.
+   * @returns {object}
+   */
   getDefaults () {
     return {
       port: 8000,
       modulePrefix: 'lws-'
     }
+  }
+
+  /**
+   * Merge options with defaults and stored config.
+   * @param {object}
+   * @returns {object}
+   */
+  mergeOptions (options) {
+    return util.deepMerge(
+      this.getDefaults(),
+      util.getStoredConfig(options.configFile),
+      options
+    )
   }
 
   /**
@@ -78,7 +87,7 @@ class Lws extends EventEmitter {
    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
    * @returns {Server}
    */
-  createServer (options) {
+  createServer (options = {}) {
     /* validation */
     if ((options.key && !options.cert) || (!options.key && options.cert)) {
       throw new Error('--key and --cert must always be supplied together.')
@@ -97,16 +106,52 @@ class Lws extends EventEmitter {
       ServerFactory = require('./lib/server-factory/http2')
     }
     const factory = new ServerFactory()
-    this.propagate(factory)
+    util.propagate('verbose', factory, this)
     return factory.create(options)
   }
 
   /**
    * Attach a Middleware stack to a running server.
+   * @param [options] {object} - These options plus any arbitrary options you want to expose to the middleware plugins.
+   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
+   * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
+   * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
    */
   attachMiddleware (server, options = {}) {
+    const stack = this.getMiddlewareStack(options.stack, options)
+    util.propagate('verbose', stack, this)
+    const middlewares = stack.getMiddlewareFunctions(options)
+    server.on('request', this.getRequestHandler(middlewares, options))
+  }
+
+  /**
+   * @param middlewares {function[]}
+   * @returns {function}
+   */
+  getRequestHandler (middlewares = []) {
+    /* build Koa application using the supplied middleware */
+    const Koa = require('koa')
     const arrayify = require('array-back')
-    let stack = arrayify(options.stack)
+    const app = new Koa()
+    app.on('error', err => {
+      this.emit('verbose', 'middleware.error', err)
+    })
+    for (const middleware of arrayify(middlewares)) {
+      app.use(middleware)
+    }
+    return app.callback()
+  }
+
+  /**
+   * @param [options] {object} - Options.
+   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
+   * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
+   * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
+   * @returns {function}
+   */
+  getMiddlewareStack (stack, options = {}) {
+    const arrayify = require('array-back')
+    stack = arrayify(stack).slice()
 
     /* validate stack */
     const Stack = require('./lib/middleware-stack')
@@ -116,20 +161,7 @@ class Lws extends EventEmitter {
         prefix: options.modulePrefix
       })
     }
-    /* propagate stack middleware events */
-    this.propagate(stack)
-
-    /* build Koa application using the supplied middleware, add it to server */
-    const Koa = require('koa')
-    const app = new Koa()
-    app.on('error', err => {
-      this.emit('verbose', 'koa.error', err)
-    })
-    const middlewares = stack.getMiddlewareFunctions(options)
-    for (const middleware of middlewares) {
-      app.use(middleware)
-    }
-    server.on('request', app.callback())
+    return stack
   }
 
   /* Pipe server events into 'verbose' event stream */
