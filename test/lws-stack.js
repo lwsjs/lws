@@ -70,7 +70,7 @@ tom.test('Broken middleware', async function () {
   class One {
     middleware () {
       return function (ctx, next) {
-        asdf
+        throw new Error('broken')
       }
     }
   }

@@ -11,36 +11,43 @@ const EventEmitter = require('events')
  * @emits verbose
  */
 class Lws extends EventEmitter {
+  constructor () {
+    super()
+    /**
+     * The HTTP, HTTPS or HTTP2 server.
+     * @type {object}
+     */
+    this.server = null
 
-  /**
-   * Returns a listening HTTP/HTTPS/HTTP2 server.
-   * @param [options] {object} - Server options
-   * @param [options.port] {number} - Port
-   * @param [options.hostname] {string} -The hostname (or IP address) to listen on. Defaults to 0.0.0.0.
-   * @param [options.maxConnections] {number} - The maximum number of concurrent connections supported by the server.
-   * @param [options.keepAliveTimeout] {number} - The period (in milliseconds) of inactivity a connection will remain open before being destroyed. Set to `0` to keep connections open indefinitely.
-   * @param [options.configFile] {string} - Config file path, defaults to 'lws.config.js'.
-   * @param [options.https] {boolean} - Enable HTTPS using a built-in key and cert registered to the domain 127.0.0.1.
-   * @param [options.key] {string} - SSL key file path. Supply along with --cert to launch a https server.
-   * @param [options.cert] {string} - SSL cert file path. Supply along with --key to launch a https server.
-   * @param [options.pfx] {string} - Path to an PFX or PKCS12 encoded private key and certificate chain. An alternative to providing --key and --cert.
-   * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
-   * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
-   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
-   * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
-   * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
-   * @returns {Server}
-   */
-  listen (options) {
+    /**
+     * The middleware plugin stack.
+     * @type {MiddlewareStack}
+     */
+    this.middlewareStack = null
+
+    /**
+     * Current Koa app.
+     */
+    this._app = null
+
+    /**
+     * Active config.
+     * @type {object}
+     */
+    this.config = null
+  }
+
+  listen (options = {}) {
     /* merge options */
     options = this.mergeOptions(options)
+    this.config = options
 
     /* create a HTTP, HTTPS or HTTP2 server */
     const server = this.createServer(options)
+    this.server = server
 
     /* stream server events to a verbose event */
     this._createServerEventStream(server, options)
-    util.propagate('verbose', server, this)
 
     /* attach middleware */
     this.useMiddlewareStack(server, options.stack, options)
@@ -67,11 +74,12 @@ class Lws extends EventEmitter {
    * @returns {object}
    */
   mergeOptions (options) {
-    return util.deepMerge(
+    this.config = util.deepMerge(
       this.getDefaults(),
       util.getStoredConfig(options.configFile),
       options
     )
+    return this.config
   }
 
   /**
@@ -106,8 +114,9 @@ class Lws extends EventEmitter {
       ServerFactory = require('./lib/server-factory/http2')
     }
     const factory = new ServerFactory()
-    // util.propagate('verbose', factory, this)
-    return factory.create(options)
+    util.propagate('verbose', factory, this)
+    this.server = factory.create(options)
+    return this.server
   }
 
   /**
@@ -119,9 +128,9 @@ class Lws extends EventEmitter {
    * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
    */
   useMiddlewareStack (server, stack, options = {}) {
-    stack = this.getMiddlewareStack(stack, options)
+    this.stack = this.getMiddlewareStack(stack, options)
     // util.propagate('verbose', stack, this)
-    const middlewares = stack.getMiddlewareFunctions(options)
+    const middlewares = this.stack.getMiddlewareFunctions(options)
     server.on('request', this.getRequestHandler(middlewares, options))
   }
 
@@ -137,6 +146,7 @@ class Lws extends EventEmitter {
     app.on('error', err => {
       this.emit('verbose', 'middleware.error', err)
     })
+    util.propagate('verbose', app, this)
     for (const middleware of arrayify(middlewares)) {
       app.use(middleware)
     }
@@ -169,7 +179,7 @@ class Lws extends EventEmitter {
   _createServerEventStream (server, options) {
     const write = (name, value) => {
       return () => {
-        server.emit('verbose', name, value)
+        this.emit('verbose', name, value)
       }
     }
 
@@ -240,6 +250,47 @@ class Lws extends EventEmitter {
       this.emit('verbose', 'process.memoryUsage', memUsage)
     }, 60000)
     interval.unref()
+  }
+
+  /**
+   * Returns a listening HTTP/HTTPS/HTTP2 server.
+   * @param [options] {object} - Server options
+   * @param [options.port] {number} - Port
+   * @param [options.hostname] {string} -The hostname (or IP address) to listen on. Defaults to 0.0.0.0.
+   * @param [options.maxConnections] {number} - The maximum number of concurrent connections supported by the server.
+   * @param [options.keepAliveTimeout] {number} - The period (in milliseconds) of inactivity a connection will remain open before being destroyed. Set to `0` to keep connections open indefinitely.
+   * @param [options.configFile] {string} - Config file path, defaults to 'lws.config.js'.
+   * @param [options.https] {boolean} - Enable HTTPS using a built-in key and cert registered to the domain 127.0.0.1.
+   * @param [options.key] {string} - SSL key file path. Supply along with --cert to launch a https server.
+   * @param [options.cert] {string} - SSL cert file path. Supply along with --key to launch a https server.
+   * @param [options.pfx] {string} - Path to an PFX or PKCS12 encoded private key and certificate chain. An alternative to providing --key and --cert.
+   * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
+   * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
+   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
+   * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
+   * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
+   * @returns {Server}
+   */
+  static create (options = {}) {
+    const lws = new Lws()
+    /* merge options */
+    options = lws.mergeOptions(options)
+    lws.config = options
+
+    /* create a HTTP, HTTPS or HTTP2 server */
+    const server = lws.createServer(options)
+    lws.server = server
+
+    /* stream server events to a verbose event */
+    lws._createServerEventStream(server, options)
+
+    /* attach middleware */
+    lws.useMiddlewareStack(server, options.stack, options)
+
+    /* start server */
+    server.listen(options.port, options.hostname)
+
+    return lws
   }
 }
 

@@ -11,24 +11,6 @@ tom.test('from', async function () {
   a.strictEqual(stack[0].constructor.name, 'One')
 })
 
-tom.skip('default description', async function () {
-  class One {}
-  const stack = MiddlewareStack.from([ One ])
-  a.ok(/description required/.test(stack[0].description()))
-})
-
-tom.skip('propagate verbose events', async function () {
-  class One extends EventEmitter {}
-  const stack = MiddlewareStack.from([ One ])
-  const one = stack[0]
-  const actuals = []
-  stack.on('verbose', () => actuals.push('ok'))
-  stack.on('not-propagated', () => actuals.push('no'))
-  one.emit('verbose')
-  one.emit('not-propagated')
-  a.deepStrictEqual(actuals, [ 'ok' ])
-})
-
 tom.test('get middleware functions', async function () {
   class One {
     middleware (options) {
