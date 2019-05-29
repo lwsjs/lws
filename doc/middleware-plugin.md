@@ -33,3 +33,4 @@ Return one or more options definitions to collect command-line input.
 Return one of more Koa middleware functions.
 
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
+**Params**: [options] {object} - A config object.  

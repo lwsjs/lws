@@ -1,7 +1,6 @@
 const Tom = require('test-runner').Tom
 const a = require('assert')
-const ViewBase = require('../lib/view/view-base.js')
-const CliView = require('../lib/view/cli-view.js')(ViewBase)
+const CliView = require('../lib/view/cli-view.js')
 
 const tom = module.exports = new Tom('cli-view')
 

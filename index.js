@@ -37,23 +37,38 @@ class Lws extends EventEmitter {
     this.config = null
   }
 
-  listen (options = {}) {
-    /* merge options */
-    options = this.mergeOptions(options)
-    this.config = options
+  listen (config = {}) {
+    /* merge config */
+    config = this.mergeOptions(config)
+    this.config = config
+
+    /* attach view */
+    if (config.view) {
+      if (typeof config.view === 'string') {
+        const ViewPlugin = require('./lib/view/view-plugin')
+        const ViewClass = ViewPlugin.load(config.view, {
+          paths: config.moduleDir,
+          prefix: config.modulePrefix
+        })
+        config.view = new ViewClass()
+      }
+      this.on('verbose', (key, value) => {
+        config.view.write(key, value, config)
+      })
+    }
 
     /* create a HTTP, HTTPS or HTTP2 server */
-    const server = this.createServer(options)
+    const server = this.createServer(config)
     this.server = server
 
     /* stream server events to a verbose event */
-    this._createServerEventStream(server, options)
+    this._createServerEventStream(server, config)
 
     /* attach middleware */
-    this.useMiddlewareStack(server, options.stack, options)
+    this.useMiddlewareStack(server, config.stack, config)
 
     /* start server */
-    server.listen(options.port, options.hostname)
+    server.listen(config.port, config.hostname)
     return server
   }
 
