@@ -17,7 +17,7 @@ tom.test('simple', function () {
   })
 })
 
-tom.test('arrays', function () {
+tom.test('arrays: new array does not overwrite if it is empty', function () {
   let result = util.deepMerge(
     { stack: [ 'one' ] },
     { stack: [] }
@@ -27,7 +27,7 @@ tom.test('arrays', function () {
   })
 })
 
-tom.test('arrays 2', function () {
+tom.test('arrays 2: later array overwrites if it has items', function () {
   let result = util.deepMerge(
     { stack: [] },
     { stack: [ 'one' ] }
@@ -37,7 +37,7 @@ tom.test('arrays 2', function () {
   })
 })
 
-tom.test('arrays 3', function () {
+tom.test('arrays 3: later array overwrites if it has items', function () {
   let result = util.deepMerge(
     { stack: [ 'two' ] },
     { stack: [ 'one' ] }

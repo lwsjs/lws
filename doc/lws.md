@@ -8,7 +8,7 @@
         * [.getDefaults()](#module_lws--Lws+getDefaults) ⇒ <code>object</code>
         * [.mergeOptions(options)](#module_lws--Lws+mergeOptions) ⇒ <code>object</code>
         * [.createServer([options])](#module_lws--Lws+createServer) ⇒ <code>Server</code>
-        * [.attachMiddleware([options])](#module_lws--Lws+attachMiddleware)
+        * [.useMiddlewareStack(server, stack, [options])](#module_lws--Lws+useMiddlewareStack)
         * [.getRequestHandler(middlewares)](#module_lws--Lws+getRequestHandler) ⇒ <code>function</code>
         * [.getMiddlewareStack([options])](#module_lws--Lws+getMiddlewareStack) ⇒ <code>function</code>
 
@@ -78,17 +78,18 @@ Returns a HTTP, HTTPS or HTTP2 server instance.
 | [options.ciphers] | <code>string</code> | Optional cipher suite specification, replacing the default. |
 | [options.secureProtocol] | <code>string</code> | Optional SSL method to use, default is "SSLv23_method". |
 
-<a name="module_lws--Lws+attachMiddleware"></a>
+<a name="module_lws--Lws+useMiddlewareStack"></a>
 
-#### lws.attachMiddleware([options])
+#### lws.useMiddlewareStack(server, stack, [options])
 Attach a Middleware stack to a running server.
 
 **Kind**: instance method of [<code>Lws</code>](#exp_module_lws--Lws)  
 
 | Param | Type | Description |
 | --- | --- | --- |
+| server | <code>object</code> | node server. |
+| stack | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Middlewares&gt;</code> | Array of middleware classes, or filenames of modules exporting a middleware class. |
 | [options] | <code>object</code> | These options plus any arbitrary options you want to expose to the middleware plugins. |
-| [options.stack] | <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;Middlewares&gt;</code> | Array of middleware classes, or filenames of modules exporting a middleware class. |
 | [options.moduleDir] | <code>Array.&lt;string&gt;</code> | One or more directories to search for middleware modules. |
 | [options.modulePrefix] | <code>string</code> | An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'. |
 

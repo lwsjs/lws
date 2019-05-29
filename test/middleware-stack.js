@@ -17,7 +17,7 @@ tom.skip('default description', async function () {
   a.ok(/description required/.test(stack[0].description()))
 })
 
-tom.test('propagate verbose events', async function () {
+tom.skip('propagate verbose events', async function () {
   class One extends EventEmitter {}
   const stack = MiddlewareStack.from([ One ])
   const one = stack[0]

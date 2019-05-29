@@ -39,7 +39,7 @@ tom.test('configFile', async function () {
   const port = 9900 + this.index
   const server = lws.listen({
     configFile: 'test/fixture/lws.config.js',
-    moduleDir: './test/fixture',
+    moduleDir: 'test/fixture',
     port
   })
   const response = await fetch(`http://localhost:${port}/`)
@@ -89,4 +89,31 @@ tom.test('create HTTPS server, getRequestHandler', async function () {
   const response = await fetch(`https://localhost:${port}/`, { agent })
   server.close()
   a.strictEqual(response.status, 999)
+})
+
+tom.test('createServer, use lws-static', async function () {
+  const lws = new Lws()
+  const port = 9900 + this.index
+  const server = lws.createServer()
+  lws.useMiddlewareStack(server, [ require('lws-static') ], {
+    directory: 'test/fixture'
+  })
+  server.listen(port)
+  const response = await fetch(`http://localhost:${port}/one.js`)
+  server.close()
+  a.strictEqual(response.status, 200)
+})
+
+tom.test('createServer, use lws-static 2', async function () {
+  const lws = new Lws()
+  const port = 9900 + this.index
+  const server = lws.createServer()
+  lws.useMiddlewareStack(server, [ 'lws-static' ], {
+    directory: 'test/fixture',
+    moduleDir: '.'
+  })
+  server.listen(port)
+  const response = await fetch(`http://localhost:${port}/one.js`)
+  server.close()
+  a.strictEqual(response.status, 200)
 })

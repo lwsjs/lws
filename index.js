@@ -43,7 +43,7 @@ class Lws extends EventEmitter {
     util.propagate('verbose', server, this)
 
     /* attach middleware */
-    this.attachMiddleware(server, options)
+    this.useMiddlewareStack(server, options.stack, options)
 
     /* start server */
     server.listen(options.port, options.hostname)
@@ -106,20 +106,21 @@ class Lws extends EventEmitter {
       ServerFactory = require('./lib/server-factory/http2')
     }
     const factory = new ServerFactory()
-    util.propagate('verbose', factory, this)
+    // util.propagate('verbose', factory, this)
     return factory.create(options)
   }
 
   /**
    * Attach a Middleware stack to a running server.
+   * @param server {object} - node server.
+   * @param stack {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
    * @param [options] {object} - These options plus any arbitrary options you want to expose to the middleware plugins.
-   * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
    * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
    * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
    */
-  attachMiddleware (server, options = {}) {
-    const stack = this.getMiddlewareStack(options.stack, options)
-    util.propagate('verbose', stack, this)
+  useMiddlewareStack (server, stack, options = {}) {
+    stack = this.getMiddlewareStack(stack, options)
+    // util.propagate('verbose', stack, this)
     const middlewares = stack.getMiddlewareFunctions(options)
     server.on('request', this.getRequestHandler(middlewares, options))
   }

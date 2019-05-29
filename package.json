@@ -41,6 +41,7 @@
   "devDependencies": {
     "coveralls": "^3.0.3",
     "jsdoc-to-markdown": "^5.0.0",
+    "lws-static": "^1.0.0",
     "node-fetch": "^2.6.0",
     "nyc": "^14.1.1",
     "sleep-anywhere": "^1.1.2",

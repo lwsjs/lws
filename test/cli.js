@@ -55,48 +55,36 @@ tom.test('--help', async function () {
 })
 
 tom.test('--version', async function () {
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--version' ]
   let logMsg = ''
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
   })
-  cli.start()
+  cli.start([ '--version' ])
   const version = require('../package.json').version
   a.strictEqual(version, logMsg.trim())
-  process.argv = origArgv
 })
 
 tom.test('--config', async function () {
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--config' ]
   let logMsg = ''
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
   })
-  cli.start()
-  a.ok(/CliView/.test(logMsg))
-  process.argv = origArgv
+  cli.start([ '--config', '--https' ])
+  a.ok(/https/.test(logMsg))
 })
 
-tom.skip('--open', async function () {
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--open' ]
+tom.test('--open', async function () {
   const cli = new LwsCli({
     log: function () { }
   })
-  const server = cli.start()
+  const server = cli.start([ '--open' ])
   server.close()
-  process.argv = origArgv
 })
 
-tom.skip('--open --https', async function () {
-  const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--open', '--https' ]
+tom.test('--open --https', async function () {
   const cli = new LwsCli({
     log: function () { }
   })
-  const server = cli.start()
+  const server = cli.start([ '--open', '--https' ])
   server.close()
-  process.argv = origArgv
 })
