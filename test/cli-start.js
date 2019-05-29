@@ -73,18 +73,20 @@ tom.test('--config', async function () {
   a.ok(/https/.test(logMsg))
 })
 
-tom.test('--open', async function () {
-  const cli = new LwsCli({
-    log: function () { }
+if (process.env.USER !== 'lloyd') {
+  tom.test('--open', async function () {
+    const cli = new LwsCli({
+      log: function () { }
+    })
+    const server = cli.start([ '--open' ])
+    server.close()
   })
-  const server = cli.start([ '--open' ])
-  server.close()
-})
 
-tom.test('--open --https', async function () {
-  const cli = new LwsCli({
-    log: function () { }
+  tom.test('--open --https', async function () {
+    const cli = new LwsCli({
+      log: function () { }
+    })
+    const server = cli.start([ '--open', '--https' ])
+    server.close()
   })
-  const server = cli.start([ '--open', '--https' ])
-  server.close()
-})
+}

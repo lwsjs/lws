@@ -83,3 +83,15 @@ tom.test('Broken middleware', async function () {
   server.close()
   a.strictEqual(response.status, 500)
 })
+
+tom.test('Load one middleware', async function () {
+  const port = 9800 + this.index
+  const lws = new Lws()
+  const server = lws.listen({
+    port,
+    stack: 'lws-static'
+  })
+  const response = await fetch(`http://localhost:${port}/package.json`)
+  server.close()
+  a.strictEqual(response.status, 200)
+})

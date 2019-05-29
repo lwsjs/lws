@@ -79,7 +79,8 @@ class Lws extends EventEmitter {
   getDefaults () {
     return {
       port: 8000,
-      modulePrefix: 'lws-'
+      modulePrefix: 'lws-',
+      moduleDir: [ '.' ]
     }
   }
 
@@ -144,7 +145,6 @@ class Lws extends EventEmitter {
    */
   useMiddlewareStack (server, stack, options = {}) {
     this.stack = this.getMiddlewareStack(stack, options)
-    // util.propagate('verbose', stack, this)
     const middlewares = this.stack.getMiddlewareFunctions(options)
     server.on('request', this.getRequestHandler(middlewares, options))
   }
