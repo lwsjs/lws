@@ -7,17 +7,19 @@ const sleep = require('sleep-anywhere')
 const tom = module.exports = new Tom('events')
 
 tom.test('server-factory config event', async function () {
-  const port = 9900 + this.index
+  const port = 9930 + this.index
   const actuals = []
-  const lws = new Lws()
-  lws.on('verbose', (key, value) => {
-    actuals.push(key, value)
-  })
-  lws.createServer({
+  const lws = new Lws({
     port,
     maxConnections: 11,
     keepAliveTimeout: 11
   })
+  lws.on('verbose', (key, value) => {
+    actuals.push(key, value)
+  })
+  lws.createServer()
+  lws.loadMiddlewareStack()
+  lws.useMiddlewareStack()
   lws.server.close()
   a.deepStrictEqual(actuals, [
     'server.config',
@@ -29,13 +31,17 @@ tom.test('server-factory config event', async function () {
 })
 
 tom.test('server.listening event', async function () {
-  const port = 9900 + this.index
+  const port = 9930 + this.index
   const actuals = []
-  const lws = new Lws()
+  const lws = new Lws({ port })
   lws.on('verbose', (key, value) => {
     actuals.push(key)
   })
-  lws.listen({ port })
+  lws.createServer()
+  lws._createServerEventStream()
+  lws.loadMiddlewareStack()
+  lws.useMiddlewareStack()
+  lws.server.listen(port)
   await sleep(10)
   lws.server.close()
   await sleep(10)
@@ -43,7 +49,7 @@ tom.test('server.listening event', async function () {
 })
 
 tom.test('middleware event', async function () {
-  const port = 9900 + this.index
+  const port = 9930 + this.index
   const actuals = []
   class One {
     middleware () {
@@ -52,11 +58,10 @@ tom.test('middleware event', async function () {
       }
     }
   }
-  const lws = new Lws()
+  const lws = Lws.create({ port, stack: One })
   lws.on('verbose', (key, value) => {
     actuals.push(key)
   })
-  lws.listen({ port, stack: One })
   await fetch(`http://127.0.0.1:${port}`)
   lws.server.close()
   a.ok(actuals.includes('something.test'))

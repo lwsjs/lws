@@ -6,7 +6,7 @@ const fetch = require('node-fetch')
 const tom = module.exports = new Tom('cli-stack')
 
 tom.test('no middleware', async function () {
-  const port = 7500 + this.index
+  const port = 9300 + this.index
   const origArgv = process.argv.slice()
   process.argv = [ 'node', 'something', '--port', `${port}` ]
   const cli = new LwsCli({

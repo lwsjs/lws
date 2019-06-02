@@ -13,13 +13,11 @@ tom.test('custom view write', async function () {
     }
   }
   const port = 9950 + this.index
-  const lws = new Lws()
-  lws.listen({
+  const lws = Lws.create({
     port,
     maxConnections: 11,
     keepAliveTimeout: 11,
-    view: new One(),
-
+    view: new One()
   })
   lws.server.close()
   await sleep(10)

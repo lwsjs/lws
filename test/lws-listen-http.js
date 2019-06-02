@@ -15,13 +15,12 @@ tom.test('simple http', async function () {
       }
     }
   }
-  const lws = new Lws()
-  const server = lws.listen({
+  const lws = Lws.create({
     stack: [ One ],
     port: port
   })
   const response = await fetch(`http://127.0.0.1:${port}`)
-  server.close()
+  lws.server.close()
   a.strictEqual(response.status, 200)
   const body = await response.text()
   a.strictEqual(body, 'one')
@@ -38,8 +37,7 @@ tom.test('hostname', async function () {
       }
     }
   }
-  const lws = new Lws()
-  const server = lws.listen({
+  const lws = Lws.create({
     stack: [ One ],
     port: port,
     hostname: 'localhost'
@@ -54,7 +52,7 @@ tom.test('hostname', async function () {
   try {
     const response = await fetch(`http://localhost:${port}`)
     a.strictEqual(response.status, 200)
-    server.close()
+    lws.server.close()
   } catch (err) {
     a.fail("shouldn't reach here")
   }
@@ -69,13 +67,13 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
       }
     }
   }
-  const lws = new Lws()
-  const server = lws.listen({
+  const lws = Lws.create({
     stack: [ One ],
     port: port,
     maxConnections: 11,
     keepAliveTimeout: 10001
   })
+  const server = lws.server
   a.strictEqual(server.keepAliveTimeout, 10001)
   a.strictEqual(server.maxConnections, 11)
   const url = require('url')

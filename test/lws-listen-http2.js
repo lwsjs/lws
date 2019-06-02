@@ -15,15 +15,14 @@ tom.test('--http2', async function () {
       }
     }
   }
-  const lws = new Lws()
-  const server = lws.listen({
+  const lws = Lws.create({
     stack: [ One ],
     http2: true,
     port: port
   })
 
   const response = await fetchHttp2(`https://localhost:${port}`, '/')
-  server.close()
+  lws.server.close()
   a.strictEqual(response.headers[':status'], 200)
   a.strictEqual(response.body, 'one')
 })
