@@ -1,6 +1,27 @@
 <a name="module_middleware-plugin"></a>
 
 ## middleware-plugin
+MiddlewareStack plugin API.
+
+**Example**  
+```js
+class Greeter {
+  middleware (options = {}) {
+    return function (ctx, next) {
+      ctx.body = `Hello Mr ${options.surname}`
+      next()
+    }
+  }
+
+  optionDefinitions () {
+    return [
+      { name: 'surname', description: 'Your family name.' }
+    ]
+  }
+}
+
+module.exports = Greeter
+```
 
 * [middleware-plugin](#module_middleware-plugin)
     * [MiddlewarePlugin](#exp_module_middleware-plugin--MiddlewarePlugin) ⏏
@@ -11,10 +32,7 @@
 <a name="exp_module_middleware-plugin--MiddlewarePlugin"></a>
 
 ### MiddlewarePlugin ⏏
-Optionally you can extend EventEmitter and emit `verbose` events.
-
 **Kind**: Exported class  
-**Emits**: <code>event:verbose</code>  
 <a name="module_middleware-plugin--MiddlewarePlugin+description"></a>
 
 #### middlewarePlugin.description()
@@ -30,7 +48,7 @@ Return one or more options definitions to collect command-line input.
 <a name="module_middleware-plugin--MiddlewarePlugin+middleware"></a>
 
 #### middlewarePlugin.middleware() ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
-Return one of more Koa middleware functions.
+Return one of more Koa middleware functions. Optionally, emit `verbose` events to `ctx.app`.
 
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
 **Params**: [options] {object} - A config object.  

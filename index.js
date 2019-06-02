@@ -233,7 +233,7 @@ class Lws extends EventEmitter {
   }
 
   static create (config) {
-    const lws = new Lws(config)
+    const lws = new this(config)
 
     /* attach view */
     if (config.view) {
