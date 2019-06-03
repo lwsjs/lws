@@ -28,6 +28,7 @@ class Lws extends EventEmitter {
     * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
     * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
     * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
+    * @param [options.view] {object} - View instance.
     * @returns {Server}
     */
   constructor (config) {
@@ -51,6 +52,7 @@ class Lws extends EventEmitter {
     this.config = null
 
     this.setConfig(config)
+    this.setStack()
   }
 
   /**
@@ -78,6 +80,29 @@ class Lws extends EventEmitter {
     )
   }
 
+  /**
+   * Sets the middleware stack, loading plugins if supplied.
+   */
+  setStack () {
+    const arrayify = require('array-back')
+    const Stack = require('./lib/middleware-stack')
+    let stack = arrayify(this.config.stack).slice()
+
+    /* convert stack to type MiddlewareStack */
+    if (!(stack instanceof Stack)) {
+      stack = Stack.from(stack, {
+        paths: this.config.moduleDir,
+        prefix: this.config.modulePrefix
+      })
+    }
+    util.propagate('verbose', stack, this)
+    this.stack = stack
+  }
+
+  /**
+   * Create a HTTP, HTTPS or HTTP2 server, depending on config. Returns the output of Node's standard http, https or http2 `.createServer()` method.
+   * @returns {Server}
+   */
   createServer () {
     if (this.server) throw new Error('server already created')
     const options = this.config
@@ -135,27 +160,8 @@ class Lws extends EventEmitter {
     return app.callback()
   }
 
-  /**
-   *
-   */
-  loadMiddlewareStack () {
-    const arrayify = require('array-back')
-    let stack = arrayify(this.config.stack).slice()
-
-    /* validate stack */
-    const Stack = require('./lib/middleware-stack')
-    if (!(stack instanceof Stack)) {
-      stack = Stack.from(stack, {
-        paths: this.config.moduleDir,
-        prefix: this.config.modulePrefix
-      })
-    }
-
-    this.stack = stack
-  }
-
   /* Pipe server events into 'verbose' event stream */
-  _createServerEventStream () {
+  _propagateServerEvents () {
     const write = (name, value) => {
       return () => {
         this.emit('verbose', name, value)
@@ -254,9 +260,7 @@ class Lws extends EventEmitter {
     lws.createServer()
 
     /* stream server events to a verbose event */
-    lws._createServerEventStream()
-
-    lws.loadMiddlewareStack()
+    lws._propagateServerEvents()
 
     /* attach middleware */
     lws.useMiddlewareStack()

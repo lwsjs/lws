@@ -42,7 +42,6 @@ tom.test('configFile', async function () {
   })
   const server = lws.createServer()
   server.listen(port)
-  lws.loadMiddlewareStack()
   lws.useMiddlewareStack()
   const response = await fetch(`http://localhost:${port}/`)
   server.close()
@@ -100,7 +99,6 @@ tom.test('createServer, use lws-static', async function () {
   })
   const port = 9900 + this.index
   const server = lws.createServer()
-  lws.loadMiddlewareStack()
   lws.useMiddlewareStack()
   server.listen(port)
   const response = await fetch(`http://localhost:${port}/one.js`)
@@ -116,7 +114,6 @@ tom.test('createServer, use lws-static 2', async function () {
   })
   const port = 9900 + this.index
   const server = lws.createServer()
-  lws.loadMiddlewareStack()
   lws.useMiddlewareStack()
   server.listen(port)
   const response = await fetch(`http://localhost:${port}/one.js`)
