@@ -36,3 +36,18 @@ tom.test('from: class and module', async function () {
   a.strictEqual(stack[0].constructor.name, 'One')
   a.strictEqual(stack[1].constructor.name, 'Two')
 })
+
+tom.test('events propagated from middleware functions to stack', async function () {
+  const actuals = []
+  class One extends EventEmitter {
+    middleware () {
+      this.emit('verbose', 'one', 'two')
+    }
+  }
+  const stack = MiddlewareStack.from([ One, 'test/fixture/middleware.js' ])
+  stack.on('verbose', (key, value) => {
+    actuals.push(key, value)
+  })
+  stack.getMiddlewareFunctions()
+  a.deepStrictEqual(actuals, [ 'one', 'two', 'test', 'test' ])
+})

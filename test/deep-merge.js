@@ -1,6 +1,8 @@
 const Tom = require('test-runner').Tom
 const util = require('../lib/util')
 const a = require('assert')
+const MiddlewareStack = require('../lib/middleware-stack')
+const EventEmitter = require('events')
 
 const tom = module.exports = new Tom('deepMerge')
 
@@ -18,13 +20,15 @@ tom.test('simple', function () {
 })
 
 tom.test('arrays: new array does not overwrite if it is empty', function () {
+  const stack = [ 'one' ]
   let result = util.deepMerge(
-    { stack: [ 'one' ] },
+    { stack },
     { stack: [] }
   )
   a.deepStrictEqual(result, {
     stack: [ 'one' ]
   })
+  a.strictEqual(result.stack, stack)
 })
 
 tom.test('arrays 2: later array overwrites if it has items', function () {
@@ -45,4 +49,18 @@ tom.test('arrays 3: later array overwrites if it has items', function () {
   a.deepStrictEqual(result, {
     stack: [ 'one' ]
   })
+})
+
+tom.test('stack: new instance not created', function () {
+  class One extends EventEmitter {
+    middleware () {
+      this.emit('verbose', 'something.test', 1)
+    }
+  }
+  const stack = MiddlewareStack.from([ One ])
+  let result = util.deepMerge(
+    { stack },
+    { stack: [] }
+  )
+  a.strictEqual(result.stack, stack)
 })

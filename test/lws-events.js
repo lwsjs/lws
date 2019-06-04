@@ -106,3 +106,25 @@ tom.test('view receives verbose events', async function () {
   await sleep(10)
   a.deepStrictEqual(actuals[1], { key: 'something.test', value: 1 })
 })
+
+tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
+  const MiddlewareStack = require('../lib/middleware-stack')
+  const port = 9930 + this.index
+  const actuals = []
+  class One extends EventEmitter {
+    middleware () {
+      this.emit('verbose', 'something.test', 1)
+    }
+  }
+  class View {
+    write (key, value) {
+      actuals.push({ key, value })
+    }
+  }
+  const stack = MiddlewareStack.from([ One ])
+  const lws = Lws.create({ port, stack, view: new View() })
+  await sleep(10)
+  lws.server.close()
+  await sleep(10)
+  a.deepStrictEqual(actuals[1], { key: 'something.test', value: 1 })
+})

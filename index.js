@@ -43,7 +43,7 @@ class Lws extends EventEmitter {
      * The middleware plugin stack.
      * @type {MiddlewareStack}
      */
-    this.middlewareStack = null
+    this.stack = null
 
     /**
      * Active config.
@@ -52,7 +52,6 @@ class Lws extends EventEmitter {
     this.config = null
 
     this.setConfig(config)
-    this.setStack()
   }
 
   /**
@@ -86,10 +85,11 @@ class Lws extends EventEmitter {
   setStack () {
     const arrayify = require('array-back')
     const Stack = require('./lib/middleware-stack')
-    let stack = arrayify(this.config.stack).slice()
+    let stack = this.config.stack
 
     /* convert stack to type MiddlewareStack */
     if (!(stack instanceof Stack)) {
+      stack = arrayify(this.config.stack).slice()
       stack = Stack.from(stack, {
         paths: this.config.moduleDir,
         prefix: this.config.modulePrefix
@@ -136,6 +136,7 @@ class Lws extends EventEmitter {
    */
   useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
+    this.setStack()
     const middlewares = this.stack.getMiddlewareFunctions(this.config)
     this.server.on('request', this.getRequestHandler(middlewares))
   }
