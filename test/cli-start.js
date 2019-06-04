@@ -73,7 +73,7 @@ tom.test('--config', async function () {
   a.ok(/https/.test(logMsg))
 })
 
-if (process.env.USER !== 'lloyd') {
+if (process.env.TESTOPEN) {
   tom.test('--open', async function () {
     const cli = new LwsCli({
       log: function () { }
