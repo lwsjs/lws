@@ -44,7 +44,7 @@ tom.test('server.listening event', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals, [ 'server.config', 'server.listening', 'server.close' ])
+  a.deepStrictEqual(actuals, [ 'server.listening', 'server.close' ])
 })
 
 tom.test('middleware plugin "verbose" event', async function () {
@@ -65,7 +65,7 @@ tom.test('middleware plugin "verbose" event', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals, [ 'server.config', 'something.test' ])
+  a.deepStrictEqual(actuals, [ 'something.test' ])
 })
 
 tom.test('ctx.app event', async function () {
@@ -104,7 +104,7 @@ tom.test('view receives verbose events', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals[1], { key: 'something.test', value: 1 })
+  a.deepStrictEqual(actuals[0], { key: 'something.test', value: 1 })
 })
 
 tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
@@ -126,5 +126,5 @@ tom.test('view receives verbose events, input MiddlewareStack instance', async f
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals[1], { key: 'something.test', value: 1 })
+  a.deepStrictEqual(actuals[0], { key: 'something.test', value: 1 })
 })

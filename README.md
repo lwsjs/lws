@@ -9,6 +9,13 @@
 
 **Documentation work in progress.**
 
+Lws is tool for quickly launching a Node.js HTTP, HTTPS or HTTP2 server on the command line or in a script. It's designed to facilitate rapid full-stack Javascript development.
+
+* Attach a view to visualise activity
+* Attach Koa middleware plugins
+* Use stored config
+
+
 * * *
 
 &copy; 2016-19 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).

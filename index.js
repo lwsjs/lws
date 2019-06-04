@@ -12,24 +12,7 @@ const EventEmitter = require('events')
  */
 class Lws extends EventEmitter {
    /**
-    * Returns a listening HTTP/HTTPS/HTTP2 server.
-    * @param [options] {object} - Server options
-    * @param [options.port] {number} - Port
-    * @param [options.hostname] {string} -The hostname (or IP address) to listen on. Defaults to 0.0.0.0.
-    * @param [options.maxConnections] {number} - The maximum number of concurrent connections supported by the server.
-    * @param [options.keepAliveTimeout] {number} - The period (in milliseconds) of inactivity a connection will remain open before being destroyed. Set to `0` to keep connections open indefinitely.
-    * @param [options.configFile] {string} - Config file path, defaults to 'lws.config.js'.
-    * @param [options.https] {boolean} - Enable HTTPS using a built-in key and cert registered to the domain 127.0.0.1.
-    * @param [options.key] {string} - SSL key file path. Supply along with --cert to launch a https server.
-    * @param [options.cert] {string} - SSL cert file path. Supply along with --key to launch a https server.
-    * @param [options.pfx] {string} - Path to an PFX or PKCS12 encoded private key and certificate chain. An alternative to providing --key and --cert.
-    * @param [options.ciphers] {string} - Optional cipher suite specification, replacing the default.
-    * @param [options.secureProtocol] {string} - Optional SSL method to use, default is "SSLv23_method".
-    * @param [options.stack] {string[]|Middlewares[]} - Array of middleware classes, or filenames of modules exporting a middleware class.
-    * @param [options.moduleDir] {string[]} - One or more directories to search for middleware modules.
-    * @param [options.modulePrefix] {string} - An optional string to prefix to module names when loading middleware modules Defaults to 'lws-'.
-    * @param [options.view] {object} - View instance.
-    * @returns {Server}
+    * @param {LwsConfig} - Server config.
     */
   constructor (config) {
     super()
@@ -47,18 +30,19 @@ class Lws extends EventEmitter {
 
     /**
      * Active config.
-     * @type {object}
+     * @type {LwsConfig}
      */
     this.config = null
 
-    this.setConfig(config)
+    this._setConfig(config)
   }
 
   /**
    * Get built-in defaults.
    * @returns {object}
+   * @ignore
    */
-  getDefaultConfig () {
+  _getDefaultConfig () {
     return {
       port: 8000,
       modulePrefix: 'lws-',
@@ -70,10 +54,11 @@ class Lws extends EventEmitter {
    * Merge supplied config with defaults and stored config.
    * @param {object}
    * @returns {object}
+   * @ignore
    */
-  setConfig (config = {}) {
+  _setConfig (config = {}) {
     this.config = util.deepMerge(
-      this.getDefaultConfig(),
+      this._getDefaultConfig(),
       util.getStoredConfig(config.configFile),
       config
     )
@@ -81,8 +66,9 @@ class Lws extends EventEmitter {
 
   /**
    * Sets the middleware stack, loading plugins if supplied.
+   * @ignore
    */
-  setStack () {
+  _setStack () {
     const arrayify = require('array-back')
     const Stack = require('./lib/middleware-stack')
     let stack = this.config.stack
@@ -136,22 +122,30 @@ class Lws extends EventEmitter {
    */
   useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
-    this.setStack()
+    this._setStack()
     const middlewares = this.stack.getMiddlewareFunctions(this.config, this)
-    this.server.on('request', this.getRequestHandler(middlewares))
+    this.server.on('request', this._getRequestHandler(middlewares))
   }
 
   /**
    * Override this method to use a means other than Koa to handle requests.
    * @param middlewares {function[]}
    * @returns {function}
+   * @ignore
    */
-  getRequestHandler (middlewares = []) {
+  _getRequestHandler (middlewares = []) {
     /* build Koa application using the supplied middleware */
     const Koa = require('koa')
     const arrayify = require('array-back')
     const app = new Koa()
     app.on('error', err => {
+      /**
+       * Highly-verbose debug information event stream.
+       *
+       * @event module:lws#verbose
+       * @param key {string} - An identifying string, e.g. `server.socket.data`.
+       * @param value {*} - The value, e.g. `{ socketId: 1, bytesRead: '3 Kb' }`.
+       */
       this.emit('verbose', 'middleware.error', err)
     })
     util.propagate('verbose', app, this)
@@ -163,12 +157,6 @@ class Lws extends EventEmitter {
 
   /* Pipe server events into 'verbose' event stream */
   _propagateServerEvents () {
-    const write = (name, value) => {
-      return () => {
-        this.emit('verbose', name, value)
-      }
-    }
-
     function socketProperties (socket) {
       const byteSize = require('byte-size')
       return {
@@ -182,31 +170,35 @@ class Lws extends EventEmitter {
 
     /* stream connection events */
     const server = this.server
-    server.on('connection', (socket) => {
+    server.on('connection', socket => {
       socket.id = cId++
-      write('server.socket.new', socketProperties(socket))()
-      socket.on('connect', write('server.socket.connect', socketProperties(socket, cId)))
-      socket.on('data', function () {
-        write('server.socket.data', socketProperties(this))()
+      this.emit('verbose', 'server.socket.new', socketProperties(socket))
+      socket.on('connect', () => {
+        this.emit('verbose', 'server.socket.connect', socketProperties(socket))
       })
-      socket.on('drain', function () {
-        write('server.socket.drain', socketProperties(this))()
+      socket.on('data', () => {
+        this.emit('verbose', 'server.socket.data', socketProperties(socket))
       })
-      socket.on('timeout', function () {
-        write('server.socket.timeout', socketProperties(this))()
+      socket.on('drain', () => {
+        this.emit('verbose', 'server.socket.drain', socketProperties(socket))
       })
-      socket.on('close', function () {
-        write('server.socket.close', socketProperties(this))()
+      socket.on('timeout', () => {
+        this.emit('verbose', 'server.socket.timeout', socketProperties(socket))
+      })
+      socket.on('close', () => {
+        this.emit('verbose', 'server.socket.close', socketProperties(socket))
+      })
+      socket.on('end', () => {
+        this.emit('verbose', 'server.socket.end', socketProperties(socket))
       })
       socket.on('error', function (err) {
-        write('server.socket.error', { err })()
+        this.emit('verbose', 'server.socket.error', { err })
       })
-      socket.on('end', write('server.socket.end', socketProperties(socket, cId)))
-      socket.on('lookup', write('server.socket.connect', socketProperties(socket, cId)))
     })
 
-    /* stream server events */
-    server.on('close', write('server.close'))
+    server.on('close', () => {
+      this.emit('verbose', 'server.close')
+    })
 
     let requestId = 1
     server.on('request', req => {
@@ -223,7 +215,7 @@ class Lws extends EventEmitter {
         ipList = util.getIPList()
           .map(iface => `${isSecure ? 'https' : 'http'}://${iface.address}:${this.config.port}`)
       }
-      write('server.listening', ipList)()
+      this.emit('verbose', 'server.listening', ipList)
     })
 
     /* emit memory usage stats every 30s */

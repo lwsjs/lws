@@ -69,7 +69,7 @@ tom.test('createServer, getRequestHandler', async function () {
   const port = 9900 + this.index
   const server = lws.createServer()
   server.listen(port)
-  server.on('request', lws.getRequestHandler(function (ctx, next) {
+  server.on('request', lws._getRequestHandler(function (ctx, next) {
     ctx.status = 999
     next()
   }))
@@ -83,7 +83,7 @@ tom.test('create HTTPS server, getRequestHandler', async function () {
   const port = 9900 + this.index
   const server = lws.createServer()
   server.listen(port)
-  server.on('request', lws.getRequestHandler(function (ctx, next) {
+  server.on('request', lws._getRequestHandler(function (ctx, next) {
     ctx.status = 999
     next()
   }))
