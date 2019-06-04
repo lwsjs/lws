@@ -6,7 +6,7 @@
     * [Lws](#exp_module_lws--Lws) ⏏
         * [new Lws([options])](#new_module_lws--Lws_new)
         * [.server](#module_lws--Lws+server) : <code>Server</code>
-        * [.middlewareStack](#module_lws--Lws+middlewareStack) : <code>MiddlewareStack</code>
+        * [.stack](#module_lws--Lws+stack) : <code>MiddlewareStack</code>
         * [.config](#module_lws--Lws+config) : <code>object</code>
         * [.getDefaultConfig()](#module_lws--Lws+getDefaultConfig) ⇒ <code>object</code>
         * [.setConfig(config)](#module_lws--Lws+setConfig) ⇒ <code>object</code>
@@ -51,9 +51,9 @@ Returns a listening HTTP/HTTPS/HTTP2 server.
 The HTTP, HTTPS or HTTP2 server.
 
 **Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
-<a name="module_lws--Lws+middlewareStack"></a>
+<a name="module_lws--Lws+stack"></a>
 
-#### lws.middlewareStack : <code>MiddlewareStack</code>
+#### lws.stack : <code>MiddlewareStack</code>
 The middleware plugin stack.
 
 **Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  

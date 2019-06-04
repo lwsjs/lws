@@ -34,6 +34,23 @@ tom.test('One middleware', async function () {
   a.strictEqual(body, 'one')
 })
 
+tom.test('middleware args', async function () {
+  const port = 9800 + this.index
+  const actuals = []
+  class One {
+    middleware (config, lws) {
+      actuals.push(config, lws)
+    }
+  }
+  const lws = Lws.create({
+    port,
+    stack: One
+  })
+  lws.server.close()
+  a.strictEqual(actuals[0].port, port)
+  a.strictEqual(actuals[1], lws)
+})
+
 tom.test('Two middlewares', async function () {
   const port = 9800 + this.index
   class One {

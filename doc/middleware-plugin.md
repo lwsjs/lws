@@ -51,4 +51,5 @@ Return one or more options definitions to collect command-line input.
 Return one of more Koa middleware functions. Optionally, emit `verbose` events to `ctx.app`.
 
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
-**Params**: [options] {object} - A config object.  
+**Params**: <code>object</code> - The active config object.  
+**Params**: <code>Lws</code> - The active `lws` instance.  

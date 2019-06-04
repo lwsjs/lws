@@ -137,7 +137,7 @@ class Lws extends EventEmitter {
   useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
     this.setStack()
-    const middlewares = this.stack.getMiddlewareFunctions(this.config)
+    const middlewares = this.stack.getMiddlewareFunctions(this.config, this)
     this.server.on('request', this.getRequestHandler(middlewares))
   }
 
