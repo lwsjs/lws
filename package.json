@@ -1,7 +1,7 @@
 {
   "name": "lws",
   "author": "Lloyd Brookes <75pound@gmail.com>",
-  "version": "2.0.0-8",
+  "version": "2.0.0-9",
   "description": "The modular web server for productive full-stack development",
   "repository": "https://github.com/lwsjs/lws.git",
   "license": "MIT",
