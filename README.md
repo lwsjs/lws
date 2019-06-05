@@ -7,9 +7,9 @@
 
 # lws
 
-**Documentation work in progress.**
+***This documentation is a work in progress.***
 
-Lws is tool designed for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 server on the command line. It's intended to facilitate rapid, full-stack Javascript development.
+Lws is a tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 server. It's intended to facilitate rapid, full-stack Javascript development. It has a lean core and plugin architecture giving the engineer full control of how HTTP requests are handled and responses created.
 
 On top of launching a server you can:
 
@@ -26,7 +26,7 @@ $ lws
 Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200:8000
 ```
 
-Add some middleware to serve static files and directory listings.
+Install and use some middleware to serve static files and directory listings.
 
 ```
 $ npm install --save-dev lws-static lws-index

@@ -159,18 +159,19 @@ class Lws extends EventEmitter {
     function socketProperties (socket) {
       const byteSize = require('byte-size')
       return {
-        socketId: socket.id,
         bytesRead: byteSize(socket.bytesRead).toString(),
-        bytesWritten: byteSize(socket.bytesWritten).toString()
+        bytesWritten: byteSize(socket.bytesWritten).toString(),
+        bufferSize: socket.bufferSize ? byteSize(socket.bufferSize).toString() : socket.bufferSize,
+        localAddress: socket.localAddress,
+        localPort: socket.localPort,
+        remoteAddress: socket.remoteAddress,
+        remotePort: socket.remotePort
       }
     }
-
-    let cId = 1
 
     /* stream connection events */
     const server = this.server
     server.on('connection', socket => {
-      socket.id = cId++
       this.emit('verbose', 'server.socket.new', socketProperties(socket))
       socket.on('connect', () => {
         this.emit('verbose', 'server.socket.connect', socketProperties(socket))
@@ -197,11 +198,6 @@ class Lws extends EventEmitter {
 
     server.on('close', () => {
       this.emit('verbose', 'server.close')
-    })
-
-    let requestId = 1
-    server.on('request', req => {
-      req.requestId = requestId++
     })
 
     /* on server-up message */
