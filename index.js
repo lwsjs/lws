@@ -118,7 +118,6 @@ class Lws extends EventEmitter {
 
   /**
    * Attach the Middleware stack to the server.
-   * @param [options] {object} - Arbitrary options to be passed into the middleware functions.
    */
   useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
