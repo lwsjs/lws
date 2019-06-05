@@ -51,7 +51,7 @@ tom.test('--help', async function () {
   })
   cli.start()
   process.argv = origArgv
-  a.ok(/modular web server/.test(usage))
+  a.ok(/Synopsis/.test(usage))
 })
 
 tom.test('--version', async function () {
