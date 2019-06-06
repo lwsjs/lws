@@ -5,6 +5,25 @@ const EventEmitter = require('events')
 /**
  * An application shell for building a modular HTTP, HTTPS or HTTP2 local web server.
  * @module lws
+ * @example
+ * // Middleware to handle requests
+ * class Greeter {
+ *   middleware () {
+ *     return (ctx, next) => {
+ *       ctx.body = 'Hello!'
+ *       next()
+ *     }
+ *   }
+ * }
+ *
+ * // Launch a HTTP server with the Greeter middleware attached
+ * const lws = Lws.create({ stack: Greeter })
+ *
+ * // $ curl http://127.0.0.1:8000
+ * // Hello!
+ *
+ * // shutdown
+ * lws.server.close()
  */
 
 /**
@@ -18,19 +37,19 @@ class Lws extends EventEmitter {
   constructor (config) {
     super()
     /**
-     * The HTTP, HTTPS or HTTP2 server.
+     * The output of Node's standard http, https or http2 `.createServer()` method. Created and set by `lws.createServer()`.
      * @type {Server}
      */
     this.server = null
 
     /**
-     * The middleware plugin stack.
+     * The middleware plugin stack as defined by the config. Created and set by `lws.useMiddlewareStack()`.
      * @type {MiddlewareStack}
      */
     this.stack = null
 
     /**
-     * Active config.
+     * The active lws config.
      * @type {LwsConfig}
      */
     this.config = null
@@ -87,7 +106,7 @@ class Lws extends EventEmitter {
   }
 
   /**
-   * Create a HTTP, HTTPS or HTTP2 server, depending on config. Returns the output of Node's standard http, https or http2 `.createServer()` method.
+   * Create a HTTP, HTTPS or HTTP2 server, depending on config. Returns the output of Node's standard http, https or http2 `.createServer()` method also assigning it to `lws.server`.
    * @returns {Server}
    */
   createServer () {
@@ -118,7 +137,7 @@ class Lws extends EventEmitter {
   }
 
   /**
-   * Attach the Middleware stack to the server.
+   * Attach the Middleware stack to the server. Must be run after `lws.createServer()`.
    */
   useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
@@ -140,7 +159,7 @@ class Lws extends EventEmitter {
     const app = new Koa()
     app.on('error', err => {
       /**
-       * Highly-verbose debug information event stream.
+       * An event stream of debug information.
        *
        * @event module:lws#verbose
        * @param key {string} - An identifying string, e.g. `server.socket.data`.
@@ -248,7 +267,7 @@ class Lws extends EventEmitter {
   }
 
   /**
-   * Launch a listening HTTP, HTTPS or HTTP2 configured as specified.
+   * Launch a listening HTTP, HTTPS or HTTP2 server configured as specified by the supplied config.
    * @param config {LwsConfig}
    * @returns {Lws}
    */
