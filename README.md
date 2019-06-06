@@ -48,7 +48,7 @@ $ lws --stack lws-static lws-index
 Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200:8000
 ```
 
-The file system from the current directory will now be available to explore at `http://127.0.0.1:8000`.
+The current directory will now be available to explore at `http://127.0.0.1:8000`.
 
 Install and use logging middleware. Note the `lws-` prefix is optional when supplying module names to `--stack`.
 
@@ -61,7 +61,7 @@ Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200
 ::ffff:127.0.0.1 - GET /package.json HTTP/1.1 200 399 - 1.478 ms
 ```
 
-### Creating a middleware plugin
+### Creating a custom middleware plugin
 
 Lws uses Koa as its middleware engine. Here is a trivial plugin example, save the following code as `example-middleware.js`:
 
