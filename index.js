@@ -3,6 +3,7 @@ const t = require('typical')
 const EventEmitter = require('events')
 
 /**
+ * An application shell for building a modular HTTP, HTTPS or HTTP2 local web server.
  * @module lws
  */
 
@@ -11,7 +12,7 @@ const EventEmitter = require('events')
  * @emits verbose
  */
 class Lws extends EventEmitter {
-   /**
+  /**
     * @param {LwsConfig} - Server config.
     */
   constructor (config) {
@@ -38,7 +39,7 @@ class Lws extends EventEmitter {
   }
 
   /**
-   * Get built-in defaults.
+   * Get built-in defaults. Overwrite this method to change the built-in defaults.
    * @returns {object}
    * @ignore
    */
@@ -154,19 +155,39 @@ class Lws extends EventEmitter {
     return app.callback()
   }
 
+  /**
+   * Attach the view specified in the config.
+   */
+  useView () {
+    const config = this.config
+    if (config.view) {
+      if (typeof config.view === 'string') {
+        const ViewPlugin = require('./lib/view/view-plugin')
+        const ViewClass = ViewPlugin.load(config.view, {
+          paths: config.moduleDir,
+          prefix: config.modulePrefix
+        })
+        config.view = new ViewClass()
+      }
+      this.on('verbose', (key, value) => {
+        config.view.write(key, value, config)
+      })
+    }
+  }
+
   /* Pipe server events into 'verbose' event stream */
   _propagateServerEvents () {
     function socketProperties (socket) {
       const byteSize = require('byte-size')
-      return {
+      const output = {
         bytesRead: byteSize(socket.bytesRead).toString(),
         bytesWritten: byteSize(socket.bytesWritten).toString(),
-        bufferSize: socket.bufferSize ? byteSize(socket.bufferSize).toString() : socket.bufferSize,
-        localAddress: socket.localAddress,
-        localPort: socket.localPort,
-        remoteAddress: socket.remoteAddress,
-        remotePort: socket.remotePort
+        remoteAddress: socket.remoteAddress
       }
+      if (socket.bufferSize) {
+        output.bufferSize = byteSize(socket.bufferSize).toString()
+      }
+      return output
     }
 
     /* stream connection events */
@@ -226,23 +247,16 @@ class Lws extends EventEmitter {
     interval.unref()
   }
 
+  /**
+   * Launch a listening HTTP, HTTPS or HTTP2 configured as specified.
+   * @param config {LwsConfig}
+   * @returns {Lws}
+   */
   static create (config) {
     const lws = new this(config)
 
-    /* attach view */
-    if (config.view) {
-      if (typeof config.view === 'string') {
-        const ViewPlugin = require('./lib/view/view-plugin')
-        const ViewClass = ViewPlugin.load(config.view, {
-          paths: config.moduleDir,
-          prefix: config.modulePrefix
-        })
-        config.view = new ViewClass()
-      }
-      lws.on('verbose', (key, value) => {
-        config.view.write(key, value, config)
-      })
-    }
+    /* attach the view */
+    lws.useView()
 
     /* create a HTTP, HTTPS or HTTP2 server */
     lws.createServer()

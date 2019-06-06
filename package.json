@@ -22,7 +22,7 @@
   "scripts": {
     "test": "test-runner test/*.js",
     "cover": "TESTOPEN=true nyc -r html -r text npm test && nyc report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc2md lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
+    "docs": "jsdoc2md lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md --private index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
   },
   "files": [
     "index.js",

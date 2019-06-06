@@ -9,7 +9,7 @@
 
 ***This documentation is a work in progress.***
 
-Lws is a tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 server. It's intended to facilitate rapid, full-stack Javascript development. Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, activity visualised etc.
+Lws is a tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 local web server. It's intended to facilitate rapid, full-stack Javascript development. Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, activity visualised etc.
 
 Core features.
 
@@ -67,8 +67,8 @@ Lws uses Koa as its middleware engine. Here is a trivial plugin example, save th
 
 ```js
 class ExamplePlugin {
-  middleware (config, lws) {
-    return function (ctx, next) {
+  middleware () {
+    return function (ctx) {
       ctx.body = 'Hello from lws!'
     }
   }
@@ -86,6 +86,13 @@ Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200
 $ curl http://127.0.0.1:8000
 Hello from lws!
 ```
+
+## Documentation 
+
+* [Tutorials](https://github.com/lwsjs/lws/wiki)
+* [Lws API](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
+* [Middleware plugin API](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
+* [View plugin API](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
 
 * * *
 
