@@ -9,12 +9,14 @@
 
 ***This documentation is a work in progress.***
 
-Lws is a tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 local web server. It's intended to facilitate rapid, full-stack Javascript development. Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, activity visualised etc.
+A tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 local web server. It's intended to facilitate rapid, full-stack Web Platform development.
+
+Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, caches controlled, activity visualised etc.
 
 Core features.
 
 * Launch an HTTP, HTTPS or HTTP2 server.
-* Use one or more custom or pre-built middleware plugins to attach only the behaviour required by your specific project.
+* Use one or more custom or pre-built middleware plugins to attach the behaviour required by your project.
 * Attach a custom view to personalise how activity is visualised.
 * Store config at any level - project, user or system.
 * Programmatic and command-line APIs.
@@ -63,7 +65,7 @@ Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200
 
 ### Creating a custom middleware plugin
 
-Lws uses Koa as its middleware engine. Here is a trivial plugin example, save the following code as `example-middleware.js`:
+Lws uses [Koa](https://github.com/koajs/koa/) as its middleware engine. Here is a trivial plugin example, save the following code as `example-middleware.js`:
 
 ```js
 class ExamplePlugin {
