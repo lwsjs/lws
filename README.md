@@ -90,9 +90,10 @@ Hello from lws!
 ## Documentation 
 
 * [Tutorials](https://github.com/lwsjs/lws/wiki)
-* [Lws API](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
-* [Middleware plugin API](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
-* [View plugin API](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
+* API Reference
+    * [Lws](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
+    * [Middleware plugin](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
+    * [View plugin](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
 
 * * *
 

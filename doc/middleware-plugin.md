@@ -27,7 +27,7 @@ module.exports = Greeter
     * [MiddlewarePlugin](#exp_module_middleware-plugin--MiddlewarePlugin) ⏏
         * [.description()](#module_middleware-plugin--MiddlewarePlugin+description)
         * [.optionDefinitions()](#module_middleware-plugin--MiddlewarePlugin+optionDefinitions) ⇒ <code>OptionDefinition</code> \| <code>Array.&lt;OptionDefinition&gt;</code>
-        * [.middleware()](#module_middleware-plugin--MiddlewarePlugin+middleware) ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
+        * [.middleware(config, lws)](#module_middleware-plugin--MiddlewarePlugin+middleware) ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
 
 <a name="exp_module_middleware-plugin--MiddlewarePlugin"></a>
 
@@ -47,9 +47,13 @@ Return one or more options definitions to collect command-line input.
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
 <a name="module_middleware-plugin--MiddlewarePlugin+middleware"></a>
 
-#### middlewarePlugin.middleware() ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
+#### middlewarePlugin.middleware(config, lws) ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
 Return one of more Koa middleware functions. Optionally, emit `verbose` events to `ctx.app`.
 
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
-**Params**: <code>object</code> - The active config object.  
-**Params**: <code>Lws</code> - The active `lws` instance.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| config | <code>object</code> | The active config object. |
+| lws | <code>Lws</code> | The active `lws` instance. |
+

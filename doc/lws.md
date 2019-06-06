@@ -47,6 +47,8 @@ lws.server.close()
 <a name="new_module_lws--Lws_new"></a>
 
 #### new Lws(config)
+Contructs an empty `Lws` instance but does not initialise it. Use the `Lws.create(config)` factory method to create, initialise and launch a lws server.
+
 
 | Param | Type | Description |
 | --- | --- | --- |

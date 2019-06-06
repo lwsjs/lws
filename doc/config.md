@@ -1,6 +1,8 @@
 <a name="module_lws-config"></a>
 
 ## lws-config
+The lws configuration options.
+
 
 * [lws-config](#module_lws-config)
     * [LwsConfig](#exp_module_lws-config--LwsConfig) ⏏

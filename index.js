@@ -32,8 +32,9 @@ const EventEmitter = require('events')
  */
 class Lws extends EventEmitter {
   /**
-    * @param {LwsConfig} - Server config.
-    */
+   * Contructs an empty `Lws` instance but does not initialise it. Use the `Lws.create(config)` factory method to create, initialise and launch a lws server.
+   * @param {LwsConfig} - Server config.
+   */
   constructor (config) {
     super()
     /**
