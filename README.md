@@ -9,7 +9,7 @@
 
 ***This documentation is a work in progress.***
 
-A tool for quickly launching a personalised Node.js HTTP, HTTPS or HTTP2 local web server. It's intended to facilitate rapid, full-stack Web Platform development.
+A modular HTTP, HTTPS and HTTP2 command-line web server for personalised, full-stack web development.
 
 Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, caches controlled, activity visualised etc.
 
