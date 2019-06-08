@@ -38,7 +38,7 @@
     "command-line-usage": "^5.0.5",
     "create-mixin": "^2.0.1",
     "koa": "^2.7.0",
-    "load-module": "^2.0.0",
+    "load-module": "^2.0.1",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^1.0.1",
     "open": "^6.3.0",
@@ -47,9 +47,9 @@
     "walk-back": "^3.0.1"
   },
   "devDependencies": {
-    "coveralls": "^3.0.3",
+    "coveralls": "^3.0.4",
     "jsdoc-to-markdown": "^5.0.0",
-    "lws-static": "^1.0.0",
+    "lws-static": "^1.1.0",
     "node-fetch": "^2.6.0",
     "nyc": "^14.1.1",
     "sleep-anywhere": "^1.1.2",
