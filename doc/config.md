@@ -18,7 +18,7 @@ The lws configuration options.
         * [.pfx](#module_lws-config--LwsConfig+pfx) : <code>string</code>
         * [.ciphers](#module_lws-config--LwsConfig+ciphers) : <code>string</code>
         * [.secureProtocol](#module_lws-config--LwsConfig+secureProtocol) : <code>string</code>
-        * [.stack](#module_lws-config--LwsConfig+stack) : <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;MiddlewarePlugin&gt;</code>
+        * [.stack](#module_lws-config--LwsConfig+stack) : <code>Array.&lt;string&gt;</code> \| [<code>Array.&lt;MiddlewarePlugin&gt;</code>](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
         * [.moduleDir](#module_lws-config--LwsConfig+moduleDir) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
         * [.modulePrefix](#module_lws-config--LwsConfig+modulePrefix) : <code>string</code>
         * [.view](#module_lws-config--LwsConfig+view) : <code>string</code>
@@ -104,7 +104,7 @@ Optional SSL method to use.
 **Kind**: instance property of [<code>LwsConfig</code>](#exp_module_lws-config--LwsConfig)  
 <a name="module_lws-config--LwsConfig+stack"></a>
 
-#### lwsConfig.stack : <code>Array.&lt;string&gt;</code> \| <code>Array.&lt;MiddlewarePlugin&gt;</code>
+#### lwsConfig.stack : <code>Array.&lt;string&gt;</code> \| [<code>Array.&lt;MiddlewarePlugin&gt;</code>](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
 Array of middleware classes, or filenames of modules exporting a middleware class.
 
 **Kind**: instance property of [<code>LwsConfig</code>](#exp_module_lws-config--LwsConfig)  

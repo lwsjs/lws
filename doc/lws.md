@@ -52,7 +52,7 @@ Contructs an empty `Lws` instance but does not initialise it. Use the `Lws.creat
 
 | Param | Type | Description |
 | --- | --- | --- |
-| config | <code>LwsConfig</code> | Server config. |
+| config | [<code>LwsConfig</code>](https://github.com/lwsjs/lws/blob/master/doc/config.md) | Server config. |
 
 <a name="module_lws--Lws+server"></a>
 
