@@ -7,11 +7,9 @@
 
 # lws
 
-***This documentation is a work in progress.***
-
 A lean, modular web server for rapid full-stack development.
 
-Lws is a core for quickly launching a local web server. Behaviour is added via plugins giving you full control over how requests are processed and responses created.
+Lws is an application core for quickly launching a local web server. Behaviour is added via plugins giving you full control over how requests are processed and responses created.
 
 * Supports HTTP, HTTPS and HTTP2.
 * Small and 100% personalisable. Load and use only the behaviour required by your project.
@@ -88,11 +86,15 @@ Hello from lws!
 
 ## Documentation 
 
-* [Tutorials](https://github.com/lwsjs/lws/wiki)
 * API Reference
     * [Lws](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
     * [Middleware plugin](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
     * [View plugin](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
+
+## See also
+
+* [lws plugin list](https://npms.io/search?q=keywords%3Alws-middleware). 
+* [local-web-server](https://github.com/lwsjs/local-web-server), an lws distribution with the most common plugins already installed.
 
 * * *
 
