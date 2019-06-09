@@ -9,16 +9,15 @@
 
 ***This documentation is a work in progress.***
 
-A modular HTTP, HTTPS and HTTP2 command-line web server for personalised, full-stack web development.
+A lean, modular web server for rapid full-stack development.
 
-Its has a very lean core - behaviour is added via plugins giving you full control over what features are activated, how HTTP requests are handled, responses created, caches controlled, activity visualised etc.
+Lws is a core for quickly launching a local web server. Behaviour is added via plugins giving you full control over how requests are processed and responses created.
 
 Core features.
 
-* Launch an HTTP, HTTPS or HTTP2 server.
-* Use one or more custom or pre-built middleware plugins to attach the behaviour required by your project.
+* Supports HTTP, HTTPS and HTTP2.
+* Small and 100% personalisable. Load and use only the behaviour required by your project.
 * Attach a custom view to personalise how activity is visualised.
-* Store config at any level - project, user or system.
 * Programmatic and command-line APIs.
 
 ## Synopsis
