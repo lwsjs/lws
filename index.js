@@ -27,6 +27,11 @@ const EventEmitter = require('events')
  */
 
 /**
+ * @external LwsConfig
+ * @see https://github.com/lwsjs/lws/blob/master/doc/config.md
+ */
+
+/**
  * @alias module:lws
  * @emits verbose
  */
@@ -51,7 +56,7 @@ class Lws extends EventEmitter {
 
     /**
      * The active lws config.
-     * @type {LwsConfig}
+     * @type {external:LwsConfig}
      */
     this.config = null
 
@@ -73,8 +78,7 @@ class Lws extends EventEmitter {
 
   /**
    * Merge supplied config with defaults and stored config.
-   * @param {object}
-   * @returns {object}
+   * @param {external:LwsConfig}
    * @ignore
    */
   _setConfig (config = {}) {
@@ -269,7 +273,7 @@ class Lws extends EventEmitter {
 
   /**
    * Launch a listening HTTP, HTTPS or HTTP2 server configured as specified by the supplied config.
-   * @param config {LwsConfig}
+   * @param config {external:LwsConfig}
    * @returns {Lws}
    */
   static create (config) {

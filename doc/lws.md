@@ -31,7 +31,7 @@ lws.server.close()
         * _instance_
             * [.server](#module_lws--Lws+server) : <code>Server</code>
             * [.stack](#module_lws--Lws+stack) : <code>MiddlewareStack</code>
-            * [.config](#module_lws--Lws+config) : <code>LwsConfig</code>
+            * [.config](#module_lws--Lws+config) : [<code>LwsConfig</code>](https://github.com/lwsjs/lws/blob/master/doc/config.md)
             * [.createServer()](#module_lws--Lws+createServer) ⇒ <code>Server</code>
             * [.useMiddlewareStack()](#module_lws--Lws+useMiddlewareStack)
             * [.useView()](#module_lws--Lws+useView)
@@ -68,7 +68,7 @@ The middleware plugin stack as defined by the config. Created and set by `lws.us
 **Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
 <a name="module_lws--Lws+config"></a>
 
-#### lws.config : <code>LwsConfig</code>
+#### lws.config : [<code>LwsConfig</code>](https://github.com/lwsjs/lws/blob/master/doc/config.md)
 The active lws config.
 
 **Kind**: instance property of [<code>Lws</code>](#exp_module_lws--Lws)  
@@ -111,5 +111,5 @@ Launch a listening HTTP, HTTPS or HTTP2 server configured as specified by the su
 
 | Param | Type |
 | --- | --- |
-| config | <code>LwsConfig</code> | 
+| config | [<code>LwsConfig</code>](https://github.com/lwsjs/lws/blob/master/doc/config.md) | 
 

@@ -13,8 +13,6 @@ A lean, modular web server for rapid full-stack development.
 
 Lws is a core for quickly launching a local web server. Behaviour is added via plugins giving you full control over how requests are processed and responses created.
 
-Core features.
-
 * Supports HTTP, HTTPS and HTTP2.
 * Small and 100% personalisable. Load and use only the behaviour required by your project.
 * Attach a custom view to personalise how activity is visualised.
@@ -40,7 +38,7 @@ Listening at https://mba4.local:8000, https://127.0.0.1:8000, https://192.168.0.
 
 ### Using middleware plugins
 
-Install and use some middleware to serve static files and directory listings.
+Install and use some middleware ([lws-static](https://github.com/lwsjs/static) and [lws-index](https://github.com/lwsjs/index)) to serve static files and directory listings.
 
 ```
 $ npm install --save-dev lws-static lws-index
