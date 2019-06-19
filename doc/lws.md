@@ -1,7 +1,14 @@
 <a name="module_lws"></a>
 
 ## lws
-An application shell for building a modular HTTP, HTTPS or HTTP2 local web server.
+A lean, modular web server for rapid full-stack development.
+
+Lws is an application core for quickly launching a local web server. Behaviour is added via plugins giving you full control over how requests are processed and responses created.
+
+* Supports HTTP, HTTPS and HTTP2.
+* Small and 100% personalisable. Load and use only the behaviour required by your project.
+* Attach a custom view to personalise how activity is visualised.
+* Programmatic and command-line APIs.
 
 **Example**  
 ```js
