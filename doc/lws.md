@@ -15,9 +15,9 @@ Lws is an application core for quickly launching a local web server. Behaviour i
 // Middleware to handle requests
 class Greeter {
   middleware () {
-    return (ctx, next) => {
-      ctx.body = 'Hello!'
-      next()
+    return async (ctx, next) => {
+      ctx.response.body = 'Hello!'
+      await next()
     }
   }
 }

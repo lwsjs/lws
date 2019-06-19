@@ -17,9 +17,9 @@ const EventEmitter = require('events')
  * // Middleware to handle requests
  * class Greeter {
  *   middleware () {
- *     return (ctx, next) => {
- *       ctx.body = 'Hello!'
- *       next()
+ *     return async (ctx, next) => {
+ *       ctx.response.body = 'Hello!'
+ *       await next()
  *     }
  *   }
  * }
