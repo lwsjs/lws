@@ -48,12 +48,12 @@ Return one or more [OptionDefinition](https://github.com/75lb/command-line-args/
 <a name="module_middleware-plugin--MiddlewarePlugin+middleware"></a>
 
 #### middlewarePlugin.middleware(config, lws) ⇒ <code>function</code> \| <code>Array.&lt;function()&gt;</code>
-Return one of more Koa middleware functions. Optionally, emit `verbose` events to `ctx.app`.
+Return one of more [Koa middleware functions](https://github.com/koajs/koa/blob/master/docs/guide.md).
 
 **Kind**: instance method of [<code>MiddlewarePlugin</code>](#exp_module_middleware-plugin--MiddlewarePlugin)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| config | <code>object</code> | The active config object. |
-| lws | <code>Lws</code> | The active `lws` instance. |
+| config | <code>object</code> | The active `lws` config object. |
+| lws | <code>Lws</code> | The active `lws` instance. Typically, only required for access to `lws.server`. |
 
