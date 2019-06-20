@@ -65,8 +65,9 @@ Lws uses [Koa](https://github.com/koajs/koa/) as its middleware engine. Here is 
 ```js
 class ExamplePlugin {
   middleware () {
-    return function (ctx) {
+    return async (ctx, next) => {
       ctx.body = 'Hello from lws!'
+      await next()
     }
   }
 }
@@ -82,6 +83,12 @@ Listening at http://mba4.local:8000, http://127.0.0.1:8000, http://192.168.0.200
 
 $ curl http://127.0.0.1:8000
 Hello from lws!
+```
+
+## Install
+
+```
+$ npm install --save-dev lws
 ```
 
 ## Documentation 
