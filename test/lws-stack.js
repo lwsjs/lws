@@ -115,3 +115,44 @@ tom.test('Load one middleware', async function () {
   lws.server.close()
   a.strictEqual(response.status, 200)
 })
+
+tom.test('Invalid middleware: wrong type', async function () {
+  const port = 9800 + this.index
+  const One = false
+  a.throws(
+    () => {
+      Lws.create({
+        port,
+        stack: One
+      })
+    },
+    /Invalid middleware/
+  )
+})
+
+tom.test('Invalid middleware: no middleware method', async function () {
+  const port = 9800 + this.index
+  class One {}
+  a.throws(
+    () => {
+      Lws.create({
+        port,
+        stack: One
+      })
+    },
+    /Invalid middleware/
+  )
+})
+
+tom.test('Invalid middleware: loaded, no middleware method', async function () {
+  const port = 9800 + this.index
+  a.throws(
+    () => {
+      Lws.create({
+        port,
+        stack: 'test/fixture/invalid.js'
+      })
+    },
+    /Invalid middleware/
+  )
+})

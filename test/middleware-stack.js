@@ -6,7 +6,9 @@ const EventEmitter = require('events')
 const tom = module.exports = new Tom('middleware-stack')
 
 tom.test('from', async function () {
-  class One {}
+  class One {
+    middleware () {}
+  }
   const stack = MiddlewareStack.from([ One ])
   a.strictEqual(stack[0].constructor.name, 'One')
 })
@@ -30,7 +32,9 @@ tom.test('get middleware functions', async function () {
 })
 
 tom.test('from: class and module', async function () {
-  class One {}
+  class One {
+    middleware () {}
+  }
   const stack = MiddlewareStack.from([ One, 'test/fixture/middleware.js' ])
   a.strictEqual(stack.length, 2)
   a.strictEqual(stack[0].constructor.name, 'One')
