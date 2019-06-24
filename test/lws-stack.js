@@ -13,6 +13,14 @@ tom.test('No middleware', async function () {
   a.strictEqual(response.status, 404)
 })
 
+tom.test('empty stack array', async function () {
+  const port = 9800 + this.index
+  const lws = Lws.create({ port, stack: [] })
+  const response = await fetch(`http://localhost:${port}/`)
+  lws.server.close()
+  a.strictEqual(response.status, 404)
+})
+
 tom.test('One middleware', async function () {
   const port = 9800 + this.index
   class One {

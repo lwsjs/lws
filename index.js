@@ -266,6 +266,43 @@ class Lws extends EventEmitter {
       this.emit('verbose', 'server.listening', ipList)
     })
 
+    /* TLS events */
+    server.on('keylog', (line, tlsSocket) => {
+      this.emit('verbose', 'server.tls.keylog', {
+        line: line.toString(),
+        remoteAddress: tlsSocket.remoteAddress
+      })
+    })
+    server.on('newSession', (sessionId, sessionData, done) => {
+      this.emit('verbose', 'server.tls.newSession', {
+        sessionId,
+        sessionData
+      })
+      done()
+    })
+    server.on('resumeSession', (sessionId, done) => {
+      this.emit('verbose', 'server.tls.resumeSession', {
+        sessionId
+      })
+      done()
+    })
+    server.on('OCSPRequest', (certificate, issuer, done) => {
+      this.emit('verbose', 'server.tls.OCSPRequest', {
+        certificate,
+        issuer
+      })
+      done()
+    })
+    server.on('secureConnection', (tlsSocket) => {
+      const { authorized, authorizationError, alpnProtocol, servername } = tlsSocket
+      this.emit('verbose', 'server.tls.secureConnection', {
+        authorized,
+        authorizationError,
+        alpnProtocol,
+        servername
+      })
+    })
+
     /* emit memory usage stats every 30s */
     const interval = setInterval(() => {
       const byteSize = require('byte-size')
