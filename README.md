@@ -34,6 +34,8 @@ $ lws --http2
 Listening at https://mba4.local:8000, https://127.0.0.1:8000, https://192.168.0.200:8000
 ```
 
+Now your server is running, the next step is to attach some middleware to process requests.
+
 ### Using middleware plugins
 
 Install and use some middleware ([lws-static](https://github.com/lwsjs/static) and [lws-index](https://github.com/lwsjs/index)) to serve static files and directory listings.

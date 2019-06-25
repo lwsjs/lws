@@ -245,7 +245,7 @@ class Lws extends EventEmitter {
         this.emit('verbose', 'server.socket.end', socketProperties(socket))
       })
       socket.on('error', function (err) {
-        this.emit('verbose', 'server.socket.error', { err })
+        this.emit('verbose', 'server.socket.error', err)
       })
     })
 
@@ -301,6 +301,10 @@ class Lws extends EventEmitter {
         alpnProtocol,
         servername
       })
+    })
+
+    server.on('error', err => {
+      this.emit('verbose', 'server.error', err)
     })
 
     /* emit memory usage stats every 30s */
