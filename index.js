@@ -222,9 +222,9 @@ class Lws extends EventEmitter {
       return output
     }
 
-    /* stream connection events */
     const server = this.server
     server.on('connection', socket => {
+      /* socket events */
       this.emit('verbose', 'server.socket.new', socketProperties(socket))
       socket.on('connect', () => {
         this.emit('verbose', 'server.socket.connect', socketProperties(socket))
