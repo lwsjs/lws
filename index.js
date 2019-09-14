@@ -269,18 +269,6 @@ class Lws extends EventEmitter {
     server.on('error', err => {
       this.emit('verbose', 'server.error', err)
     })
-
-    /* emit memory usage stats every 30s */
-    const interval = setInterval(() => {
-      const byteSize = require('byte-size')
-      const memUsage = process.memoryUsage()
-      memUsage.rss = byteSize(memUsage.rss).toString()
-      memUsage.heapTotal = byteSize(memUsage.heapTotal).toString()
-      memUsage.heapUsed = byteSize(memUsage.heapUsed).toString()
-      memUsage.external = byteSize(memUsage.external).toString()
-      this.emit('verbose', 'process.memoryUsage', memUsage)
-    }, 60000)
-    interval.unref()
   }
 
   /**
