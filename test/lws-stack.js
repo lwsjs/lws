@@ -79,7 +79,7 @@ tom.test('Two middlewares', async function () {
   }
   const lws = Lws.create({
     port,
-    stack: [ One, Two ]
+    stack: [One, Two]
   })
   const response = await fetch(`http://localhost:${port}`)
   lws.server.close()

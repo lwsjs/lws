@@ -9,7 +9,7 @@ tom.test('from', async function () {
   class One {
     middleware () {}
   }
-  const stack = MiddlewareStack.from([ One ])
+  const stack = MiddlewareStack.from([One])
   a.strictEqual(stack[0].constructor.name, 'One')
 })
 
@@ -24,7 +24,7 @@ tom.test('get middleware functions', async function () {
       // empty
     }
   }
-  const stack = MiddlewareStack.from([ One, Two ])
+  const stack = MiddlewareStack.from([One, Two])
   const middlewares = stack.getMiddlewareFunctions({ one: 1 })
   a.strictEqual(middlewares.length, 1)
   a.strictEqual(middlewares[0].name, 'oneMiddleware')
@@ -35,7 +35,7 @@ tom.test('from: class and module', async function () {
   class One {
     middleware () {}
   }
-  const stack = MiddlewareStack.from([ One, 'test/fixture/middleware.js' ])
+  const stack = MiddlewareStack.from([One, 'test/fixture/middleware.js'])
   a.strictEqual(stack.length, 2)
   a.strictEqual(stack[0].constructor.name, 'One')
   a.strictEqual(stack[1].constructor.name, 'Two')
@@ -48,10 +48,10 @@ tom.test('events propagated from middleware functions to stack', async function 
       this.emit('verbose', 'one', 'two')
     }
   }
-  const stack = MiddlewareStack.from([ One, 'test/fixture/middleware.js' ])
+  const stack = MiddlewareStack.from([One, 'test/fixture/middleware.js'])
   stack.on('verbose', (key, value) => {
     actuals.push(key, value)
   })
   stack.getMiddlewareFunctions()
-  a.deepStrictEqual(actuals, [ 'one', 'two', 'test', 'test' ])
+  a.deepStrictEqual(actuals, ['one', 'two', 'test', 'test'])
 })

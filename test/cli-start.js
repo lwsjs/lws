@@ -8,7 +8,7 @@ const tom = module.exports = new Tom('cli.start')
 tom.test('bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
   const origExitCode = process.exitCode
-  process.argv = [ 'node', 'something', '--should-fail' ]
+  process.argv = ['node', 'something', '--should-fail']
   let logMsg = ''
   const cli = new LwsCli({
     logError: function (msg) { logMsg = msg }
@@ -24,7 +24,7 @@ tom.test('port not available', async function () {
   const actuals = []
   const origArgv = process.argv.slice()
   const origExitCode = process.exitCode
-  process.argv = [ 'node', 'something', '--port', `${port}` ]
+  process.argv = ['node', 'something', '--port', `${port}`]
   const cli = new LwsCli({ logError: function () {} })
   const server = cli.start()
   const server2 = cli.start()
@@ -42,7 +42,7 @@ tom.test('port not available', async function () {
 
 tom.test('--help', async function () {
   const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--help' ]
+  process.argv = ['node', 'something', '--help']
   let usage = null
   const cli = new LwsCli({
     log: function (msg) {
@@ -59,7 +59,7 @@ tom.test('--version', async function () {
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
   })
-  cli.start([ '--version' ])
+  cli.start(['--version'])
   const version = require('../package.json').version
   a.strictEqual(version, logMsg.trim())
 })
@@ -69,7 +69,7 @@ tom.test('--config', async function () {
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
   })
-  cli.start([ '--config', '--https' ])
+  cli.start(['--config', '--https'])
   a.ok(/https/.test(logMsg))
 })
 
@@ -78,7 +78,7 @@ if (process.env.TESTOPEN) {
     const cli = new LwsCli({
       log: function () { }
     })
-    const server = cli.start([ '--open' ])
+    const server = cli.start(['--open'])
     server.close()
   })
 
@@ -86,7 +86,7 @@ if (process.env.TESTOPEN) {
     const cli = new LwsCli({
       log: function () { }
     })
-    const server = cli.start([ '--open', '--https' ])
+    const server = cli.start(['--open', '--https'])
     server.close()
   })
 }

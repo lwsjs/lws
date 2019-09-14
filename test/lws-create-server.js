@@ -94,7 +94,7 @@ tom.test('create HTTPS server, getRequestHandler', async function () {
 
 tom.test('createServer, use lws-static', async function () {
   const lws = new Lws({
-    stack: [ 'lws-static' ],
+    stack: ['lws-static'],
     directory: 'test/fixture'
   })
   const port = 9900 + this.index
@@ -110,7 +110,7 @@ tom.test('createServer, use lws-static 2', async function () {
   const lws = new Lws({
     directory: 'test/fixture',
     moduleDir: '.',
-    stack: [ 'lws-static' ]
+    stack: ['lws-static']
   })
   const port = 9900 + this.index
   const server = lws.createServer()

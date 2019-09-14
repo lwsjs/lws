@@ -16,7 +16,7 @@ tom.test('simple http', async function () {
     }
   }
   const lws = Lws.create({
-    stack: [ One ],
+    stack: [One],
     port: port
   })
   const response = await fetch(`http://127.0.0.1:${port}`)
@@ -38,7 +38,7 @@ tom.test('hostname', async function () {
     }
   }
   const lws = Lws.create({
-    stack: [ One ],
+    stack: [One],
     port: port,
     hostname: 'localhost'
   })
@@ -68,7 +68,7 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
     }
   }
   const lws = Lws.create({
-    stack: [ One ],
+    stack: [One],
     port: port,
     maxConnections: 11,
     keepAliveTimeout: 10001

@@ -7,8 +7,9 @@ class Two extends EventEmitter {
       ctx.body = 'two'
     }
   }
+
   optionDefinitions () {
-    return [ { name: 'something' } ]
+    return [{ name: 'something' }]
   }
 }
 

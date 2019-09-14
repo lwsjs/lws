@@ -16,7 +16,7 @@ tom.test('one middleware', async function () {
     }
   }
   const lws = Lws.create({
-    stack: [ One ],
+    stack: [One],
     port: port
   })
   const response = await fetch(`http://127.0.0.1:${port}`)

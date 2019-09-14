@@ -80,7 +80,7 @@ class Lws extends EventEmitter {
     return {
       port: 8000,
       modulePrefix: 'lws-',
-      moduleDir: [ '.' ]
+      moduleDir: ['.']
     }
   }
 
@@ -258,7 +258,7 @@ class Lws extends EventEmitter {
       const isSecure = t.isDefined(server.addContext)
       let ipList
       if (this.config.hostname) {
-        ipList = [ `${isSecure ? 'https' : 'http'}://${this.config.hostname}:${this.config.port}` ]
+        ipList = [`${isSecure ? 'https' : 'http'}://${this.config.hostname}:${this.config.port}`]
       } else {
         ipList = util.getIPList()
           .map(iface => `${isSecure ? 'https' : 'http'}://${iface.address}:${this.config.port}`)

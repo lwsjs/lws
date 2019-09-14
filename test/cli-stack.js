@@ -8,7 +8,7 @@ const tom = module.exports = new Tom('cli-stack')
 tom.test('no middleware', async function () {
   const port = 9300 + this.index
   const origArgv = process.argv.slice()
-  process.argv = [ 'node', 'something', '--port', `${port}` ]
+  process.argv = ['node', 'something', '--port', `${port}`]
   const cli = new LwsCli({
     logError: function () {}
   })
@@ -22,7 +22,7 @@ tom.test('no middleware', async function () {
 tom.test('one middleware', async function () {
   const port = 9300 + this.index
   const cli = new LwsCli({ logError: function () {} })
-  const server = cli.start([ '--port', `${port}`, '--stack', 'test/fixture/one.js' ])
+  const server = cli.start(['--port', `${port}`, '--stack', 'test/fixture/one.js'])
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
@@ -32,7 +32,7 @@ tom.test('one middleware', async function () {
 tom.test('two middlewares', async function () {
   const port = 9300 + this.index
   const cli = new LwsCli({ logErrorx: function () {} })
-  const argv = [ '--port', `${port}`, '--stack', 'test/fixture/one.js', 'test/fixture/two.js' ]
+  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', 'test/fixture/two.js']
   const server = cli.start(argv)
   const response = await fetch(`http://localhost:${port}`)
   server.close()
@@ -43,8 +43,8 @@ tom.test('two middlewares', async function () {
 tom.test('one middleware with cli option', async function () {
   const port = 9300 + this.index
   const cli = new LwsCli({ logError: function () {} })
-  const argv = [ '--port', `${port}`, '--stack', 'test/fixture/one.js', '--something', 'yeah' ]
-  let server = cli.start(argv)
+  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', '--something', 'yeah']
+  const server = cli.start(argv)
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()

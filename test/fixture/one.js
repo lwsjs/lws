@@ -7,7 +7,7 @@ class One {
   }
 
   optionDefinitions () {
-    return [ { name: 'something' } ]
+    return [{ name: 'something' }]
   }
 }
 
