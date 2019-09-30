@@ -38,7 +38,7 @@
     "command-line-usage": "^6.0.2",
     "create-mixin": "^2.0.1",
     "koa": "^2.8.2",
-    "load-module": "^2.0.1",
+    "load-module": "^2.0.2",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^1.0.1",
     "open": "^6.4.0",
