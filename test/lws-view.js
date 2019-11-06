@@ -3,7 +3,7 @@ const a = require('assert')
 const Lws = require('../')
 const sleep = require('sleep-anywhere')
 
-const tom = module.exports = new Tom('lws-view')
+const tom = module.exports = new Tom()
 
 tom.test('custom view write', async function () {
   const actuals = []

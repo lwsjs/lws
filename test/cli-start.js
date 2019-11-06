@@ -3,7 +3,7 @@ const a = require('assert')
 const LwsCli = require('../lib/cli-app')
 const sleep = require('sleep-anywhere')
 
-const tom = module.exports = new Tom('cli.start')
+const tom = module.exports = new Tom()
 
 tom.test('bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()

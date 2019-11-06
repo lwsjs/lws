@@ -3,7 +3,7 @@ const a = require('assert')
 const Lws = require('../index')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('config')
+const tom = module.exports = new Tom()
 
 tom.test('configFile', async function () {
   const port = 9900 + this.index

@@ -3,7 +3,7 @@ const a = require('assert')
 const Lws = require('../index')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('lws-create-server')
+const tom = module.exports = new Tom()
 
 const https = require('https')
 const agent = new https.Agent({

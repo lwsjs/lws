@@ -3,7 +3,7 @@ const a = require('assert')
 const Lws = require('../index')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('Lws-create')
+const tom = module.exports = new Tom()
 
 tom.test('one middleware', async function () {
   const port = 9400 + this.index

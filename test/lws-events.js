@@ -5,7 +5,7 @@ const fetch = require('node-fetch')
 const sleep = require('sleep-anywhere')
 const EventEmitter = require('events')
 
-const tom = module.exports = new Tom('events')
+const tom = module.exports = new Tom()
 
 tom.test('server-factory config event', async function () {
   const port = 9930 + this.index

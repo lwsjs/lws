@@ -3,7 +3,7 @@ const LwsCli = require('../lib/cli-app')
 const a = require('assert')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('cli-stack')
+const tom = module.exports = new Tom()
 
 tom.test('no middleware', async function () {
   const port = 9300 + this.index

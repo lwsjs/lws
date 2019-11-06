@@ -2,7 +2,7 @@ const Tom = require('test-runner').Tom
 const a = require('assert')
 const CliView = require('../lib/view/cli-view.js')
 
-const tom = module.exports = new Tom('cli-view')
+const tom = module.exports = new Tom()
 
 tom.test('verbose write', async function () {
   let logMsg = ''

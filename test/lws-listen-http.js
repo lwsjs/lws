@@ -3,7 +3,7 @@ const Lws = require('../')
 const a = require('assert')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('http')
+const tom = module.exports = new Tom()
 
 tom.test('simple http', async function () {
   const port = 9100 + this.index

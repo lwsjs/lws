@@ -3,7 +3,7 @@ const Lws = require('../')
 const a = require('assert')
 const fetch = require('node-fetch')
 
-const tom = module.exports = new Tom('https')
+const tom = module.exports = new Tom()
 
 const https = require('https')
 const agent = new https.Agent({

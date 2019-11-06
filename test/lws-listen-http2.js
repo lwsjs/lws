@@ -3,7 +3,7 @@ const Lws = require('../')
 const a = require('assert')
 const http2 = require('http2')
 
-const tom = module.exports = new Tom('http2')
+const tom = module.exports = new Tom()
 
 async function fetchHttp2 (host, path) {
   return new Promise((resolve, reject) => {
@@ -31,7 +31,7 @@ async function fetchHttp2 (host, path) {
 }
 
 tom.test('--http2', async function () {
-  const port = 9300 + this.index
+  const port = 9350 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -53,7 +53,7 @@ tom.test('--http2', async function () {
 })
 
 tom.test('--http2 --key and --cert', async function () {
-  const port = 9300 + this.index
+  const port = 9350 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -76,7 +76,7 @@ tom.test('--http2 --key and --cert', async function () {
 })
 
 tom.test('--http2 --pfx', async function () {
-  const port = 9300 + this.index
+  const port = 9350 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -98,7 +98,7 @@ tom.test('--http2 --pfx', async function () {
 })
 
 tom.test('--http2 --pfx, --max-connections', async function () {
-  const port = 9300 + this.index
+  const port = 9350 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -122,7 +122,7 @@ tom.test('--http2 --pfx, --max-connections', async function () {
 })
 
 tom.test('--http2 --pfx, --keep-alive-timeout', async function () {
-  const port = 9300 + this.index
+  const port = 9350 + this.index
   class One {
     middleware (options) {
       return (ctx, next) => {

@@ -4,7 +4,7 @@ const a = require('assert')
 const MiddlewareStack = require('../lib/middleware-stack')
 const EventEmitter = require('events')
 
-const tom = module.exports = new Tom('deepMerge')
+const tom = module.exports = new Tom()
 
 tom.test('simple', function () {
   const result = util.deepMerge(

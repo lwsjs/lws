@@ -3,7 +3,7 @@ const a = require('assert')
 const MiddlewareStack = require('../lib/middleware-stack')
 const EventEmitter = require('events')
 
-const tom = module.exports = new Tom('middleware-stack')
+const tom = module.exports = new Tom()
 
 tom.test('from', async function () {
   class One {
