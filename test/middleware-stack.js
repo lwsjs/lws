@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const MiddlewareStack = require('../lib/middleware-stack')
 const EventEmitter = require('events')
 
@@ -10,7 +10,7 @@ tom.test('from', async function () {
     middleware () {}
   }
   const stack = MiddlewareStack.from([One])
-  a.strictEqual(stack[0].constructor.name, 'One')
+  a.equal(stack[0].constructor.name, 'One')
 })
 
 tom.test('get middleware functions', async function () {
@@ -26,9 +26,9 @@ tom.test('get middleware functions', async function () {
   }
   const stack = MiddlewareStack.from([One, Two])
   const middlewares = stack.getMiddlewareFunctions({ one: 1 })
-  a.strictEqual(middlewares.length, 1)
-  a.strictEqual(middlewares[0].name, 'oneMiddleware')
-  a.strictEqual(middlewares[0](), 1)
+  a.equal(middlewares.length, 1)
+  a.equal(middlewares[0].name, 'oneMiddleware')
+  a.equal(middlewares[0](), 1)
 })
 
 tom.test('from: class and module', async function () {
@@ -36,9 +36,9 @@ tom.test('from: class and module', async function () {
     middleware () {}
   }
   const stack = MiddlewareStack.from([One, 'test/fixture/middleware.js'])
-  a.strictEqual(stack.length, 2)
-  a.strictEqual(stack[0].constructor.name, 'One')
-  a.strictEqual(stack[1].constructor.name, 'Two')
+  a.equal(stack.length, 2)
+  a.equal(stack[0].constructor.name, 'One')
+  a.equal(stack[1].constructor.name, 'Two')
 })
 
 tom.test('events propagated from middleware functions to stack', async function () {
@@ -53,5 +53,5 @@ tom.test('events propagated from middleware functions to stack', async function 
     actuals.push(key, value)
   })
   stack.getMiddlewareFunctions()
-  a.deepStrictEqual(actuals, ['one', 'two', 'test', 'test'])
+  a.deepEqual(actuals, ['one', 'two', 'test', 'test'])
 })

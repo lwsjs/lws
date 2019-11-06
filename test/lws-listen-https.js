@@ -1,6 +1,6 @@
 const Tom = require('test-runner').Tom
 const Lws = require('../')
-const a = require('assert')
+const a = require('assert').strict
 const fetch = require('node-fetch')
 
 const tom = module.exports = new Tom()
@@ -27,9 +27,9 @@ tom.test('--https', async function () {
   })
   const response = await fetch(`https://localhost:${port}`, { agent })
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })
 
 tom.test('--key and --cert', async function () {
@@ -50,9 +50,9 @@ tom.test('--key and --cert', async function () {
   })
   const response = await fetch(`https://localhost:${port}`, { agent })
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })
 
 tom.test('--pfx', async function () {
@@ -72,9 +72,9 @@ tom.test('--pfx', async function () {
   })
   const response = await fetch(`https://localhost:${port}`, { agent })
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })
 
 tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
@@ -94,11 +94,11 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
     maxConnections: 11,
     keepAliveTimeout: 10001
   })
-  a.strictEqual(lws.server.keepAliveTimeout, 10001)
-  a.strictEqual(lws.server.maxConnections, 11)
+  a.equal(lws.server.keepAliveTimeout, 10001)
+  a.equal(lws.server.maxConnections, 11)
   const response = await fetch(`https://localhost:${port}`, { agent })
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })

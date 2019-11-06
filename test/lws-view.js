@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const Lws = require('../')
 const sleep = require('sleep-anywhere')
 
@@ -21,5 +21,5 @@ tom.test('custom view write', async function () {
   })
   lws.server.close()
   await sleep(10)
-  a.strictEqual(actuals[0], 'server.config')
+  a.equal(actuals[0], 'server.config')
 })

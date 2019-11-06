@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const Lws = require('../index')
 const fetch = require('node-fetch')
 
@@ -14,7 +14,7 @@ tom.test('configFile', async function () {
   })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'two')
+  a.equal(body, 'two')
 })

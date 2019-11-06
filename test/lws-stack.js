@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const fetch = require('node-fetch')
 const Lws = require('../index')
 
@@ -10,7 +10,7 @@ tom.test('No middleware', async function () {
   const lws = Lws.create({ port })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
-  a.strictEqual(response.status, 404)
+  a.equal(response.status, 404)
 })
 
 tom.test('empty stack array', async function () {
@@ -18,7 +18,7 @@ tom.test('empty stack array', async function () {
   const lws = Lws.create({ port, stack: [] })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
-  a.strictEqual(response.status, 404)
+  a.equal(response.status, 404)
 })
 
 tom.test('One middleware', async function () {
@@ -37,9 +37,9 @@ tom.test('One middleware', async function () {
   })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })
 
 tom.test('middleware args', async function () {
@@ -55,8 +55,8 @@ tom.test('middleware args', async function () {
     stack: One
   })
   lws.server.close()
-  a.strictEqual(actuals[0].port, port)
-  a.strictEqual(actuals[1], lws)
+  a.equal(actuals[0].port, port)
+  a.equal(actuals[1], lws)
 })
 
 tom.test('Two middlewares', async function () {
@@ -84,7 +84,7 @@ tom.test('Two middlewares', async function () {
   const response = await fetch(`http://localhost:${port}`)
   lws.server.close()
   const body = await response.text()
-  a.strictEqual(body, 'onetwo')
+  a.equal(body, 'onetwo')
 })
 
 tom.test('Broken middleware', async function () {
@@ -102,7 +102,7 @@ tom.test('Broken middleware', async function () {
   })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
-  a.strictEqual(response.status, 500)
+  a.equal(response.status, 500)
 })
 
 tom.test('Load one middleware', async function () {
@@ -113,7 +113,7 @@ tom.test('Load one middleware', async function () {
   })
   const response = await fetch(`http://localhost:${port}/package.json`)
   lws.server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
 })
 
 tom.test('Invalid middleware: wrong type', async function () {

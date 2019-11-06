@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const CliView = require('../lib/view/cli-view.js')
 
 const tom = module.exports = new Tom()

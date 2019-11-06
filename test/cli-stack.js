@@ -1,6 +1,6 @@
 const Tom = require('test-runner').Tom
 const LwsCli = require('../lib/cli-app')
-const a = require('assert')
+const a = require('assert').strict
 const fetch = require('node-fetch')
 
 const tom = module.exports = new Tom()
@@ -16,7 +16,7 @@ tom.test('no middleware', async function () {
   process.argv = origArgv
   const response = await fetch(`http://127.0.0.1:${port}/`)
   server.close()
-  a.strictEqual(response.status, 404)
+  a.equal(response.status, 404)
 })
 
 tom.test('one middleware', async function () {
@@ -26,7 +26,7 @@ tom.test('one middleware', async function () {
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
-  a.strictEqual(body, 'one')
+  a.equal(body, 'one')
 })
 
 tom.test('two middlewares', async function () {
@@ -37,7 +37,7 @@ tom.test('two middlewares', async function () {
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
-  a.strictEqual(body, 'onetwo')
+  a.equal(body, 'onetwo')
 })
 
 tom.test('one middleware with cli option', async function () {
@@ -48,5 +48,5 @@ tom.test('one middleware with cli option', async function () {
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
-  a.strictEqual(body, 'yeah')
+  a.equal(body, 'yeah')
 })

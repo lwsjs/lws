@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const Lws = require('../index')
 const fetch = require('node-fetch')
 
@@ -45,9 +45,9 @@ tom.test('configFile', async function () {
   lws.useMiddlewareStack()
   const response = await fetch(`http://localhost:${port}/`)
   server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
   const body = await response.text()
-  a.strictEqual(body, 'two')
+  a.equal(body, 'two')
 })
 
 tom.test('create server', async function () {
@@ -61,7 +61,7 @@ tom.test('create server', async function () {
   })
   const response = await fetch(`http://localhost:${port}/`)
   server.close()
-  a.strictEqual(response.status, 999)
+  a.equal(response.status, 999)
 })
 
 tom.test('createServer, getRequestHandler', async function () {
@@ -75,7 +75,7 @@ tom.test('createServer, getRequestHandler', async function () {
   }))
   const response = await fetch(`http://localhost:${port}/`)
   server.close()
-  a.strictEqual(response.status, 999)
+  a.equal(response.status, 999)
 })
 
 tom.test('create HTTPS server, getRequestHandler', async function () {
@@ -89,7 +89,7 @@ tom.test('create HTTPS server, getRequestHandler', async function () {
   }))
   const response = await fetch(`https://localhost:${port}/`, { agent })
   server.close()
-  a.strictEqual(response.status, 999)
+  a.equal(response.status, 999)
 })
 
 tom.test('createServer, use lws-static', async function () {
@@ -103,7 +103,7 @@ tom.test('createServer, use lws-static', async function () {
   server.listen(port)
   const response = await fetch(`http://localhost:${port}/one.js`)
   server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
 })
 
 tom.test('createServer, use lws-static 2', async function () {
@@ -118,5 +118,5 @@ tom.test('createServer, use lws-static 2', async function () {
   server.listen(port)
   const response = await fetch(`http://localhost:${port}/one.js`)
   server.close()
-  a.strictEqual(response.status, 200)
+  a.equal(response.status, 200)
 })

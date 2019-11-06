@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const LwsCli = require('../lib/cli-app')
 const sleep = require('sleep-anywhere')
 
@@ -34,7 +34,7 @@ tom.test('port not available', async function () {
     server2.close()
   })
   await sleep(10)
-  a.deepStrictEqual(actuals.length, 1)
+  a.deepEqual(actuals.length, 1)
   a.ok(/EADDRINUSE/.test(actuals[0]))
   process.argv = origArgv
   process.exitCode = origExitCode
@@ -61,7 +61,7 @@ tom.test('--version', async function () {
   })
   cli.start(['--version'])
   const version = require('../package.json').version
-  a.strictEqual(version, logMsg.trim())
+  a.equal(version, logMsg.trim())
 })
 
 tom.test('--config', async function () {

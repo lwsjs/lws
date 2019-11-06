@@ -53,6 +53,6 @@
     "node-fetch": "^2.6.0",
     "nyc": "^14.1.1",
     "sleep-anywhere": "^1.1.2",
-    "test-runner": "^0.7.0"
+    "test-runner": "^0.7.2"
   }
 }

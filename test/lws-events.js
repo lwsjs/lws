@@ -1,5 +1,5 @@
 const Tom = require('test-runner').Tom
-const a = require('assert')
+const a = require('assert').strict
 const Lws = require('../index')
 const fetch = require('node-fetch')
 const sleep = require('sleep-anywhere')
@@ -21,7 +21,7 @@ tom.test('server-factory config event', async function () {
   lws.createServer()
   lws.useMiddlewareStack()
   lws.server.close()
-  a.deepStrictEqual(actuals, [
+  a.deepEqual(actuals, [
     'server.config',
     {
       maxConnections: 11,
@@ -44,7 +44,7 @@ tom.test('server.listening event', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals, ['server.listening', 'server.close'])
+  a.deepEqual(actuals, ['server.listening', 'server.close'])
 })
 
 tom.test('middleware plugin "verbose" event', async function () {
@@ -65,7 +65,7 @@ tom.test('middleware plugin "verbose" event', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals, ['something.test'])
+  a.deepEqual(actuals, ['something.test'])
 })
 
 tom.test('ctx.app event', async function () {
@@ -104,7 +104,7 @@ tom.test('view receives verbose events', async function () {
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals[0], { key: 'something.test', value: 1 })
+  a.deepEqual(actuals[0], { key: 'something.test', value: 1 })
 })
 
 tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
@@ -126,5 +126,5 @@ tom.test('view receives verbose events, input MiddlewareStack instance', async f
   await sleep(10)
   lws.server.close()
   await sleep(10)
-  a.deepStrictEqual(actuals[0], { key: 'something.test', value: 1 })
+  a.deepEqual(actuals[0], { key: 'something.test', value: 1 })
 })

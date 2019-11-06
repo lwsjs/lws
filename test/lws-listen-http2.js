@@ -1,6 +1,6 @@
 const Tom = require('test-runner').Tom
 const Lws = require('../')
-const a = require('assert')
+const a = require('assert').strict
 const http2 = require('http2')
 
 const tom = module.exports = new Tom()
@@ -48,8 +48,8 @@ tom.test('--http2', async function () {
 
   const response = await fetchHttp2(`https://localhost:${port}`, '/')
   lws.server.close()
-  a.strictEqual(response.headers[':status'], 200)
-  a.strictEqual(response.body, 'one')
+  a.equal(response.headers[':status'], 200)
+  a.equal(response.body, 'one')
 })
 
 tom.test('--http2 --key and --cert', async function () {
@@ -71,8 +71,8 @@ tom.test('--http2 --key and --cert', async function () {
   })
   const response = await fetchHttp2(`https://localhost:${port}`, '/')
   lws.server.close()
-  a.strictEqual(response.headers[':status'], 200)
-  a.strictEqual(response.body, 'one')
+  a.equal(response.headers[':status'], 200)
+  a.equal(response.body, 'one')
 })
 
 tom.test('--http2 --pfx', async function () {
@@ -93,8 +93,8 @@ tom.test('--http2 --pfx', async function () {
   })
   const response = await fetchHttp2(`https://localhost:${port}`, '/')
   lws.server.close()
-  a.strictEqual(response.headers[':status'], 200)
-  a.strictEqual(response.body, 'one')
+  a.equal(response.headers[':status'], 200)
+  a.equal(response.body, 'one')
 })
 
 tom.test('--http2 --pfx, --max-connections', async function () {

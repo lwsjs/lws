@@ -1,6 +1,6 @@
 const Tom = require('test-runner').Tom
 const util = require('../lib/util')
-const a = require('assert')
+const a = require('assert').strict
 const MiddlewareStack = require('../lib/middleware-stack')
 const EventEmitter = require('events')
 
@@ -12,7 +12,7 @@ tom.test('simple', function () {
     { stack: ['one'] },
     { stack: ['two'], help: true }
   )
-  a.deepStrictEqual(result, {
+  a.deepEqual(result, {
     port: 8000,
     stack: ['two'],
     help: true
@@ -25,10 +25,10 @@ tom.test('arrays: new array does not overwrite if it is empty', function () {
     { stack },
     { stack: [] }
   )
-  a.deepStrictEqual(result, {
+  a.deepEqual(result, {
     stack: ['one']
   })
-  a.strictEqual(result.stack, stack)
+  a.equal(result.stack, stack)
 })
 
 tom.test('arrays 2: later array overwrites if it has items', function () {
@@ -36,7 +36,7 @@ tom.test('arrays 2: later array overwrites if it has items', function () {
     { stack: [] },
     { stack: ['one'] }
   )
-  a.deepStrictEqual(result, {
+  a.deepEqual(result, {
     stack: ['one']
   })
 })
@@ -46,7 +46,7 @@ tom.test('arrays 3: later array overwrites if it has items', function () {
     { stack: ['two'] },
     { stack: ['one'] }
   )
-  a.deepStrictEqual(result, {
+  a.deepEqual(result, {
     stack: ['one']
   })
 })
@@ -62,5 +62,5 @@ tom.test('stack: new instance not created', function () {
     { stack },
     { stack: [] }
   )
-  a.strictEqual(result.stack, stack)
+  a.equal(result.stack, stack)
 })
