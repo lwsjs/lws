@@ -93,7 +93,7 @@ Hello from lws!
 $ npm install --save-dev lws
 ```
 
-## Documentation 
+## Documentation
 
 * API Reference
     * [Lws](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
@@ -102,9 +102,9 @@ $ npm install --save-dev lws
 
 ## See also
 
-* [lws plugin list](https://npms.io/search?q=keywords%3Alws-middleware). 
+* [lws plugin list](https://npms.io/search?q=keywords%3Alws-middleware).
 * [local-web-server](https://github.com/lwsjs/local-web-server), an lws distribution with the most common plugins already installed.
 
 * * *
 
-&copy; 2016-19 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
+&copy; 2016-20 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).

@@ -31,7 +31,7 @@ tom.test('one middleware', async function () {
 
 tom.test('two middlewares', async function () {
   const port = 9300 + this.index
-  const cli = new LwsCli({ logErrorx: function () {} })
+  const cli = new LwsCli({ logError: function () {} })
   const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', 'test/fixture/two.js']
   const server = cli.start(argv)
   const response = await fetch(`http://localhost:${port}`)
