@@ -256,10 +256,10 @@ class Lws extends EventEmitter {
     /* on server-up message */
     server.on('listening', () => {
       const isSecure = t.isDefined(server.addContext)
-      let ipList
-      ipList = util
-        .getIPList(this.config.hostname)
-        .map(iface => `${isSecure ? 'https' : 'http'}://${iface.address}:${this.config.port}`)
+      const ipList = util.getIPList(this.config.hostname)
+      for (const i of ipList) {
+        i.url = `${isSecure ? 'https' : 'http'}://${i.address}:${this.config.port}`
+      }
       this.emit('verbose', 'server.listening', ipList)
     })
 
