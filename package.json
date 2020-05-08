@@ -42,6 +42,7 @@
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^2.0.1",
     "open": "^7.0.3",
+    "qrcode-terminal": "^0.12.0",
     "reduce-flatten": "^3.0.0",
     "typical": "^6.0.0",
     "walk-back": "^4.0.0"
