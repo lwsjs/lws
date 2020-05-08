@@ -52,6 +52,6 @@ Development principles to follow.
 * Feel free to add yourself to the `contributors` array, e.g.:
     ```
     "contributors": [
-      "Roger Exampleton <roger@example.com> (http://example.com)"
+      "Roger Exampleton <roger@example.com> (http://example.com)
     ]
     ```
