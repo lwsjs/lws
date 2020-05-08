@@ -50,7 +50,6 @@ Development principles to follow.
 * Use a `"files"` array to keep package size down
 * Use `npm run` scripts for automated tasks rather than gulp, grunt etc.
 * Feel free to add yourself to the `contributors` array, e.g.:
-
     ```
     "contributors": [
       "Roger Exampleton <roger@example.com> (http://example.com)
