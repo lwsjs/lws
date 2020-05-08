@@ -20,7 +20,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "test": "test-runner test/*.js",
+    "test": "test-runner test/*.js test/internals/*.js",
     "cover": "TESTOPEN=true nyc -r html -r text npm test && nyc report --reporter=text-lcov | coveralls",
     "docs": "jsdoc2md lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md --private index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
   },
@@ -41,17 +41,17 @@
     "load-module": "^3.0.0",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^2.0.1",
-    "open": "^7.0.2",
+    "open": "^7.0.3",
     "reduce-flatten": "^3.0.0",
     "typical": "^6.0.0",
     "walk-back": "^4.0.0"
   },
   "devDependencies": {
-    "coveralls": "^3.0.9",
+    "coveralls": "^3.1.0",
     "jsdoc-to-markdown": "^5.0.3",
     "lws-static": "^2.0.0",
     "node-fetch": "^2.6.0",
-    "nyc": "^15.0.0",
+    "nyc": "^15.0.1",
     "sleep-anywhere": "^1.1.3",
     "test-runner": "^0.8.13"
   }
