@@ -13,9 +13,9 @@ Guidance when submitting work.
 
 ### Design decisions
 
-* Please discuss and agree design decisions with a maintainer first, before implementing.
-* Check the planned work is within the scope of the project. It may be preferable to split the work into a separate plugin or project.
-* Check the planned work benefits all users, or at least the majority. Edge case features should live in an optional plugin.
+* Please discuss and agree non-trivial design decisions with a maintainer first, before implementing.
+* Check the planned work is within the scope of the project (it may be preferable to split the work into a separate plugin or project).
+* Check the planned work benefits all users, or at least the majority (edge case features should live in an optional plugin).
 
 ## Style
 
@@ -52,6 +52,22 @@ Development principles to follow.
 * Feel free to add yourself to the `contributors` array, e.g.:
     ```
     "contributors": [
-      "Roger Exampleton <roger@example.com> (http://example.com)
+      "Roger Exampleton <roger@example.com> (http://example.com)"
     ]
+    ```
+
+### Development tools
+
+* De-lint your work using the [standard command-line tool](https://standardjs.com/) but don't install it into the project. It should be part of your regular command-line toolkit (like `mv` and `ls`), there's no need to copy it into every project. Install it globally: `npm install -g standard`.
+
+### Continuous Integration
+
+* Currently, Travis is used for CI although open to suggestion if superior options are available.
+* The travis file should cover all supported, stable versions of Node.js plus the latest, bleeding-edge version. Example:
+    ```
+    language: node_js
+    node_js:
+      - 10
+      - 12
+      - 14
     ```
