@@ -25,9 +25,9 @@ tom.test('printNetworkInterfaces', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "172.17.1.1", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '172.17.1.1', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printNetworkInterfaces(mockIpList)
   a.ok(/Available network interfaces/.test(logMsg))
@@ -47,9 +47,9 @@ tom.test('resolvePrivateAddress corrupt-network-interfaces', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const corruptedMockIpList = [
-    { name: "en0", url: "http://1.1.1.1:8888" },
-    { name: "en1", url: "http://2.2.2.2:8888" },
-    { name: "en2", url: "http://3.3.3.3:8888" }
+    { name: 'en0', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', url: 'http://3.3.3.3:8888' }
   ]
   view.resolvePrivateAddress(corruptedMockIpList)
   a.ok(/does not have a valid IP address or name/.test(logMsg))
@@ -58,9 +58,9 @@ tom.test('resolvePrivateAddress corrupt-network-interfaces', async function () {
 tom.test('resolvePrivateAddress partially-corrupt-address-network-interfaces', async function () {
   const view = new CliView()
   const corruptedMockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   const ip = view.resolvePrivateAddress(corruptedMockIpList)
   a.ok(/1\.1\.1\.1/.test(ip.address))
@@ -69,9 +69,9 @@ tom.test('resolvePrivateAddress partially-corrupt-address-network-interfaces', a
 tom.test('resolvePrivateAddress partially-corrupt-name-network-interfaces', async function () {
   const view = new CliView()
   const corruptedMockIpList = [
-    { address: "192.168.1.0", url: "http://192.168.1.0:8888" },
-    { name: "en1", address: "10.10.10.10", url: "http://10.10.10.10:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { address: '192.168.1.0', url: 'http://192.168.1.0:8888' },
+    { name: 'en1', address: '10.10.10.10', url: 'http://10.10.10.10:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   const ip = view.resolvePrivateAddress(corruptedMockIpList)
   a.ok(/10\.10\.10\.10/.test(ip.address))
@@ -82,9 +82,9 @@ tom.test('resolvePrivateAddress resolve-private-network-interface', async functi
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
 
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "172.17.1.1", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '172.17.1.1', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   const ip = view.resolvePrivateAddress(mockIpList)
   a.ok(/172\.17\.1\.1/.test(ip.address))
@@ -101,11 +101,11 @@ tom.test('printAddressQRCode not-found-iface', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "2.2.2.2", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
-  view.printAddressQRCode("en-1", mockIpList)
+  view.printAddressQRCode('en-1', mockIpList)
   a.ok(/uknown --qr network_interface/.test(logMsg))
 })
 
@@ -113,9 +113,9 @@ tom.test('printAddressQRCode automatically-iface-interface-not-found', async fun
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const corruptedMockIpList = [
-    { name: "en0", url: "http://1.1.1.1:8888" },
-    { name: "en1", url: "http://2.2.2.2:8888" },
-    { name: "en2", url: "http://3.3.3.3:8888" }
+    { name: 'en0', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, corruptedMockIpList)
   a.ok(/could not find a network interface/.test(logMsg))
@@ -125,11 +125,11 @@ tom.test('printAddressQRCode valid-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "2.2.2.2", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
-  view.printAddressQRCode("en0", mockIpList)
+  view.printAddressQRCode('en0', mockIpList)
   a.ok(/Scan this QR/.test(logMsg))
   a.ok(/QR Code URL: http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
@@ -138,9 +138,9 @@ tom.test('printAddressQRCode valid-not-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "2.2.2.2", url: "http://2.2.2.2:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
   a.ok(/Scan this QR/.test(logMsg))
@@ -151,9 +151,9 @@ tom.test('printAddressQRCode valid-not-provided-ordered-interface', async functi
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
-    { name: "en0", address: "1.1.1.1", url: "http://1.1.1.1:8888" },
-    { name: "en1", address: "172.17.1.1", url: "http://172.17.1.1:8888" },
-    { name: "en2", address: "3.3.3.3", url: "http://3.3.3.3:8888" }
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '172.17.1.1', url: 'http://172.17.1.1:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
   a.ok(/Scan this QR/.test(logMsg))
