@@ -42,6 +42,7 @@
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^2.0.1",
     "open": "^7.0.3",
+    "qrcode-terminal": "^0.12.0",
     "reduce-flatten": "^3.0.0",
     "typical": "^6.0.0",
     "walk-back": "^4.0.0"
@@ -54,5 +55,8 @@
     "nyc": "^15.0.1",
     "sleep-anywhere": "^1.1.3",
     "test-runner": "^0.8.13"
-  }
+  },
+  "contributors": [
+    "Tiago Stutz <tiagostutz@gmail.com.br> (https://github.com/labbsr0x)"
+  ]
 }
