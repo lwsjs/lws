@@ -117,7 +117,6 @@ tom.test('printAddressQRCode valid-provided-interface', async function () {
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode('en0', mockIpList)
-  a.ok(/Scan this QR/.test(logMsg))
   a.ok(/QR Code URL: http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
@@ -130,7 +129,6 @@ tom.test('printAddressQRCode valid-not-provided-interface', async function () {
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
-  a.ok(/Scan this QR/.test(logMsg))
   a.ok(/QR Code URL: http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
@@ -143,6 +141,5 @@ tom.test('printAddressQRCode valid-not-provided-ordered-interface', async functi
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
-  a.ok(/Scan this QR/.test(logMsg))
   a.ok(/QR Code URL: http:\/\/172\.17\.1\.1:8888/.test(logMsg))
 })
