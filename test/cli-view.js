@@ -90,8 +90,10 @@ tom.test('printAddressQRCode not-found-iface', async function () {
     { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
-  view.printAddressQRCode('en-1', mockIpList)
-  a.ok(/uknown --qr network_interface/.test(logMsg))
+  a.throws(
+    () => view.printAddressQRCode('en-1', mockIpList),
+    /Unknown network interface/
+  )
 })
 
 tom.test('printAddressQRCode automatically-iface-interface-not-found', async function () {
