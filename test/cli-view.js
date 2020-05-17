@@ -104,8 +104,10 @@ tom.test('printAddressQRCode automatically-iface-interface-not-found', async fun
     { name: 'en1', url: 'http://2.2.2.2:8888' },
     { name: 'en2', url: 'http://3.3.3.3:8888' }
   ]
-  view.printAddressQRCode(null, corruptedMockIpList)
-  a.ok(/could not find a network interface/.test(logMsg))
+  a.throws(
+    () => view.printAddressQRCode(null, corruptedMockIpList),
+    /Could not find a default network interface/
+  )
 })
 
 tom.test('printAddressQRCode valid-provided-interface', async function () {
@@ -117,7 +119,7 @@ tom.test('printAddressQRCode valid-provided-interface', async function () {
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode('en0', mockIpList)
-  a.ok(/QR Code URL: http:\/\/1\.1\.1\.1:8888/.test(logMsg))
+  a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
 tom.test('printAddressQRCode valid-not-provided-interface', async function () {
@@ -129,7 +131,7 @@ tom.test('printAddressQRCode valid-not-provided-interface', async function () {
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
-  a.ok(/QR Code URL: http:\/\/1\.1\.1\.1:8888/.test(logMsg))
+  a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
 tom.test('printAddressQRCode valid-not-provided-ordered-interface', async function () {
@@ -141,5 +143,5 @@ tom.test('printAddressQRCode valid-not-provided-ordered-interface', async functi
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
-  a.ok(/QR Code URL: http:\/\/172\.17\.1\.1:8888/.test(logMsg))
+  a.ok(/http:\/\/172\.17\.1\.1:8888/.test(logMsg))
 })
