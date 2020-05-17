@@ -21,21 +21,6 @@ tom.test('middleware.error write', async function () {
   a.ok(/test error/.test(logMsg))
 })
 
-tom.test('printNetworkInterfaces', async function () {
-  let logMsg = ''
-  const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
-  const mockIpList = [
-    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
-    { name: 'en1', address: '172.17.1.1', url: 'http://2.2.2.2:8888' },
-    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
-  ]
-  view.printNetworkInterfaces(mockIpList)
-  a.ok(/Available network interfaces/.test(logMsg))
-  a.ok(/en0/.test(logMsg))
-  a.ok(/en1/.test(logMsg))
-  a.ok(/en2/.test(logMsg))
-})
-
 tom.test('resolvePrivateAddress no-private-address', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })

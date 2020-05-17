@@ -73,6 +73,16 @@ tom.test('--config', async function () {
   a.ok(/https/.test(logMsg))
 })
 
+tom.test('--list-network-interfaces', async function () {
+  let logMsg = ''
+  const cli = new LwsCli({
+    log: function (msg) { logMsg = msg }
+  })
+  cli.start(['--list-network-interfaces'])
+  a.ok(/Available network interfaces/.test(logMsg))
+  a.ok(/en0/.test(logMsg))
+})
+
 if (process.env.TESTOPEN) {
   tom.test('--open', async function () {
     const cli = new LwsCli({
