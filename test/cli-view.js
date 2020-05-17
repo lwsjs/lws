@@ -122,6 +122,18 @@ tom.test('printAddressQRCode valid-provided-interface', async function () {
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
+tom.test('.write() valid-provided-interface', async function () {
+  let logMsg = ''
+  const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
+  const mockIpList = [
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
+  ]
+  view.write('server.listening', mockIpList, { qr: 'en0' })
+  a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
+})
+
 tom.test('printAddressQRCode valid-not-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
@@ -131,6 +143,18 @@ tom.test('printAddressQRCode valid-not-provided-interface', async function () {
     { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
   ]
   view.printAddressQRCode(null, mockIpList)
+  a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
+})
+
+tom.test('.write() valid-default-interface', async function () {
+  let logMsg = ''
+  const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
+  const mockIpList = [
+    { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
+    { name: 'en1', address: '2.2.2.2', url: 'http://2.2.2.2:8888' },
+    { name: 'en2', address: '3.3.3.3', url: 'http://3.3.3.3:8888' }
+  ]
+  view.write('server.listening', mockIpList, { })
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
@@ -144,4 +168,25 @@ tom.test('printAddressQRCode valid-not-provided-ordered-interface', async functi
   ]
   view.printAddressQRCode(null, mockIpList)
   a.ok(/http:\/\/172\.17\.1\.1:8888/.test(logMsg))
+})
+
+tom.test('getSortedPrivateAddresses', async function () {
+  const view = new CliView()
+  const mockIpList = [
+    { name: 'en4', address: '10.0.10.10' },
+    { name: 'en0', address: '1.1.1.1' },
+    { name: 'en1', address: '172.17.1.1' },
+    { name: 'en2', address: '3.3.3.3' },
+    { name: 'en3', address: '192.168.1.10' },
+    { name: 'en5', address: '192.168.1.20' },
+  ]
+  const result = view.getSortedPrivateAddresses(mockIpList)
+  a.deepEqual(result, [
+     { name: 'en5', address: '192.168.1.20' },
+     { name: 'en3', address: '192.168.1.10' },
+     { name: 'en1', address: '172.17.1.1' },
+     { name: 'en4', address: '10.0.10.10' },
+     { name: 'en0', address: '1.1.1.1' },
+     { name: 'en2', address: '3.3.3.3' }
+   ])
 })
