@@ -1,14 +1,16 @@
-const Tom = require('test-runner').Tom
-const Lws = require('../')
-const a = require('assert').strict
-const fetch = require('node-fetch')
-
-const tom = module.exports = new Tom()
-
-const https = require('https')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import fetch from 'node-fetch'
+import url from 'url'
+import fs from 'fs'
+import https from 'https'
 const agent = new https.Agent({
   rejectUnauthorized: false
 })
+
+const a = assert.strict
+const tom = new TestRunner.Tom()
 
 tom.test('--https', async function () {
   const port = 9200 + this.index
@@ -25,11 +27,14 @@ tom.test('--https', async function () {
     https: true,
     port: port
   })
-  const response = await fetch(`https://localhost:${port}`, { agent })
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'one')
+  try {
+    const response = await fetch(`https://localhost:${port}`, { agent })
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'one')
+  } finally {
+    lws.server.close()
+  }
 })
 
 tom.test('--key and --cert', async function () {
@@ -48,11 +53,14 @@ tom.test('--key and --cert', async function () {
     cert: 'ssl/lws-cert.pem',
     port: port
   })
-  const response = await fetch(`https://localhost:${port}`, { agent })
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'one')
+  try {
+    const response = await fetch(`https://localhost:${port}`, { agent })
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'one')
+  } finally {
+    lws.server.close()
+  }
 })
 
 tom.test('--pfx', async function () {
@@ -70,11 +78,14 @@ tom.test('--pfx', async function () {
     pfx: 'ssl/lws.pfx',
     port: port
   })
-  const response = await fetch(`https://localhost:${port}`, { agent })
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'one')
+  try {
+    const response = await fetch(`https://localhost:${port}`, { agent })
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'one')
+  } finally {
+    lws.server.close()
+  }
 })
 
 tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
@@ -94,11 +105,16 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
     maxConnections: 11,
     keepAliveTimeout: 10001
   })
-  a.equal(lws.server.keepAliveTimeout, 10001)
-  a.equal(lws.server.maxConnections, 11)
-  const response = await fetch(`https://localhost:${port}`, { agent })
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'one')
+  try {
+    a.equal(lws.server.keepAliveTimeout, 10001)
+    a.equal(lws.server.maxConnections, 11)
+    const response = await fetch(`https://localhost:${port}`, { agent })
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'one')
+  } finally {
+    lws.server.close()
+  }
 })
+
+export default tom

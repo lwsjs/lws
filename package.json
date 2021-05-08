@@ -42,6 +42,7 @@
     "command-line-args": "^5.1.1",
     "command-line-usage": "^6.1.1",
     "create-mixin": "^3.0.0",
+    "current-module-paths": "^0.1.0",
     "koa": "^2.13.1",
     "load-module": "^4.0.1",
     "lodash.assignwith": "^4.2.0",
@@ -54,7 +55,6 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "jsdoc-to-markdown": "^7.0.1",
     "lws-static": "^2.0.0",
     "node-fetch": "^2.6.1",
     "nyc": "^15.1.0",

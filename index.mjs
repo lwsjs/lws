@@ -4,8 +4,8 @@ import EventEmitter from 'events'
 import arrayify from 'array-back'
 import Stack from './lib/middleware-stack.mjs'
 import HttpServerFactory from './lib/server-factory/http.mjs'
-import Http2ServerFactory from './lib/server-factory/http.mjs'
-import HttpsServerFactory from './lib/server-factory/http.mjs'
+import Http2ServerFactory from './lib/server-factory/http2.mjs'
+import HttpsServerFactory from './lib/server-factory/https.mjs'
 import Koa from 'koa'
 import ViewPlugin from './lib/view/view-plugin.mjs'
 import byteSize from 'byte-size'
@@ -149,6 +149,7 @@ class Lws extends EventEmitter {
     } else if (options.http2) {
       ServerFactory = Http2ServerFactory
     }
+
     const factory = new ServerFactory()
     util.propagate('verbose', factory, this)
     this.server = factory.create(options)
