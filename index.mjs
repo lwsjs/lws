@@ -1,6 +1,14 @@
-const util = require('./lib/util')
-const t = require('typical')
-const EventEmitter = require('events')
+import * as util from './lib/util.mjs'
+import t from 'typical'
+import EventEmitter from 'events'
+import arrayify from 'array-back'
+import Stack from './lib/middleware-stack.mjs'
+import HttpServerFactory from './lib/server-factory/http.mjs'
+import Http2ServerFactory from './lib/server-factory/http.mjs'
+import HttpsServerFactory from './lib/server-factory/http.mjs'
+import Koa from 'koa'
+import ViewPlugin from './lib/view/view-plugin.mjs'
+import byteSize from 'byte-size'
 
 /**
  * A lean, modular web server for rapid full-stack development.
@@ -102,8 +110,6 @@ class Lws extends EventEmitter {
    * @ignore
    */
   _setStack () {
-    const arrayify = require('array-back')
-    const Stack = require('./lib/middleware-stack')
     let stack = this.config.stack
 
     /* convert stack to type MiddlewareStack */
@@ -134,14 +140,14 @@ class Lws extends EventEmitter {
     }
 
     /* The base HTTP server factory */
-    let ServerFactory = require('./lib/server-factory/http')
+    let ServerFactory = HttpServerFactory
 
     /* use HTTPS server factory */
     if (options.https || (!options.http2 && ((options.key && options.cert) || options.pfx))) {
-      ServerFactory = require('./lib/server-factory/https')
+      ServerFactory = HttpsServerFactory
     /* use HTTP2 server factory */
     } else if (options.http2) {
-      ServerFactory = require('./lib/server-factory/http2')
+      ServerFactory = Http2ServerFactory
     }
     const factory = new ServerFactory()
     util.propagate('verbose', factory, this)
@@ -167,8 +173,6 @@ class Lws extends EventEmitter {
    */
   _getRequestHandler (middlewares = []) {
     /* build Koa application using the supplied middleware */
-    const Koa = require('koa')
-    const arrayify = require('array-back')
     const app = new Koa()
     app.on('error', err => {
       /**
@@ -194,7 +198,6 @@ class Lws extends EventEmitter {
     const config = this.config
     if (config.view) {
       if (typeof config.view === 'string') {
-        const ViewPlugin = require('./lib/view/view-plugin')
         const ViewClass = ViewPlugin.load(config.view, {
           paths: config.moduleDir,
           prefix: config.modulePrefix
@@ -210,7 +213,6 @@ class Lws extends EventEmitter {
   /* Pipe server events into 'verbose' event stream */
   _propagateServerEvents () {
     function socketProperties (socket) {
-      const byteSize = require('byte-size')
       const output = {
         bytesRead: byteSize(socket.bytesRead).toString(),
         bytesWritten: byteSize(socket.bytesWritten).toString(),
@@ -295,4 +297,4 @@ class Lws extends EventEmitter {
   }
 }
 
-module.exports = Lws
+export default Lws

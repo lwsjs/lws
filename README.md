@@ -1,7 +1,8 @@
-[![view on npm](https://img.shields.io/npm/v/lws.svg)](https://www.npmjs.org/package/lws)
-[![npm module downloads](https://img.shields.io/npm/dt/lws.svg)](https://www.npmjs.org/package/lws)
+[![view on npm](https://badgen.net/npm/v/lws)](https://www.npmjs.org/package/lws)
+[![npm module downloads](https://badgen.net/npm/dt/lws)](https://www.npmjs.org/package/lws)
+[![Gihub repo dependents](https://badgen.net/github/dependents-repo/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=REPOSITORY)
+[![Gihub package dependents](https://badgen.net/github/dependents-pkg/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=PACKAGE)
 [![Build Status](https://travis-ci.org/lwsjs/lws.svg?branch=master)](https://travis-ci.org/lwsjs/lws)
-[![Dependency Status](https://badgen.net/david/dep/lwsjs/lws)](https://david-dm.org/lwsjs/lws)
 [![Coverage Status](https://coveralls.io/repos/github/lwsjs/lws/badge.svg)](https://coveralls.io/github/lwsjs/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
@@ -96,9 +97,9 @@ $ npm install --save-dev lws
 ## Documentation
 
 * API Reference
-    * [Lws](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
-    * [Middleware plugin](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
-    * [View plugin](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
+  * [Lws](https://github.com/lwsjs/lws/blob/master/doc/lws.md)
+  * [Middleware plugin](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
+  * [View plugin](https://github.com/lwsjs/lws/blob/master/doc/view-plugin.md)
 
 ## See also
 
@@ -107,4 +108,6 @@ $ npm install --save-dev lws
 
 * * *
 
-&copy; 2016-20 Lloyd Brookes \<75pound@gmail.com\>. Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
+&copy; 2016-21 Lloyd Brookes \<75pound@gmail.com\>.
+
+Tested by [test-runner](https://github.com/test-runner-js/test-runner). Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
