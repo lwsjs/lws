@@ -1,3 +1,3 @@
 class Invalid {}
 
-module.exports = Invalid
+export default Invalid

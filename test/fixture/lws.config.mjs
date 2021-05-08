@@ -1,3 +1,3 @@
-module.exports = {
+export default {
   stack: ['two.js']
 }

@@ -1,28 +1,36 @@
-const Tom = require('test-runner').Tom
-const LwsCli = require('../lib/cli-app')
-const a = require('assert').strict
-const fetch = require('node-fetch')
+import LwsCli from '../lib/cli-app.mjs'
+import fetch from 'node-fetch'
+import TestRunner from 'test-runner'
+import assert from 'assert'
+const a = assert.strict
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('no middleware', async function () {
   const port = 9300 + this.index
   const origArgv = process.argv.slice()
-  process.argv = ['node', 'something', '--port', `${port}`]
   const cli = new LwsCli({
-    logError: function () {}
+    logError: console.error
   })
-  const server = cli.start()
-  process.argv = origArgv
-  const response = await fetch(`http://127.0.0.1:${port}/`)
-  server.close()
-  a.equal(response.status, 404)
+  const server = await cli.start(['--port', `${port}`])
+  if (process.exitCode) {
+    throw new Error('CLI failed - check log')
+  }
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}/`)
+    a.equal(response.status, 404)
+  } finally {
+    server.close()
+  }
 })
 
 tom.test('one middleware', async function () {
   const port = 9300 + this.index
-  const cli = new LwsCli({ logError: function () {} })
-  const server = cli.start(['--port', `${port}`, '--stack', 'test/fixture/one.js'])
+  const cli = new LwsCli({ logError: console.error })
+  const server = await cli.start(['--port', `${port}`, '--stack', 'test/fixture/one.mjs'])
+  if (process.exitCode) {
+    throw new Error('CLI failed - check log')
+  }
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
@@ -31,9 +39,12 @@ tom.test('one middleware', async function () {
 
 tom.test('two middlewares', async function () {
   const port = 9300 + this.index
-  const cli = new LwsCli({ logError: function () {} })
-  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', 'test/fixture/two.js']
-  const server = cli.start(argv)
+  const cli = new LwsCli({ logError: console.error })
+  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.mjs', 'test/fixture/two.mjs']
+  const server = await cli.start(argv)
+  if (process.exitCode) {
+    throw new Error('CLI failed - check log')
+  }
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
@@ -42,11 +53,16 @@ tom.test('two middlewares', async function () {
 
 tom.test('one middleware with cli option', async function () {
   const port = 9300 + this.index
-  const cli = new LwsCli({ logError: function () {} })
-  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', '--something', 'yeah']
-  const server = cli.start(argv)
+  const cli = new LwsCli({ logError: console.error })
+  const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.mjs', '--something', 'yeah']
+  const server = await cli.start(argv)
+  if (process.exitCode) {
+    throw new Error('CLI failed - check log')
+  }
   const response = await fetch(`http://localhost:${port}`)
   server.close()
   const body = await response.text()
   a.equal(body, 'yeah')
 })
+
+export default tom

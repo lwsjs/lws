@@ -109,15 +109,14 @@ class Lws extends EventEmitter {
    * Sets the middleware stack, loading plugins if supplied.
    * @ignore
    */
-  _setStack () {
+  async _setStack () {
     let stack = this.config.stack
 
     /* convert stack to type MiddlewareStack */
     if (!(stack instanceof Stack)) {
       stack = arrayify(this.config.stack).slice()
-      stack = Stack.from(stack, {
-        paths: this.config.moduleDir,
-        prefix: this.config.modulePrefix
+      stack = await Stack.from(stack, {
+        paths: this.config.moduleDir
       })
     }
     util.propagate('verbose', stack, this)
@@ -159,9 +158,9 @@ class Lws extends EventEmitter {
   /**
    * Attach the Middleware stack to the server. Must be run after `lws.createServer()`.
    */
-  useMiddlewareStack () {
+  async useMiddlewareStack () {
     if (!this.server) throw new Error('Create server first')
-    this._setStack()
+    await this._setStack()
     const middlewares = this.stack.getMiddlewareFunctions(this.config, this)
     this.server.on('request', this._getRequestHandler(middlewares))
   }
@@ -276,7 +275,7 @@ class Lws extends EventEmitter {
    * @param config {external:LwsConfig}
    * @returns {Lws}
    */
-  static create (config) {
+  static async create (config) {
     const lws = new this(config)
 
     /* attach the view */
@@ -289,7 +288,7 @@ class Lws extends EventEmitter {
     lws._propagateServerEvents()
 
     /* attach middleware */
-    lws.useMiddlewareStack()
+    await lws.useMiddlewareStack()
 
     /* start server */
     lws.server.listen(lws.config.port, lws.config.hostname)

@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+import EventEmitter from 'events'
 
 class Two extends EventEmitter {
   middleware (options) {
@@ -13,4 +13,4 @@ class Two extends EventEmitter {
   }
 }
 
-module.exports = Two
+export default Two

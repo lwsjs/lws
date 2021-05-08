@@ -7,4 +7,4 @@ class Two {
   }
 }
 
-module.exports = Two
+export default Two

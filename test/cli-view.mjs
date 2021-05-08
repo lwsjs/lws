@@ -178,15 +178,15 @@ tom.test('getSortedPrivateAddresses', async function () {
     { name: 'en1', address: '172.17.1.1' },
     { name: 'en2', address: '3.3.3.3' },
     { name: 'en3', address: '192.168.1.10' },
-    { name: 'en5', address: '192.168.1.20' },
+    { name: 'en5', address: '192.168.1.20' }
   ]
   const result = view.getSortedPrivateAddresses(mockIpList)
   a.deepEqual(result, [
-     { name: 'en5', address: '192.168.1.20' },
-     { name: 'en3', address: '192.168.1.10' },
-     { name: 'en1', address: '172.17.1.1' },
-     { name: 'en4', address: '10.0.10.10' },
-     { name: 'en0', address: '1.1.1.1' },
-     { name: 'en2', address: '3.3.3.3' }
-   ])
+    { name: 'en5', address: '192.168.1.20' },
+    { name: 'en3', address: '192.168.1.10' },
+    { name: 'en1', address: '172.17.1.1' },
+    { name: 'en4', address: '10.0.10.10' },
+    { name: 'en0', address: '1.1.1.1' },
+    { name: 'en2', address: '3.3.3.3' }
+  ])
 })

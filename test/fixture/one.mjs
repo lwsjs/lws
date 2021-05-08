@@ -11,4 +11,4 @@ class One {
   }
 }
 
-module.exports = One
+export default One
