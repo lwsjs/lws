@@ -1,9 +1,14 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const LwsCli = require('../lib/cli-app')
-const sleep = require('sleep-anywhere')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import LwsCli from '../lib/cli-app.mjs'
+import sleep from 'sleep-anywhere'
+import * as fs from 'fs/promises'
+import path from 'path'
+import getModulePaths from 'current-module-paths'
+const __dirname = getModulePaths(import.meta.url).__dirname
+const a = assert.strict
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('bad option, should fail and printError', async function () {
   const origArgv = process.argv.slice()
@@ -60,7 +65,7 @@ tom.test('--version', async function () {
     log: function (msg) { logMsg = msg }
   })
   cli.start(['--version'])
-  const version = require('../package.json').version
+  const version = JSON.parse(await fs.readFile(path.resolve(__dirname, '..', 'package.json'), 'utf8')).version
   a.equal(version, logMsg.trim())
 })
 
@@ -100,3 +105,5 @@ if (process.env.TESTOPEN) {
     server.close()
   })
 }
+
+export default tom

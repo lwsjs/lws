@@ -1,9 +1,10 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const Lws = require('../index')
-const fetch = require('node-fetch')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import fetch from 'node-fetch'
 
-const tom = module.exports = new Tom()
+const a = assert.strict
+const tom = new TestRunner.Tom()
 
 tom.test('one middleware', async function () {
   const port = 9400 + this.index
@@ -19,9 +20,14 @@ tom.test('one middleware', async function () {
     stack: [One],
     port: port
   })
-  const response = await fetch(`http://127.0.0.1:${port}`)
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'one')
+  try {
+    const response = await fetch(`http://127.0.0.1:${port}`)
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'one')
+  } finally {
+    lws.server.close()
+  }
 })
+
+export default tom
