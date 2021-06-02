@@ -74,9 +74,10 @@ class Lws extends EventEmitter {
      * The active lws config.
      * @type {external:LwsConfig}
      */
-    this.config = null
-
-    this._setConfig(config)
+    this.config = util.deepMerge(
+      this._getDefaultConfig(),
+      config
+    )
   }
 
   /**
@@ -87,8 +88,8 @@ class Lws extends EventEmitter {
   _getDefaultConfig () {
     return {
       port: 8000,
-      modulePrefix: 'lws-',
-      moduleDir: ['.']
+      moduleDir: [process.cwd()],
+      configFile: 'lws.config.js'
     }
   }
 
@@ -97,10 +98,10 @@ class Lws extends EventEmitter {
    * @param {external:LwsConfig}
    * @ignore
    */
-  _setConfig (config = {}) {
+  async loadStoredConfig () {
+    const config = await util.getStoredConfig(this.config.configFile)
     this.config = util.deepMerge(
-      this._getDefaultConfig(),
-      util.getStoredConfig(config.configFile),
+      this.config,
       config
     )
   }
@@ -277,6 +278,7 @@ class Lws extends EventEmitter {
    */
   static async create (config) {
     const lws = new this(config)
+    await lws.loadStoredConfig()
 
     /* attach the view */
     lws.useView()

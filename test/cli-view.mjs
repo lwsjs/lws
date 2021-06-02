@@ -1,8 +1,9 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const CliView = require('../lib/view/cli-view.js')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import CliView from '../lib/view/cli-view.mjs'
+const a = assert.strict
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('verbose write', async function () {
   let logMsg = ''
@@ -190,3 +191,5 @@ tom.test('getSortedPrivateAddresses', async function () {
     { name: 'en2', address: '3.3.3.3' }
   ])
 })
+
+export default tom

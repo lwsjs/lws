@@ -37,7 +37,7 @@
   ],
   "dependencies": {
     "ansi-escape-sequences": "^6.0.1",
-    "array-back": "^6.0.0",
+    "array-back": "^6.0.1",
     "byte-size": "^7.0.1",
     "command-line-args": "^5.1.1",
     "command-line-usage": "^6.1.1",
@@ -47,7 +47,7 @@
     "load-module": "^4.0.1",
     "lodash.assignwith": "^4.2.0",
     "node-version-matches": "^2.0.1",
-    "open": "^8.0.7",
+    "open": "^8.0.9",
     "qrcode-terminal": "^0.12.0",
     "reduce-flatten": "^3.0.0",
     "typical": "^6.0.1",

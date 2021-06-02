@@ -1,20 +1,26 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const Lws = require('../index')
-const fetch = require('node-fetch')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import fetch from 'node-fetch'
+const a = assert.strict
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('configFile', async function () {
   const port = 9900 + this.index
-  const lws = Lws.create({
-    configFile: 'test/fixture/lws.config.js',
+  const lws = await Lws.create({
+    configFile: 'test/fixture/lws.config.mjs',
     moduleDir: './test/fixture',
     port
   })
-  const response = await fetch(`http://localhost:${port}/`)
-  lws.server.close()
-  a.equal(response.status, 200)
-  const body = await response.text()
-  a.equal(body, 'two')
+  try {
+    const response = await fetch(`http://localhost:${port}/`)
+    a.equal(response.status, 200)
+    const body = await response.text()
+    a.equal(body, 'two')
+  } finally {
+    lws.server.close()
+  }
 })
+
+export default tom

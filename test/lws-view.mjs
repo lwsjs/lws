@@ -1,9 +1,10 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const Lws = require('../')
-const sleep = require('sleep-anywhere')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import sleep from 'sleep-anywhere'
 
-const tom = module.exports = new Tom()
+const a = assert.strict
+const tom = new TestRunner.Tom()
 
 tom.test('custom view write', async function () {
   const actuals = []
@@ -13,7 +14,7 @@ tom.test('custom view write', async function () {
     }
   }
   const port = 9950 + this.index
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     maxConnections: 11,
     keepAliveTimeout: 11,
@@ -23,3 +24,5 @@ tom.test('custom view write', async function () {
   await sleep(10)
   a.equal(actuals[0], 'server.config')
 })
+
+export default tom

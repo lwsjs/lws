@@ -41,7 +41,7 @@ tom.test('--http2', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     stack: [One],
     http2: true,
     port: port
@@ -66,7 +66,7 @@ tom.test('--http2 --key and --cert', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     stack: [One],
     key: 'ssl/private-key.pem',
     cert: 'ssl/lws-cert.pem',
@@ -92,7 +92,7 @@ tom.test('--http2 --pfx', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     stack: [One],
     pfx: 'ssl/lws.pfx',
     port: port,
@@ -117,9 +117,9 @@ tom.test('--http2 --pfx, --max-connections', async function () {
       }
     }
   }
-  a.throws(
+  await a.rejects(
     () => {
-      Lws.create({
+      return Lws.create({
         stack: [One],
         pfx: 'ssl/lws.pfx',
         port: port,
@@ -141,9 +141,9 @@ tom.test('--http2 --pfx, --keep-alive-timeout', async function () {
       }
     }
   }
-  a.throws(
+  await a.rejects(
     () => {
-      Lws.create({
+      return Lws.create({
         stack: [One],
         pfx: 'ssl/lws.pfx',
         port: port,

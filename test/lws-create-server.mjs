@@ -1,14 +1,14 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const Lws = require('../index')
-const fetch = require('node-fetch')
-
-const tom = module.exports = new Tom()
-
-const https = require('https')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from 'lws'
+import fetch from 'node-fetch'
+import https from 'https'
 const agent = new https.Agent({
   rejectUnauthorized: false
 })
+const a = assert.strict
+
+const tom = new TestRunner.Tom()
 
 tom.test('invalid options 1', function () {
   const lws = new Lws({ cert: 'something' })
@@ -37,12 +37,13 @@ tom.test('invalid options 3', function () {
 tom.test('configFile', async function () {
   const port = 9900 + this.index
   const lws = new Lws({
-    configFile: 'test/fixture/lws.config.js',
+    configFile: 'test/fixture/lws.config.mjs',
     moduleDir: 'test/fixture'
   })
+  await lws.loadStoredConfig()
   const server = lws.createServer()
   server.listen(port)
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   const response = await fetch(`http://localhost:${port}/`)
   server.close()
   a.equal(response.status, 200)
@@ -99,9 +100,9 @@ tom.test('createServer, use lws-static', async function () {
   })
   const port = 9900 + this.index
   const server = lws.createServer()
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   server.listen(port)
-  const response = await fetch(`http://localhost:${port}/one.js`)
+  const response = await fetch(`http://localhost:${port}/one.mjs`)
   server.close()
   a.equal(response.status, 200)
 })
@@ -109,14 +110,15 @@ tom.test('createServer, use lws-static', async function () {
 tom.test('createServer, use lws-static 2', async function () {
   const lws = new Lws({
     directory: 'test/fixture',
-    moduleDir: '.',
     stack: ['lws-static']
   })
   const port = 9900 + this.index
   const server = lws.createServer()
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   server.listen(port)
-  const response = await fetch(`http://localhost:${port}/one.js`)
+  const response = await fetch(`http://localhost:${port}/one.mjs`)
   server.close()
   a.equal(response.status, 200)
 })
+
+export default tom

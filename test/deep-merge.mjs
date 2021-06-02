@@ -1,10 +1,11 @@
-const Tom = require('test-runner').Tom
-const util = require('../lib/util')
-const a = require('assert').strict
-const MiddlewareStack = require('../lib/middleware-stack')
-const EventEmitter = require('events')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import * as util from '../lib/util.mjs'
+import MiddlewareStack from '../lib/middleware-stack.mjs'
+import EventEmitter from 'events'
+const a = assert.strict
 
-const tom = module.exports = new Tom()
+const tom = new TestRunner.Tom()
 
 tom.test('simple', function () {
   const result = util.deepMerge(
@@ -64,3 +65,5 @@ tom.test('stack: new instance not created', function () {
   )
   a.equal(result.stack, stack)
 })
+
+export default tom

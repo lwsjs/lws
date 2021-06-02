@@ -1,11 +1,12 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const Lws = require('../index')
-const fetch = require('node-fetch')
-const sleep = require('sleep-anywhere')
-const EventEmitter = require('events')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import fetch from 'node-fetch'
+import sleep from 'sleep-anywhere'
+import EventEmitter from 'events'
 
-const tom = module.exports = new Tom()
+const a = assert.strict
+const tom = new TestRunner.Tom()
 
 tom.test('server-factory config event', async function () {
   const port = 9930 + this.index
@@ -19,7 +20,7 @@ tom.test('server-factory config event', async function () {
     actuals.push(key, value)
   })
   lws.createServer()
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   lws.server.close()
   a.deepEqual(actuals, [
     'server.config',
@@ -39,7 +40,7 @@ tom.test('server.listening event', async function () {
   })
   lws.createServer()
   lws._propagateServerEvents()
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   lws.server.listen(port)
   await sleep(10)
   lws.server.close()
@@ -60,7 +61,7 @@ tom.test('middleware plugin "verbose" event', async function () {
     actuals.push(key)
   })
   lws.createServer()
-  lws.useMiddlewareStack()
+  await lws.useMiddlewareStack()
   lws.server.listen(port)
   await sleep(10)
   lws.server.close()
@@ -78,13 +79,16 @@ tom.test('ctx.app event', async function () {
       }
     }
   }
-  const lws = Lws.create({ port, stack: One })
-  lws.on('verbose', (key, value) => {
-    actuals.push(key)
-  })
-  await fetch(`http://127.0.0.1:${port}`)
-  lws.server.close()
-  a.ok(actuals.includes('something.test'))
+  const lws = await Lws.create({ port, stack: One })
+  try {
+    lws.on('verbose', (key, value) => {
+      actuals.push(key)
+    })
+    await fetch(`http://127.0.0.1:${port}`)
+    a.ok(actuals.includes('something.test'))
+  } finally {
+    lws.server.close()
+  }
 })
 
 tom.test('view receives verbose events', async function () {
@@ -100,7 +104,7 @@ tom.test('view receives verbose events', async function () {
       actuals.push({ key, value })
     }
   }
-  const lws = Lws.create({ port, stack: One, view: new View() })
+  const lws = await Lws.create({ port, stack: One, view: new View() })
   await sleep(10)
   lws.server.close()
   await sleep(10)
@@ -108,7 +112,7 @@ tom.test('view receives verbose events', async function () {
 })
 
 tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
-  const MiddlewareStack = require('../lib/middleware-stack')
+  const MiddlewareStack = await import('../lib/middleware-stack.mjs').then(mod => mod.default)
   const port = 9930 + this.index
   const actuals = []
   class One extends EventEmitter {
@@ -121,10 +125,12 @@ tom.test('view receives verbose events, input MiddlewareStack instance', async f
       actuals.push({ key, value })
     }
   }
-  const stack = MiddlewareStack.from([One])
-  const lws = Lws.create({ port, stack, view: new View() })
+  const stack = await MiddlewareStack.from([One])
+  const lws = await Lws.create({ port, stack, view: new View() })
   await sleep(10)
   lws.server.close()
   await sleep(10)
   a.deepEqual(actuals[0], { key: 'something.test', value: 1 })
 })
+
+export default tom

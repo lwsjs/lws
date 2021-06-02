@@ -1,13 +1,14 @@
-const Tom = require('test-runner').Tom
-const a = require('assert').strict
-const fetch = require('node-fetch')
-const Lws = require('../index')
+import TestRunner from 'test-runner'
+import assert from 'assert'
+import Lws from '../index.mjs'
+import fetch from 'node-fetch'
 
-const tom = module.exports = new Tom()
+const a = assert.strict
+const tom = new TestRunner.Tom()
 
 tom.test('No middleware', async function () {
   const port = 9800 + this.index
-  const lws = Lws.create({ port })
+  const lws = await Lws.create({ port })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
   a.equal(response.status, 404)
@@ -15,7 +16,7 @@ tom.test('No middleware', async function () {
 
 tom.test('empty stack array', async function () {
   const port = 9800 + this.index
-  const lws = Lws.create({ port, stack: [] })
+  const lws = await Lws.create({ port, stack: [] })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
   a.equal(response.status, 404)
@@ -31,7 +32,7 @@ tom.test('One middleware', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     stack: One
   })
@@ -50,7 +51,7 @@ tom.test('middleware args', async function () {
       actuals.push(config, lws)
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     stack: One
   })
@@ -77,7 +78,7 @@ tom.test('Two middlewares', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     stack: [One, Two]
   })
@@ -96,7 +97,7 @@ tom.test('Broken middleware', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     stack: One
   })
@@ -107,7 +108,7 @@ tom.test('Broken middleware', async function () {
 
 tom.test('Load one middleware', async function () {
   const port = 9800 + this.index
-  const lws = Lws.create({
+  const lws = await Lws.create({
     port,
     stack: 'lws-static'
   })
@@ -119,9 +120,9 @@ tom.test('Load one middleware', async function () {
 tom.test('Invalid middleware: wrong type', async function () {
   const port = 9800 + this.index
   const One = false
-  a.throws(
+  await a.rejects(
     () => {
-      Lws.create({
+      return Lws.create({
         port,
         stack: One
       })
@@ -133,9 +134,9 @@ tom.test('Invalid middleware: wrong type', async function () {
 tom.test('Invalid middleware: no middleware method', async function () {
   const port = 9800 + this.index
   class One {}
-  a.throws(
+  await a.rejects(
     () => {
-      Lws.create({
+      return Lws.create({
         port,
         stack: One
       })
@@ -146,13 +147,15 @@ tom.test('Invalid middleware: no middleware method', async function () {
 
 tom.test('Invalid middleware: loaded, no middleware method', async function () {
   const port = 9800 + this.index
-  a.throws(
+  await a.rejects(
     () => {
-      Lws.create({
+      return Lws.create({
         port,
-        stack: 'test/fixture/invalid.js'
+        stack: 'test/fixture/invalid.mjs'
       })
     },
     /Invalid middleware/
   )
 })
+
+export default tom

@@ -16,7 +16,7 @@ tom.test('one middleware', async function () {
       }
     }
   }
-  const lws = Lws.create({
+  const lws = await Lws.create({
     stack: [One],
     port: port
   })
