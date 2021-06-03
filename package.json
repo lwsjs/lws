@@ -11,7 +11,8 @@
   "main": "./index.mjs",
   "exports": {
     ".": "./index.mjs",
-    "./ssl/*": "./ssl/*"
+    "./ssl/*": "./ssl/*",
+    "./lib/*": "./lib/*"
   },
   "keywords": [
     "lws",
