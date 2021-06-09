@@ -20,7 +20,6 @@ The lws configuration options.
         * [.secureProtocol](#module_lws-config--LwsConfig+secureProtocol) : <code>string</code>
         * [.stack](#module_lws-config--LwsConfig+stack) : <code>Array.&lt;string&gt;</code> \| [<code>Array.&lt;MiddlewarePlugin&gt;</code>](https://github.com/lwsjs/lws/blob/master/doc/middleware-plugin.md)
         * [.moduleDir](#module_lws-config--LwsConfig+moduleDir) : <code>string</code> \| <code>Array.&lt;string&gt;</code>
-        * [.modulePrefix](#module_lws-config--LwsConfig+modulePrefix) : <code>string</code>
         * [.view](#module_lws-config--LwsConfig+view) : <code>string</code>
 
 <a name="exp_module_lws-config--LwsConfig"></a>
@@ -54,10 +53,9 @@ The hostname or IP address to bind to.
 <a name="module_lws-config--LwsConfig+configFile"></a>
 
 #### lwsConfig.configFile : <code>string</code>
-Filename to retrieve stored config from. Defaults to "lws.config.js".
+Filename to retrieve stored config from. Defaults to the first found of "lws.config.js", "lws.config.mjs" or "lws.config.cjs". Config files with the `.js` extension must always be a CommonJS module.
 
 **Kind**: instance property of [<code>LwsConfig</code>](#exp_module_lws-config--LwsConfig)  
-**Default**: <code>&quot;lws.config.js&quot;</code>  
 <a name="module_lws-config--LwsConfig+https"></a>
 
 #### lwsConfig.https : <code>boolean</code>
@@ -115,13 +113,6 @@ One or more directories to search for middleware modules.
 
 **Kind**: instance property of [<code>LwsConfig</code>](#exp_module_lws-config--LwsConfig)  
 **Default**: <code>&quot;[\&quot;.\&quot;]&quot;</code>  
-<a name="module_lws-config--LwsConfig+modulePrefix"></a>
-
-#### lwsConfig.modulePrefix : <code>string</code>
-An optional string to prefix to module names when loading middleware modules.
-
-**Kind**: instance property of [<code>LwsConfig</code>](#exp_module_lws-config--LwsConfig)  
-**Default**: <code>&quot;lws-&quot;</code>  
 <a name="module_lws-config--LwsConfig+view"></a>
 
 #### lwsConfig.view : <code>string</code>

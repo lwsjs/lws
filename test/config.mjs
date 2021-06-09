@@ -6,7 +6,7 @@ const a = assert.strict
 
 const tom = new TestRunner.Tom()
 
-tom.test('configFile', async function () {
+tom.test('custom configFile', async function () {
   const port = 9900 + this.index
   const lws = await Lws.create({
     configFile: 'test/fixture/lws.config.mjs',

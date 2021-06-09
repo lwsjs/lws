@@ -11,8 +11,7 @@
   "main": "./index.mjs",
   "exports": {
     ".": "./index.mjs",
-    "./ssl/*": "./ssl/*",
-    "./lib/*": "./lib/*"
+    "./*": "./*"
   },
   "keywords": [
     "lws",
@@ -20,7 +19,10 @@
     "http",
     "http2",
     "https",
-    "backend"
+    "backend",
+    "http-server",
+    "dev",
+    "web"
   ],
   "engines": {
     "node": ">=14"
@@ -28,12 +30,12 @@
   "scripts": {
     "test": "test-runner test/*.mjs test/internals/*.mjs",
     "cover": "TESTOPEN=true c8 -r html -r text npm test && c8 report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc2md lib/middleware-plugin.mjs > doc/middleware-plugin.md && jsdoc2md --private index.mjs > doc/lws.md && jsdoc2md lib/view/view-plugin.mjs > doc/view-plugin.md && jsdoc2md lib/config.mjs > doc/config.md"
+    "docs": "jsdoc2md -c jsdoc.conf lib/middleware-plugin.mjs > doc/middleware-plugin.md && jsdoc2md -c jsdoc.conf --private index.mjs > doc/lws.md && jsdoc2md -c jsdoc.conf lib/view/view-plugin.mjs > doc/view-plugin.md && jsdoc2md -c jsdoc.conf lib/config.mjs > doc/config.md"
   },
   "files": [
     "index.mjs",
     "ssl",
-    "lib/**/*.mjs",
+    "lib",
     "bin"
   ],
   "dependencies": {
@@ -55,6 +57,7 @@
   "devDependencies": {
     "c8": "^7.7.2",
     "coveralls": "^3.1.0",
+    "jsdoc-to-markdown": "^7.0.1",
     "lws-static": "^2.0.0",
     "node-fetch": "^2.6.1",
     "sleep-anywhere": "^1.1.3",

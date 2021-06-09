@@ -89,8 +89,7 @@ class Lws extends EventEmitter {
   _getDefaultConfig () {
     return {
       port: 8000,
-      moduleDir: [process.cwd()],
-      configFile: 'lws.config.js'
+      moduleDir: [process.cwd()]
     }
   }
 
