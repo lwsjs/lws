@@ -1,4 +1,5 @@
 import * as util from './lib/util.mjs'
+import deepMerge from '@75lb/deep-merge'
 import t from 'typical'
 import EventEmitter from 'events'
 import arrayify from 'array-back'
@@ -74,7 +75,7 @@ class Lws extends EventEmitter {
      * The active lws config.
      * @type {external:LwsConfig}
      */
-    this.config = util.deepMerge(
+    this.config = deepMerge(
       this._getDefaultConfig(),
       config
     )
@@ -100,7 +101,7 @@ class Lws extends EventEmitter {
    */
   async loadStoredConfig () {
     const config = await util.getStoredConfig(this.config.configFile)
-    this.config = util.deepMerge(
+    this.config = deepMerge(
       this.config,
       config
     )
@@ -200,8 +201,7 @@ class Lws extends EventEmitter {
     if (config.view) {
       if (typeof config.view === 'string') {
         const ViewClass = ViewPlugin.load(config.view, {
-          paths: config.moduleDir,
-          prefix: config.modulePrefix
+          paths: config.moduleDir
         })
         config.view = new ViewClass()
       }
