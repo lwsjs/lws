@@ -79,7 +79,7 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
   const server = lws.server
   a.equal(server.keepAliveTimeout, 10001)
   a.equal(server.maxConnections, 11)
-  const reqOptions = url.parse(`http://127.0.0.1:${port}`)
+  const reqOptions = new url.URL(`http://127.0.0.1:${port}`)
   reqOptions.rejectUnauthorized = false
   const response = await fetch(reqOptions)
   server.close()

@@ -8,7 +8,6 @@ const tom = new TestRunner.Tom()
 
 tom.test('no middleware', async function () {
   const port = 9300 + this.index
-  const origArgv = process.argv.slice()
   const cli = new LwsCli({
     logError: console.error
   })

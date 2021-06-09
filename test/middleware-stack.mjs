@@ -1,6 +1,5 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
-import Lws from '../index.mjs'
 import EventEmitter from 'events'
 import MiddlewareStack from '../lib/middleware-stack.mjs'
 
