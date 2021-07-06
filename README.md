@@ -2,7 +2,7 @@
 [![npm module downloads](https://badgen.net/npm/dt/lws)](https://www.npmjs.org/package/lws)
 [![Gihub repo dependents](https://badgen.net/github/dependents-repo/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=REPOSITORY)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=PACKAGE)
-[![Build Status](https://travis-ci.org/lwsjs/lws.svg?branch=master)](https://travis-ci.org/lwsjs/lws)
+[![Node.js CI](https://github.com/lwsjs/lws/actions/workflows/node.js.yml/badge.svg)](https://github.com/lwsjs/lws/actions/workflows/node.js.yml)
 [![Coverage Status](https://coveralls.io/repos/github/lwsjs/lws/badge.svg)](https://coveralls.io/github/lwsjs/lws)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
@@ -75,7 +75,7 @@ class ExamplePlugin {
   }
 }
 
-module.exports = ExamplePlugin
+export default ExamplePlugin
 ```
 
 Now launch an HTTP server using this middleware.
