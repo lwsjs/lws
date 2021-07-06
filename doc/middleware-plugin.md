@@ -20,7 +20,7 @@ class Greeter {
   }
 }
 
-module.exports = Greeter
+export default Greeter
 ```
 
 * [middleware-plugin](#module_middleware-plugin)
