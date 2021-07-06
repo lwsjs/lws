@@ -23,7 +23,7 @@ class Greeter {
 }
 
 // Launch a HTTP server with the Greeter middleware attached
-const lws = Lws.create({ stack: Greeter })
+const lws = await Lws.create({ stack: Greeter })
 
 // $ curl http://127.0.0.1:8000
 // Hello!
