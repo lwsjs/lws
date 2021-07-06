@@ -8,7 +8,7 @@ import getModulePaths from 'current-module-paths'
 const __dirname = getModulePaths(import.meta.url).__dirname
 const a = assert.strict
 
-const tom = new TestRunner.Tom()
+const tom = new TestRunner.Tom({ maxConcurrency: 1 })
 
 tom.test('bad option, should fail and printError', async function () {
   const origExitCode = process.exitCode
@@ -79,7 +79,7 @@ tom.test('--list-network-interfaces', async function () {
   })
   await cli.start(['--list-network-interfaces'])
   a.ok(/Available network interfaces/.test(logMsg))
-  a.ok(/en0/.test(logMsg))
+  a.ok(/127.0.0.1/.test(logMsg))
 })
 
 if (process.env.TESTOPEN) {
