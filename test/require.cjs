@@ -1,12 +1,16 @@
-import TestRunner from 'test-runner'
-import assert from 'assert'
-import Lws from 'lws'
-import fetch from 'node-fetch'
+const TestRunner = require('test-runner')
+const assert = require('assert')
+const Lws = require('lws')
+const fetch = require('node-fetch')
 
 const a = assert.strict
 const tom = new TestRunner.Tom()
 
-tom.test('one middleware', async function () {
+tom.test('CommonJS require loads', async function () {
+  a.ok(Lws.create)
+})
+
+tom.test('CommonJS require runs', async function () {
   const port = 9400 + this.index
   class One {
     middleware (options) {
@@ -30,4 +34,4 @@ tom.test('one middleware', async function () {
   }
 })
 
-export default tom
+module.exports = tom

@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
-import LwsCli from '../lib/cli-app.mjs'
+import LwsCli from 'lws/lib/cli-app.mjs'
 import sleep from 'sleep-anywhere'
 import * as fs from 'fs/promises'
 import path from 'path'

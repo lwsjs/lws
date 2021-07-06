@@ -8,9 +8,11 @@
   "bin": {
     "lws": "bin/cli.mjs"
   },
-  "main": "./index.mjs",
   "exports": {
-    ".": "./index.mjs",
+    ".": {
+      "import": "./index.mjs",
+      "require": "./dist/index.cjs"
+    },
     "./*": "./*"
   },
   "keywords": [
@@ -28,15 +30,17 @@
     "node": ">=14"
   },
   "scripts": {
-    "test": "test-runner test/*.mjs test/internals/*.mjs",
+    "test": "test-runner test/*.?js test/internals/*.mjs",
     "cover": "TESTOPEN=true c8 -r html -r text npm test && c8 report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc2md -c jsdoc.conf lib/middleware-plugin.mjs > doc/middleware-plugin.md && jsdoc2md -c jsdoc.conf --private index.mjs > doc/lws.md && jsdoc2md -c jsdoc.conf lib/view/view-plugin.mjs > doc/view-plugin.md && jsdoc2md -c jsdoc.conf lib/config.mjs > doc/config.md"
+    "docs": "jsdoc2md -c jsdoc.conf lib/middleware-plugin.mjs > doc/middleware-plugin.md && jsdoc2md -c jsdoc.conf --private index.mjs > doc/lws.md && jsdoc2md -c jsdoc.conf lib/view/view-plugin.mjs > doc/view-plugin.md && jsdoc2md -c jsdoc.conf lib/config.mjs > doc/config.md",
+    "dist": "rollup -c"
   },
   "files": [
     "index.mjs",
     "ssl",
     "lib",
-    "bin"
+    "bin",
+    "dist"
   ],
   "dependencies": {
     "@75lb/deep-merge": "^1.0.0",
@@ -55,11 +59,15 @@
     "walk-back": "^5.0.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "c8": "^7.7.3",
     "coveralls": "^3.1.1",
     "jsdoc-to-markdown": "^7.0.1",
     "lws-static": "^2.0.0",
     "node-fetch": "^2.6.1",
+    "rollup": "^2.52.7",
     "sleep-anywhere": "^1.1.3",
     "test-runner": "^0.9.6"
   },

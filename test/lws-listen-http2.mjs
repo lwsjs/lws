@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
-import Lws from '../index.mjs'
+import Lws from 'lws'
 import http2 from 'http2'
 
 const a = assert.strict

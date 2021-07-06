@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
-import Lws from '../index.mjs'
+import Lws from 'lws'
 import fetch from 'node-fetch'
 const a = assert.strict
 
