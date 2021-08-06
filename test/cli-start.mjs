@@ -2,11 +2,12 @@ import TestRunner from 'test-runner'
 import assert from 'assert'
 import LwsCli from 'lws/lib/cli-app.mjs'
 import sleep from 'sleep-anywhere'
-import * as fs from 'fs/promises'
+import * as fsMain from 'fs'
 import path from 'path'
 import getModulePaths from 'current-module-paths'
 const __dirname = getModulePaths(import.meta.url).__dirname
 const a = assert.strict
+const fs = fsMain.promises
 
 const tom = new TestRunner.Tom({ maxConcurrency: 1 })
 
