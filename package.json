@@ -38,29 +38,29 @@
     "bin"
   ],
   "dependencies": {
-    "@75lb/deep-merge": "^1.0.0",
-    "ansi-escape-sequences": "^6.1.1",
+    "@75lb/deep-merge": "^1.1.1",
+    "ansi-escape-sequences": "^6.2.0",
     "array-back": "^6.2.0",
-    "byte-size": "^8.0.0",
+    "byte-size": "^8.1.0",
     "command-line-args": "^5.2.0",
     "command-line-usage": "^6.1.1",
     "create-mixin": "^3.0.0",
-    "current-module-paths": "^1.0.0",
+    "current-module-paths": "^1.1.0",
     "koa": "^2.13.1",
-    "load-module": "^4.1.0",
+    "load-module": "^4.2.1",
     "open": "^8.2.1",
     "qrcode-terminal": "^0.12.0",
-    "typical": "^7.0.0",
-    "walk-back": "^5.0.0"
+    "typical": "^7.1.1",
+    "walk-back": "^5.1.0"
   },
   "devDependencies": {
     "c8": "^7.8.0",
     "coveralls": "^3.1.1",
     "jsdoc-to-markdown": "^7.0.1",
-    "lws-static": "^3.0.1",
-    "node-fetch": "^2.6.1",
+    "lws-static": "^3.1.0",
+    "node-fetch": "^3.0.0",
     "sleep-anywhere": "^2.0.1",
-    "test-runner": "^0.9.7"
+    "test-runner": "^0.9.8"
   },
   "contributors": [
     "Tiago Stutz <tiagostutz@gmail.com.br> (https://github.com/labbsr0x)"
