@@ -1,7 +1,7 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
 import EventEmitter from 'events'
-import MiddlewareStack from 'lws/lib/middleware-stack.mjs'
+import MiddlewareStack from '../lib/middleware-stack.mjs'
 
 const a = assert.strict
 const tom = new TestRunner.Tom()
