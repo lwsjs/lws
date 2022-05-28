@@ -108,6 +108,6 @@ $ npm install --save-dev lws
 
 * * *
 
-&copy; 2016-21 Lloyd Brookes \<75pound@gmail.com\>.
+&copy; 2016-22 Lloyd Brookes \<75pound@gmail.com\>.
 
 Tested by [test-runner](https://github.com/test-runner-js/test-runner). Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
