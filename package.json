@@ -5,13 +5,14 @@
   "description": "A lean, modular web server for rapid full-stack development",
   "repository": "https://github.com/lwsjs/lws.git",
   "license": "MIT",
+  "type": "module",
   "bin": {
-    "lws": "bin/cli.mjs"
+    "lws": "bin/cli.js"
   },
   "exports": {
-    ".": "./index.mjs",
-    "./lib/cli-app.mjs": "./lib/cli-app.mjs",
-    "./lib/view/cli-view.mjs": "./lib/view/cli-view.mjs"
+    ".": "./index.js",
+    "./lib/cli-app.js": "./lib/cli-app.js",
+    "./lib/view/cli-view.js": "./lib/view/cli-view.js"
   },
   "keywords": [
     "lws",
@@ -28,12 +29,12 @@
     "node": ">=12.20"
   },
   "scripts": {
-    "test": "test-runner test/*.mjs test/internals/*.mjs",
+    "test": "test-runner test/*.js test/internals/*.js",
     "cover": "TESTOPEN=true c8 -r html -r text npm test && c8 report --reporter=text-lcov | coveralls",
-    "docs": "jsdoc2md -c jsdoc.conf lib/middleware-plugin.mjs > doc/middleware-plugin.md && jsdoc2md -c jsdoc.conf --private index.mjs > doc/lws.md && jsdoc2md -c jsdoc.conf lib/view/view-plugin.mjs > doc/view-plugin.md && jsdoc2md -c jsdoc.conf lib/config.mjs > doc/config.md"
+    "docs": "jsdoc2md -lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md --private index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
   },
   "files": [
-    "index.mjs",
+    "index.js",
     "ssl",
     "lib",
     "bin"
@@ -55,11 +56,11 @@
     "walk-back": "^5.1.0"
   },
   "devDependencies": {
-    "c8": "^7.11.3",
+    "c8": "^7.12.0",
     "coveralls": "^3.1.1",
     "jsdoc-to-markdown": "^7.1.1",
     "lws-static": "^3.1.0",
-    "node-fetch": "^3.2.4",
+    "node-fetch": "^3.2.10",
     "sleep-anywhere": "^2.1.1",
     "test-runner": "^0.10.1"
   },

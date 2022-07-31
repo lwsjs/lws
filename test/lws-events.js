@@ -112,7 +112,7 @@ tom.test('view receives verbose events', async function () {
 })
 
 tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
-  const MiddlewareStack = await import('../lib/middleware-stack.mjs').then(mod => mod.default)
+  const MiddlewareStack = await import('../lib/middleware-stack.js').then(mod => mod.default)
   const port = 9930 + this.index
   const actuals = []
   class One extends EventEmitter {

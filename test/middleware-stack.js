@@ -1,7 +1,7 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
 import EventEmitter from 'events'
-import MiddlewareStack from '../lib/middleware-stack.mjs'
+import MiddlewareStack from '../lib/middleware-stack.js'
 
 const a = assert.strict
 const tom = new TestRunner.Tom()
@@ -36,7 +36,7 @@ tom.test('from: class and module', async function () {
   class One {
     middleware () {}
   }
-  const stack = await MiddlewareStack.from([One, 'test/fixture/middleware.mjs'])
+  const stack = await MiddlewareStack.from([One, 'test/fixture/middleware.js'])
   a.equal(stack.length, 2)
   a.equal(stack[0].constructor.name, 'One')
   a.equal(stack[1].constructor.name, 'Two')
@@ -49,7 +49,7 @@ tom.test('events propagated from middleware functions to stack', async function 
       this.emit('verbose', 'one', 'two')
     }
   }
-  const stack = await MiddlewareStack.from([One, 'test/fixture/middleware.mjs'])
+  const stack = await MiddlewareStack.from([One, 'test/fixture/middleware.js'])
   stack.on('verbose', (key, value) => {
     actuals.push(key, value)
   })

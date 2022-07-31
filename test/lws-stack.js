@@ -151,7 +151,7 @@ tom.test('Invalid middleware: loaded, no middleware method', async function () {
     () => {
       return Lws.create({
         port,
-        stack: 'test/fixture/invalid.mjs'
+        stack: 'test/fixture/invalid.js'
       })
     },
     /Invalid middleware/

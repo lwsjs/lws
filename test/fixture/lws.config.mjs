@@ -1,3 +1,3 @@
 export default {
-  stack: ['two.mjs']
+  stack: ['two.js']
 }
