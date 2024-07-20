@@ -14,8 +14,8 @@
   },
   "exports": {
     ".": "./index.js",
-    "./lib/cli-app.js": "./lib/cli-app.js",
-    "./lib/view/cli-view.js": "./lib/view/cli-view.js"
+    "./lib/cli-app.mjs": "./lib/cli-app.js",
+    "./lib/view/cli-view.mjs": "./lib/view/cli-view.js"
   },
   "keywords": [
     "lws",
