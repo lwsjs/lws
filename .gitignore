@@ -1,7 +1,1 @@
-.coveralls.yml
-coverage
-ssl2
-node_modules
 tmp
-
-.nyc_output
