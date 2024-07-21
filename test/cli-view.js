@@ -1,6 +1,6 @@
 import TestRunner from 'test-runner'
 import assert from 'assert'
-import CliView from 'lws/lib/view/cli-view.js'
+import CliView from 'lws/lib/view/cli-view.mjs'
 const a = assert.strict
 
 const tom = new TestRunner.Tom()

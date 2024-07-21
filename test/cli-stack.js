@@ -1,4 +1,4 @@
-import LwsCli from 'lws/lib/cli-app.js'
+import LwsCli from 'lws/lib/cli-app.mjs'
 import fetch from 'node-fetch'
 import TestRunner from 'test-runner'
 import assert from 'assert'
