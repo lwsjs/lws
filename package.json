@@ -32,7 +32,7 @@
     "node": ">=12.20"
   },
   "scripts": {
-    "test": "test-runner test/*.js test/internals/*.js",
+    "test": "nature @nature-zone/minimal-runner test/*.js test/internals/*.js",
     "docs": "jsdoc2md -lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md --private index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
   },
   "files": [
@@ -45,7 +45,7 @@
     "@75lb/deep-merge": "^1.1.1",
     "ansi-escape-sequences": "^6.2.2",
     "array-back": "^6.2.2",
-    "byte-size": "^8.1.1",
+    "byte-size": "^9.0.0",
     "command-line-args": "^6.0.0",
     "command-line-usage": "^7.0.3",
     "create-mixin": "^3.0.0",
@@ -58,11 +58,11 @@
     "walk-back": "^5.1.0"
   },
   "devDependencies": {
+    "@nature-zone/minimal-runner": "^0.1.0",
     "jsdoc-to-markdown": "^8.0.2",
     "lws-static": "^3.1.0",
     "node-fetch": "^3.3.2",
-    "sleep-anywhere": "^2.1.1",
-    "test-runner": "^0.11.0"
+    "sleep-anywhere": "^2.1.1"
   },
   "contributors": [
     "Tiago Stutz <tiagostutz@gmail.com.br> (https://github.com/labbsr0x)"

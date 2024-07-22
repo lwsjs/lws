@@ -1,11 +1,10 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import CliView from 'lws/lib/view/cli-view.mjs'
 const a = assert.strict
 
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('verbose write', async function () {
+test.set('verbose write', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg = msg } })
   view.write('test', 'test', {
@@ -14,7 +13,7 @@ tom.test('verbose write', async function () {
   a.ok(/test:/.test(logMsg))
 })
 
-tom.test('middleware.error write', async function () {
+test.set('middleware.error write', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const err = new Error('test error')
@@ -22,14 +21,14 @@ tom.test('middleware.error write', async function () {
   a.ok(/test error/.test(logMsg))
 })
 
-tom.test('resolvePrivateAddress no-private-address', async function () {
+test.set('resolvePrivateAddress no-private-address', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   view.resolvePrivateAddress([])
   a.ok(/no network interfaces provided/.test(logMsg))
 })
 
-tom.test('resolvePrivateAddress corrupt-network-interfaces', async function () {
+test.set('resolvePrivateAddress corrupt-network-interfaces', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const corruptedMockIpList = [
@@ -41,7 +40,7 @@ tom.test('resolvePrivateAddress corrupt-network-interfaces', async function () {
   a.ok(/does not have a valid IP address or name/.test(logMsg))
 })
 
-tom.test('resolvePrivateAddress partially-corrupt-address-network-interfaces', async function () {
+test.set('resolvePrivateAddress partially-corrupt-address-network-interfaces', async function () {
   const view = new CliView()
   const corruptedMockIpList = [
     { name: 'en0', address: '1.1.1.1', url: 'http://1.1.1.1:8888' },
@@ -52,7 +51,7 @@ tom.test('resolvePrivateAddress partially-corrupt-address-network-interfaces', a
   a.ok(/1\.1\.1\.1/.test(ip.address))
 })
 
-tom.test('resolvePrivateAddress partially-corrupt-name-network-interfaces', async function () {
+test.set('resolvePrivateAddress partially-corrupt-name-network-interfaces', async function () {
   const view = new CliView()
   const corruptedMockIpList = [
     { address: '192.168.1.0', url: 'http://192.168.1.0:8888' },
@@ -63,7 +62,7 @@ tom.test('resolvePrivateAddress partially-corrupt-name-network-interfaces', asyn
   a.ok(/10\.10\.10\.10/.test(ip.address))
 })
 
-tom.test('resolvePrivateAddress resolve-private-network-interface', async function () {
+test.set('resolvePrivateAddress resolve-private-network-interface', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
 
@@ -76,14 +75,14 @@ tom.test('resolvePrivateAddress resolve-private-network-interface', async functi
   a.ok(/172\.17\.1\.1/.test(ip.address))
 })
 
-tom.test('printAddressQRCode no-ipList', async function () {
+test.set('printAddressQRCode no-ipList', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   view.printAddressQRCode(null, null)
   a.ok(/no available network interfaces/.test(logMsg))
 })
 
-tom.test('printAddressQRCode not-found-iface', async function () {
+test.set('printAddressQRCode not-found-iface', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const mockIpList = [
@@ -97,7 +96,7 @@ tom.test('printAddressQRCode not-found-iface', async function () {
   )
 })
 
-tom.test('printAddressQRCode automatically-iface-interface-not-found', async function () {
+test.set('printAddressQRCode automatically-iface-interface-not-found', async function () {
   let logMsg = ''
   const view = new CliView({ logError: function (msg) { logMsg = msg } })
   const corruptedMockIpList = [
@@ -111,7 +110,7 @@ tom.test('printAddressQRCode automatically-iface-interface-not-found', async fun
   )
 })
 
-tom.test('printAddressQRCode valid-provided-interface', async function () {
+test.set('printAddressQRCode valid-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
@@ -123,7 +122,7 @@ tom.test('printAddressQRCode valid-provided-interface', async function () {
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
-tom.test('.write() valid-provided-interface', async function () {
+test.set('.write() valid-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
@@ -135,7 +134,7 @@ tom.test('.write() valid-provided-interface', async function () {
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
-tom.test('printAddressQRCode valid-not-provided-interface', async function () {
+test.set('printAddressQRCode valid-not-provided-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
@@ -147,7 +146,7 @@ tom.test('printAddressQRCode valid-not-provided-interface', async function () {
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
-tom.test('.write() valid-default-interface', async function () {
+test.set('.write() valid-default-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
@@ -159,7 +158,7 @@ tom.test('.write() valid-default-interface', async function () {
   a.ok(/http:\/\/1\.1\.1\.1:8888/.test(logMsg))
 })
 
-tom.test('printAddressQRCode valid-not-provided-ordered-interface', async function () {
+test.set('printAddressQRCode valid-not-provided-ordered-interface', async function () {
   let logMsg = ''
   const view = new CliView({ log: function (msg) { logMsg += msg + ' ' } })
   const mockIpList = [
@@ -171,7 +170,7 @@ tom.test('printAddressQRCode valid-not-provided-ordered-interface', async functi
   a.ok(/http:\/\/172\.17\.1\.1:8888/.test(logMsg))
 })
 
-tom.test('getSortedPrivateAddresses', async function () {
+test.set('getSortedPrivateAddresses', async function () {
   const view = new CliView()
   const mockIpList = [
     { name: 'en4', address: '10.0.10.10' },
@@ -192,4 +191,4 @@ tom.test('getSortedPrivateAddresses', async function () {
   ])
 })
 
-export default tom
+export { test }

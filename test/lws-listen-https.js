@@ -1,4 +1,3 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
@@ -8,10 +7,10 @@ const agent = new https.Agent({
 })
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('--https', async function () {
-  const port = 9200 + this.index
+test.set('--https', async function () {
+  const port = 9201
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -23,7 +22,7 @@ tom.test('--https', async function () {
   const lws = await Lws.create({
     stack: [One],
     https: true,
-    port: port
+    port
   })
   try {
     const response = await fetch(`https://localhost:${port}`, { agent })
@@ -35,8 +34,8 @@ tom.test('--https', async function () {
   }
 })
 
-tom.test('--key and --cert', async function () {
-  const port = 9200 + this.index
+test.set('--key and --cert', async function () {
+  const port = 9202
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -49,7 +48,7 @@ tom.test('--key and --cert', async function () {
     stack: [One],
     key: 'ssl/private-key.pem',
     cert: 'ssl/lws-cert.pem',
-    port: port
+    port
   })
   try {
     const response = await fetch(`https://localhost:${port}`, { agent })
@@ -61,8 +60,8 @@ tom.test('--key and --cert', async function () {
   }
 })
 
-tom.test('--pfx', async function () {
-  const port = 9200 + this.index
+test.set('--pfx', async function () {
+  const port = 9203
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -74,7 +73,7 @@ tom.test('--pfx', async function () {
   const lws = await Lws.create({
     stack: [One],
     pfx: 'ssl/lws.pfx',
-    port: port
+    port
   })
   try {
     const response = await fetch(`https://localhost:${port}`, { agent })
@@ -86,8 +85,8 @@ tom.test('--pfx', async function () {
   }
 })
 
-tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
-  const port = 9200 + this.index
+test.set('--pfx, --max-connections, --keep-alive-timeout', async function () {
+  const port = 9204
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -99,7 +98,7 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
   const lws = await Lws.create({
     stack: [One],
     pfx: 'ssl/lws.pfx',
-    port: port,
+    port,
     maxConnections: 11,
     keepAliveTimeout: 10001
   })
@@ -115,4 +114,4 @@ tom.test('--pfx, --max-connections, --keep-alive-timeout', async function () {
   }
 })
 
-export default tom
+export { test }

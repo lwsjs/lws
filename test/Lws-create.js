@@ -1,13 +1,12 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('one middleware', async function () {
-  const port = 9400 + this.index
+test.set('one middleware', async function () {
+  const port = 9401
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -18,7 +17,7 @@ tom.test('one middleware', async function () {
   }
   const lws = await Lws.create({
     stack: [One],
-    port: port
+    port
   })
   try {
     const response = await fetch(`http://127.0.0.1:${port}`)
@@ -30,4 +29,4 @@ tom.test('one middleware', async function () {
   }
 })
 
-export default tom
+export { test }

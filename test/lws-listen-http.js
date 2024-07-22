@@ -1,4 +1,3 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
@@ -6,11 +5,10 @@ import url from 'url'
 import fs from 'fs'
 
 const a = assert.strict
+const test = new Map()
 
-const tom = new TestRunner.Tom()
-
-tom.test('simple http', async function () {
-  const port = 9100 + this.index
+test.set('simple http', async function () {
+  const port = 9101
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -21,7 +19,7 @@ tom.test('simple http', async function () {
   }
   const lws = await Lws.create({
     stack: [One],
-    port: port
+    port
   })
   const response = await fetch(`http://127.0.0.1:${port}`)
   lws.server.close()
@@ -30,8 +28,8 @@ tom.test('simple http', async function () {
   a.equal(body, 'one')
 })
 
-tom.test('hostname', async function () {
-  const port = 9100 + this.index
+test.set('hostname', async function () {
+  const port = 9102
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -42,7 +40,7 @@ tom.test('hostname', async function () {
   }
   const lws = await Lws.create({
     stack: [One],
-    port: port,
+    port,
     hostname: 'localhost'
   })
 
@@ -61,8 +59,8 @@ tom.test('hostname', async function () {
   }
 })
 
-tom.test('--max-connections, --keep-alive-timeout', async function () {
-  const port = 9100 + this.index
+test.set('--max-connections, --keep-alive-timeout', async function () {
+  const port = 9103
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -72,7 +70,7 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
   }
   const lws = await Lws.create({
     stack: [One],
-    port: port,
+    port,
     maxConnections: 11,
     keepAliveTimeout: 10001
   })
@@ -88,4 +86,4 @@ tom.test('--max-connections, --keep-alive-timeout', async function () {
   a.equal(body, 'one')
 })
 
-export default tom
+export { test }

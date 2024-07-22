@@ -1,4 +1,3 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
@@ -6,10 +5,10 @@ import sleep from 'sleep-anywhere'
 import EventEmitter from 'events'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('server-factory config event', async function () {
-  const port = 9930 + this.index
+test.set('server-factory config event', async function () {
+  const port = 9931
   const actuals = []
   const lws = new Lws({
     port,
@@ -31,8 +30,8 @@ tom.test('server-factory config event', async function () {
   ])
 })
 
-tom.test('server.listening event', async function () {
-  const port = 9930 + this.index
+test.set('server.listening event', async function () {
+  const port = 9932
   const actuals = []
   const lws = new Lws({ port })
   lws.on('verbose', (key, value) => {
@@ -48,8 +47,8 @@ tom.test('server.listening event', async function () {
   a.deepEqual(actuals, ['server.listening', 'server.close'])
 })
 
-tom.test('middleware plugin "verbose" event', async function () {
-  const port = 9930 + this.index
+test.set('middleware plugin "verbose" event', async function () {
+  const port = 9933
   const actuals = []
   class One extends EventEmitter {
     middleware () {
@@ -69,8 +68,8 @@ tom.test('middleware plugin "verbose" event', async function () {
   a.deepEqual(actuals, ['something.test'])
 })
 
-tom.test('ctx.app event', async function () {
-  const port = 9930 + this.index
+test.set('ctx.app event', async function () {
+  const port = 9934
   const actuals = []
   class One {
     middleware () {
@@ -91,8 +90,8 @@ tom.test('ctx.app event', async function () {
   }
 })
 
-tom.test('view receives verbose events', async function () {
-  const port = 9930 + this.index
+test.set('view receives verbose events', async function () {
+  const port = 9935
   const actuals = []
   class One extends EventEmitter {
     middleware () {
@@ -111,9 +110,9 @@ tom.test('view receives verbose events', async function () {
   a.deepEqual(actuals[0], { key: 'something.test', value: 1 })
 })
 
-tom.test('view receives verbose events, input MiddlewareStack instance', async function () {
+test.set('view receives verbose events, input MiddlewareStack instance', async function () {
   const MiddlewareStack = await import('../lib/middleware-stack.js').then(mod => mod.default)
-  const port = 9930 + this.index
+  const port = 9936
   const actuals = []
   class One extends EventEmitter {
     middleware () {
@@ -133,4 +132,4 @@ tom.test('view receives verbose events, input MiddlewareStack instance', async f
   a.deepEqual(actuals[0], { key: 'something.test', value: 1 })
 })
 
-export default tom
+export { test }

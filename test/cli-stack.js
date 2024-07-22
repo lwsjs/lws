@@ -1,13 +1,12 @@
 import LwsCli from 'lws/lib/cli-app.mjs'
 import fetch from 'node-fetch'
-import TestRunner from 'test-runner'
 import assert from 'assert'
 const a = assert.strict
 
-const tom = new TestRunner.Tom({ maxConcurrency: 1 })
+const test = new Map()
 
-tom.test('no middleware', async function () {
-  const port = 9300 + this.index
+test.set('no middleware', async function () {
+  const port = 9301
   const cli = new LwsCli({
     logError: console.error
   })
@@ -24,8 +23,8 @@ tom.test('no middleware', async function () {
   }
 })
 
-tom.test('one middleware', async function () {
-  const port = 9300 + this.index
+test.set('one middleware', async function () {
+  const port = 9302
   const cli = new LwsCli({ logError: console.error })
   const server = await cli.start(['--port', `${port}`, '--stack', 'test/fixture/one.js'])
   if (process.exitCode) {
@@ -38,8 +37,8 @@ tom.test('one middleware', async function () {
   a.equal(body, 'one')
 })
 
-tom.test('two middlewares', async function () {
-  const port = 9300 + this.index
+test.set('two middlewares', async function () {
+  const port = 9303
   const cli = new LwsCli({ logError: console.error })
   const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', 'test/fixture/two.js']
   const server = await cli.start(argv)
@@ -53,8 +52,8 @@ tom.test('two middlewares', async function () {
   a.equal(body, 'onetwo')
 })
 
-tom.test('one middleware with cli option', async function () {
-  const port = 9300 + this.index
+test.set('one middleware with cli option', async function () {
+  const port = 9304
   const cli = new LwsCli({ logError: console.error })
   const argv = ['--port', `${port}`, '--stack', 'test/fixture/one.js', '--something', 'yeah']
   const server = await cli.start(argv)
@@ -68,4 +67,4 @@ tom.test('one middleware with cli option', async function () {
   a.equal(body, 'yeah')
 })
 
-export default tom
+export { test }

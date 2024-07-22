@@ -1,10 +1,9 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import http2 from 'http2'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
 async function fetchHttp2 (host, path) {
   return new Promise((resolve, reject) => {
@@ -31,8 +30,8 @@ async function fetchHttp2 (host, path) {
   })
 }
 
-tom.test('--http2', async function () {
-  const port = 9350 + this.index
+test.set('--http2', async function () {
+  const port = 9351
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -44,7 +43,7 @@ tom.test('--http2', async function () {
   const lws = await Lws.create({
     stack: [One],
     http2: true,
-    port: port
+    port
   })
 
   try {
@@ -56,8 +55,8 @@ tom.test('--http2', async function () {
   }
 })
 
-tom.test('--http2 --key and --cert', async function () {
-  const port = 9350 + this.index
+test.set('--http2 --key and --cert', async function () {
+  const port = 9352
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -70,7 +69,7 @@ tom.test('--http2 --key and --cert', async function () {
     stack: [One],
     key: 'ssl/private-key.pem',
     cert: 'ssl/lws-cert.pem',
-    port: port,
+    port,
     http2: true
   })
   try {
@@ -82,8 +81,8 @@ tom.test('--http2 --key and --cert', async function () {
   }
 })
 
-tom.test('--http2 --pfx', async function () {
-  const port = 9350 + this.index
+test.set('--http2 --pfx', async function () {
+  const port = 9353
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -95,7 +94,7 @@ tom.test('--http2 --pfx', async function () {
   const lws = await Lws.create({
     stack: [One],
     pfx: 'ssl/lws.pfx',
-    port: port,
+    port,
     http2: true
   })
   try {
@@ -107,8 +106,8 @@ tom.test('--http2 --pfx', async function () {
   }
 })
 
-tom.test('--http2 --pfx, --max-connections', async function () {
-  const port = 9350 + this.index
+test.set('--http2 --pfx, --max-connections', async function () {
+  const port = 9354
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -122,7 +121,7 @@ tom.test('--http2 --pfx, --max-connections', async function () {
       return Lws.create({
         stack: [One],
         pfx: 'ssl/lws.pfx',
-        port: port,
+        port,
         maxConnections: 11,
         http2: true
       })
@@ -131,8 +130,8 @@ tom.test('--http2 --pfx, --max-connections', async function () {
   )
 })
 
-tom.test('--http2 --pfx, --keep-alive-timeout', async function () {
-  const port = 9350 + this.index
+test.set('--http2 --pfx, --keep-alive-timeout', async function () {
+  const port = 9355
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -146,7 +145,7 @@ tom.test('--http2 --pfx, --keep-alive-timeout', async function () {
       return Lws.create({
         stack: [One],
         pfx: 'ssl/lws.pfx',
-        port: port,
+        port,
         keepAliveTimeout: 10001,
         http2: true
       })
@@ -155,4 +154,4 @@ tom.test('--http2 --pfx, --keep-alive-timeout', async function () {
   )
 })
 
-export default tom
+export { test }

@@ -1,4 +1,3 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import LwsCli from 'lws/lib/cli-app.mjs'
 import sleep from 'sleep-anywhere'
@@ -9,9 +8,9 @@ const __dirname = getModulePaths(import.meta.url).__dirname
 const a = assert.strict
 const fs = fsMain.promises
 
-const tom = new TestRunner.Tom({ maxConcurrency: 1 })
+const test = new Map()
 
-tom.test('bad option, should fail and printError', async function () {
+test.set('bad option, should fail and printError', async function () {
   const origExitCode = process.exitCode
   let logMsg = ''
   const cli = new LwsCli({
@@ -22,8 +21,8 @@ tom.test('bad option, should fail and printError', async function () {
   process.exitCode = origExitCode
 })
 
-tom.test('port not available', async function () {
-  const port = 7500 + this.index
+test.set('port not available', async function () {
+  const port = 7501
   const actuals = []
   const origExitCode = process.exitCode
   const cli = new LwsCli({
@@ -43,7 +42,7 @@ tom.test('port not available', async function () {
   process.exitCode = origExitCode
 })
 
-tom.test('--help', async function () {
+test.set('--help', async function () {
   let usage = null
   const cli = new LwsCli({
     log: function (msg) {
@@ -54,7 +53,7 @@ tom.test('--help', async function () {
   a.ok(/Synopsis/.test(usage))
 })
 
-tom.test('--version', async function () {
+test.set('--version', async function () {
   let logMsg = ''
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
@@ -64,7 +63,7 @@ tom.test('--version', async function () {
   a.equal(version, logMsg.trim())
 })
 
-tom.test('--config', async function () {
+test.set('--config', async function () {
   let logMsg = ''
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
@@ -73,7 +72,7 @@ tom.test('--config', async function () {
   a.ok(/https/.test(logMsg))
 })
 
-tom.test('--list-network-interfaces', async function () {
+test.set('--list-network-interfaces', async function () {
   let logMsg = ''
   const cli = new LwsCli({
     log: function (msg) { logMsg = msg }
@@ -84,7 +83,7 @@ tom.test('--list-network-interfaces', async function () {
 })
 
 if (process.env.TESTOPEN) {
-  tom.test('--open', async function () {
+  test.set('--open', async function () {
     const cli = new LwsCli({
       log: function () { }
     })
@@ -92,7 +91,7 @@ if (process.env.TESTOPEN) {
     server.close()
   })
 
-  tom.test('--open --https', async function () {
+  test.set('--open --https', async function () {
     const cli = new LwsCli({
       log: function () { }
     })
@@ -101,4 +100,4 @@ if (process.env.TESTOPEN) {
   })
 }
 
-export default tom
+export { test }

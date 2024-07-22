@@ -1,4 +1,3 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
@@ -8,9 +7,10 @@ const agent = new https.Agent({
 })
 const a = assert.strict
 
-const tom = new TestRunner.Tom()
+const test = new Map()
+const only = new Map()
 
-tom.test('invalid options 1', function () {
+test.set('invalid options 1', function () {
   const lws = new Lws({ cert: 'something' })
   a.throws(
     () => lws.createServer(),
@@ -18,7 +18,7 @@ tom.test('invalid options 1', function () {
   )
 })
 
-tom.test('invalid options 2', function () {
+test.set('invalid options 2', function () {
   const lws = new Lws({ key: 'something' })
   a.throws(
     () => lws.createServer(),
@@ -26,7 +26,7 @@ tom.test('invalid options 2', function () {
   )
 })
 
-tom.test('invalid options 3', function () {
+test.set('invalid options 3', function () {
   const lws = new Lws({ https: true, pfx: 'something' })
   a.throws(
     () => lws.createServer(),
@@ -34,8 +34,8 @@ tom.test('invalid options 3', function () {
   )
 })
 
-tom.test('configFile', async function () {
-  const port = 9900 + this.index
+test.set('configFile', async function () {
+  const port = 9901
   const lws = new Lws({
     configFile: 'test/fixture/lws.config.mjs',
     moduleDir: 'test/fixture'
@@ -51,9 +51,9 @@ tom.test('configFile', async function () {
   a.equal(body, 'two')
 })
 
-tom.test('create server', async function () {
+test.set('create server', async function () {
   const lws = new Lws()
-  const port = 9900 + this.index
+  const port = 9902
   const server = lws.createServer()
   server.listen(port)
   server.on('request', (req, res) => {
@@ -65,9 +65,9 @@ tom.test('create server', async function () {
   a.equal(response.status, 999)
 })
 
-tom.test('createServer, getRequestHandler', async function () {
+test.set('createServer, getRequestHandler', async function () {
   const lws = new Lws()
-  const port = 9900 + this.index
+  const port = 9903
   const server = lws.createServer()
   server.listen(port)
   server.on('request', lws._getRequestHandler(function (ctx, next) {
@@ -79,9 +79,9 @@ tom.test('createServer, getRequestHandler', async function () {
   a.equal(response.status, 999)
 })
 
-tom.test('create HTTPS server, getRequestHandler', async function () {
+test.set('create HTTPS server, getRequestHandler', async function () {
   const lws = new Lws({ https: true })
-  const port = 9900 + this.index
+  const port = 9904
   const server = lws.createServer()
   server.listen(port)
   server.on('request', lws._getRequestHandler(function (ctx, next) {
@@ -93,12 +93,12 @@ tom.test('create HTTPS server, getRequestHandler', async function () {
   a.equal(response.status, 999)
 })
 
-tom.test('createServer, use lws-static', async function () {
+test.set('createServer, use lws-static', async function () {
   const lws = new Lws({
     stack: ['lws-static'],
     directory: 'test/fixture'
   })
-  const port = 9900 + this.index
+  const port = 9905
   const server = lws.createServer()
   await lws.useMiddlewareStack()
   server.listen(port)
@@ -107,12 +107,12 @@ tom.test('createServer, use lws-static', async function () {
   a.equal(response.status, 200)
 })
 
-tom.test('createServer, use lws-static 2', async function () {
+test.set('createServer, use lws-static 2', async function () {
   const lws = new Lws({
     directory: 'test/fixture',
     stack: ['lws-static']
   })
-  const port = 9900 + this.index
+  const port = 9906
   const server = lws.createServer()
   await lws.useMiddlewareStack()
   server.listen(port)
@@ -121,4 +121,4 @@ tom.test('createServer, use lws-static 2', async function () {
   a.equal(response.status, 200)
 })
 
-export default tom
+export { test, only }

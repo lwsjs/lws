@@ -1,12 +1,11 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import EventEmitter from 'events'
 import MiddlewareStack from '../lib/middleware-stack.js'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('from', async function () {
+test.set('from', async function () {
   class One {
     middleware () {}
   }
@@ -14,7 +13,7 @@ tom.test('from', async function () {
   a.equal(stack[0].constructor.name, 'One')
 })
 
-tom.test('get middleware functions', async function () {
+test.set('get middleware functions', async function () {
   class One {
     middleware (options) {
       return function oneMiddleware () { return options.one }
@@ -32,7 +31,7 @@ tom.test('get middleware functions', async function () {
   a.equal(middlewares[0](), 1)
 })
 
-tom.test('from: class and module', async function () {
+test.set('from: class and module', async function () {
   class One {
     middleware () {}
   }
@@ -42,7 +41,7 @@ tom.test('from: class and module', async function () {
   a.equal(stack[1].constructor.name, 'Two')
 })
 
-tom.test('events propagated from middleware functions to stack', async function () {
+test.set('events propagated from middleware functions to stack', async function () {
   const actuals = []
   class One extends EventEmitter {
     middleware () {
@@ -57,4 +56,4 @@ tom.test('events propagated from middleware functions to stack', async function 
   a.deepEqual(actuals, ['one', 'two', 'test', 'test'])
 })
 
-export default tom
+export { test }

@@ -1,13 +1,12 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
 const a = assert.strict
 
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('custom configFile', async function () {
-  const port = 9900 + this.index
+test.set('custom configFile', async function () {
+  const port = 9801
   const lws = await Lws.create({
     configFile: 'test/fixture/lws.config.mjs',
     moduleDir: './test/fixture',
@@ -23,4 +22,4 @@ tom.test('custom configFile', async function () {
   }
 })
 
-export default tom
+export { test }

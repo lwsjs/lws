@@ -1,19 +1,18 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import sleep from 'sleep-anywhere'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('custom view write', async function () {
+test.set('custom view write', async function () {
   const actuals = []
   class One {
     write (key, value, config) {
       actuals.push(key, value, config)
     }
   }
-  const port = 9950 + this.index
+  const port = 9951
   const lws = await Lws.create({
     port,
     maxConnections: 11,
@@ -25,4 +24,4 @@ tom.test('custom view write', async function () {
   a.equal(actuals[0], 'server.config')
 })
 
-export default tom
+export { test }

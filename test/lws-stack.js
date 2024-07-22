@@ -1,29 +1,28 @@
-import TestRunner from 'test-runner'
 import assert from 'assert'
 import Lws from 'lws'
 import fetch from 'node-fetch'
 
 const a = assert.strict
-const tom = new TestRunner.Tom()
+const test = new Map()
 
-tom.test('No middleware', async function () {
-  const port = 9800 + this.index
+test.set('No middleware', async function () {
+  const port = 9800
   const lws = await Lws.create({ port })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
   a.equal(response.status, 404)
 })
 
-tom.test('empty stack array', async function () {
-  const port = 9800 + this.index
+test.set('empty stack array', async function () {
+  const port = 9801
   const lws = await Lws.create({ port, stack: [] })
   const response = await fetch(`http://localhost:${port}/`)
   lws.server.close()
   a.equal(response.status, 404)
 })
 
-tom.test('One middleware', async function () {
-  const port = 9800 + this.index
+test.set('One middleware', async function () {
+  const port = 9802
   class One {
     middleware () {
       return function (ctx, next) {
@@ -43,8 +42,8 @@ tom.test('One middleware', async function () {
   a.equal(body, 'one')
 })
 
-tom.test('middleware args', async function () {
-  const port = 9800 + this.index
+test.set('middleware args', async function () {
+  const port = 9803
   const actuals = []
   class One {
     middleware (config, lws) {
@@ -60,8 +59,8 @@ tom.test('middleware args', async function () {
   a.equal(actuals[1], lws)
 })
 
-tom.test('Two middlewares', async function () {
-  const port = 9800 + this.index
+test.set('Two middlewares', async function () {
+  const port = 9804
   class One {
     middleware (options) {
       return (ctx, next) => {
@@ -88,8 +87,8 @@ tom.test('Two middlewares', async function () {
   a.equal(body, 'onetwo')
 })
 
-tom.test('Broken middleware', async function () {
-  const port = 9800 + this.index
+test.set('Broken middleware', async function () {
+  const port = 9805
   class One {
     middleware () {
       return function (ctx, next) {
@@ -106,8 +105,8 @@ tom.test('Broken middleware', async function () {
   a.equal(response.status, 500)
 })
 
-tom.test('Load one middleware', async function () {
-  const port = 9800 + this.index
+test.set('Load one middleware', async function () {
+  const port = 9806
   const lws = await Lws.create({
     port,
     stack: 'lws-static'
@@ -117,8 +116,8 @@ tom.test('Load one middleware', async function () {
   a.equal(response.status, 200)
 })
 
-tom.test('Invalid middleware: wrong type', async function () {
-  const port = 9800 + this.index
+test.set('Invalid middleware: wrong type', async function () {
+  const port = 9807
   const One = false
   await a.rejects(
     () => {
@@ -131,8 +130,8 @@ tom.test('Invalid middleware: wrong type', async function () {
   )
 })
 
-tom.test('Invalid middleware: no middleware method', async function () {
-  const port = 9800 + this.index
+test.set('Invalid middleware: no middleware method', async function () {
+  const port = 9808
   class One {}
   await a.rejects(
     () => {
@@ -145,8 +144,8 @@ tom.test('Invalid middleware: no middleware method', async function () {
   )
 })
 
-tom.test('Invalid middleware: loaded, no middleware method', async function () {
-  const port = 9800 + this.index
+test.set('Invalid middleware: loaded, no middleware method', async function () {
+  const port = 9809
   await a.rejects(
     () => {
       return Lws.create({
@@ -158,4 +157,4 @@ tom.test('Invalid middleware: loaded, no middleware method', async function () {
   )
 })
 
-export default tom
+export { test }
