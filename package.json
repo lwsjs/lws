@@ -10,12 +10,10 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "lws": "bin/cli.js"
+    "lws": "./bin/cli.js"
   },
   "exports": {
-    ".": "./index.js",
-    "./lib/cli-app.mjs": "./lib/cli-app.js",
-    "./lib/view/cli-view.mjs": "./lib/view/cli-view.js"
+    ".": "./index.js"
   },
   "keywords": [
     "lws",
@@ -32,8 +30,7 @@
     "node": ">=12.20"
   },
   "scripts": {
-    "test": "nature @nature-zone/minimal-runner test/*.js test/internals/*.js",
-    "docs": "jsdoc2md -lib/middleware-plugin.js > doc/middleware-plugin.md && jsdoc2md --private index.js > doc/lws.md && jsdoc2md lib/view/view-plugin.js > doc/view-plugin.md && jsdoc2md lib/config.js > doc/config.md"
+    "test": "test-runner test/*.js test/internals/*.js"
   },
   "files": [
     "index.js",
@@ -42,29 +39,9 @@
     "bin"
   ],
   "dependencies": {
-    "@75lb/deep-merge": "^1.1.1",
-    "ansi-escape-sequences": "^6.2.2",
-    "array-back": "^6.2.2",
-    "byte-size": "^9.0.0",
-    "command-line-args": "^6.0.0",
-    "command-line-usage": "^7.0.3",
-    "create-mixin": "^3.0.0",
+    "command-line-args": "file:../../cli-zone/cla2",
     "current-module-paths": "^1.1.1",
-    "koa": "^2.15.3",
-    "load-module": "^5.0.0",
-    "open": "^8.4.2",
-    "qrcode-terminal": "^0.12.0",
-    "typical": "^7.1.1",
-    "walk-back": "^5.1.0"
-  },
-  "devDependencies": {
-    "@nature-zone/minimal-runner": "^0.1.0",
-    "jsdoc-to-markdown": "^8.0.2",
-    "lws-static": "^3.1.0",
-    "node-fetch": "^3.3.2",
-    "sleep-anywhere": "^2.1.1"
-  },
-  "contributors": [
-    "Tiago Stutz <tiagostutz@gmail.com.br> (https://github.com/labbsr0x)"
-  ]
+    "express": "^5.0.0-beta.3",
+    "serve-index": "^1.9.1"
+  }
 }
