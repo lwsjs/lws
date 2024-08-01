@@ -277,7 +277,9 @@ class Lws extends EventEmitter {
    */
   static async create (config) {
     const lws = new this(config)
-    await lws.loadStoredConfig()
+    if (!config._alreadyMerged) {
+      await lws.loadStoredConfig()
+    }
 
     /* attach the view */
     lws.useView()
