@@ -42,6 +42,7 @@
     "command-line-args": "file:../../cli-zone/cla2",
     "current-module-paths": "^1.1.1",
     "express": "^5.0.0-beta.3",
+    "morgan": "^1.10.0",
     "serve-index": "^1.9.1"
   }
 }
