@@ -39,7 +39,7 @@
     "bin"
   ],
   "dependencies": {
-    "command-line-args": "file:../../cli-zone/cla2",
+    "command-line-args": "github:75lb/command-line-args#next",
     "current-module-paths": "^1.1.1",
     "express": "^5.0.0-beta.3",
     "morgan": "^1.10.0",
