@@ -1,12 +1,21 @@
+import path from 'node:path'
 import HttpServer from './lib/http.js'
 import HttpsServer from './lib/https.js'
 import Http2Server from './lib/http2.js'
+import getModulePaths from 'current-module-paths'
+const __dirname = getModulePaths(import.meta.url).__dirname
 
 class Lws {
   server
 
   async listen (options = {}) {
-    const Application = (await import(options.app || './lib/static-app.js')).default
+    options.app = options.app || 'static'
+    if (options.app === 'static') {
+      options.app = path.resolve(__dirname, 'lib', 'static-app.js')
+    } else {
+      options.app = path.resolve(options.app)
+    }
+    const Application = (await import(options.app)).default
     const app = new Application()
 
     let server
