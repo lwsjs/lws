@@ -5,7 +5,7 @@ import Lws from 'lws'
 
 const config = new Config()
 const optionsSet = await config.combine()
-console.log(optionsSet)
+// console.log(optionsSet)
 // process.exit()
 
 for (const options of optionsSet) {
@@ -15,7 +15,7 @@ for (const options of optionsSet) {
     console.log(options)
     process.exit()
   } else if (options.help || options._args.length) {
-    console.log('lws [-h|--help] [--app <path>] [--port <number>] [--https] [--http2] [--config <path>] [--show-config] [--title <string>]')
+    console.log('lws server [-h|--help] [--app <path>] [--port <number>] [--https] [--http2] [--config <path>] [--show-config] [--title <string>]')
     process.exit()
   }
 
@@ -32,5 +32,7 @@ for (const options of optionsSet) {
 ws static <..>
 ws reverse-proxy <..>
 ws api <..>
-ws --app static --port 8000 --app users.js --port 8020
+or
+ws server --app static
+ws server --app reverse-proxy
 */

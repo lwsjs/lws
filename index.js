@@ -10,6 +10,7 @@ class Lws {
 
   async listen (options = {}) {
     options.app = options.app || 'static'
+    /* app presets */
     if (options.app === 'static') {
       options.app = path.resolve(__dirname, 'lib', 'static-app.js')
     } else {
