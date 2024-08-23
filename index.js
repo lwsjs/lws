@@ -29,7 +29,7 @@ class Lws {
     }
     server.create(options.server)
     server.use(app.requestHandler(options))
-    server.server.listen(options.port)
+    server.server.listen(options.port, options.hostname)
     this.server = server
   }
 }

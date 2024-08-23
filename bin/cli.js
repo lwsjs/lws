@@ -15,7 +15,7 @@ for (const options of optionsSet) {
     console.log(options)
     process.exit()
   } else if (options.help || options._args.length) {
-    console.log('lws server [-h|--help] [--app <path>] [--port <number>] [--https] [--http2] [--config <path>] [--show-config] [--title <string>]')
+    console.log('lws server [-h|--help] [--app <path>] [--port <number>] [--hostname <string>] [--https] [--http2] [--config <path>] [--show-config] [--title <string>]')
     process.exit()
   }
 
