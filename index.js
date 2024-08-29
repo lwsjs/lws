@@ -281,6 +281,9 @@ class Lws extends EventEmitter {
       await lws.loadStoredConfig()
     }
 
+    /* Assign the process title */
+    if (config.title) process.title = config.title
+
     /* attach the view */
     lws.useView()
 
