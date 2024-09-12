@@ -44,5 +44,20 @@
     "express": "^5.0.0-beta.3",
     "morgan": "^1.10.0",
     "serve-index": "^1.9.1"
+  },
+  "peerDependencies": {
+    "@75lb/nature": "latest"
+  },
+  "peerDependenciesMeta": {
+    "@75lb/nature": {
+      "optional": true
+    }
+  },
+  "standard": {
+    "ignore": [
+      "tmp",
+      "dist"
+    ],
+    "envs": []
   }
 }
