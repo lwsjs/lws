@@ -10,7 +10,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "lws": "./bin/cli.js"
+    "lws": "bin/cli.js"
   },
   "exports": {
     ".": "./index.js"
@@ -40,8 +40,8 @@
   ],
   "dependencies": {
     "command-line-args": "github:75lb/command-line-args#next",
-    "current-module-paths": "^1.1.1",
-    "express": "^5.0.0-beta.3",
+    "current-module-paths": "^1.1.2",
+    "express": "^5.0.0",
     "morgan": "^1.10.0",
     "serve-index": "^1.9.1"
   },
