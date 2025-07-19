@@ -3,7 +3,6 @@
 [![Gihub repo dependents](https://badgen.net/github/dependents-repo/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=REPOSITORY)
 [![Gihub package dependents](https://badgen.net/github/dependents-pkg/lwsjs/lws)](https://github.com/lwsjs/lws/network/dependents?dependent_type=PACKAGE)
 [![Node.js CI](https://github.com/lwsjs/lws/actions/workflows/node.js.yml/badge.svg)](https://github.com/lwsjs/lws/actions/workflows/node.js.yml)
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://github.com/feross/standard)
 
 # lws
 
@@ -107,6 +106,6 @@ $ npm install --save-dev lws
 
 * * *
 
-&copy; 2016-24 Lloyd Brookes \<75pound@gmail.com\>.
+&copy; 2016-25 Lloyd Brookes \<opensource@75lb.com\>.
 
-Tested by [test-runner](https://github.com/test-runner-js/test-runner). Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
+Documented by [jsdoc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown).
