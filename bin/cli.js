@@ -40,7 +40,7 @@ for (const options of optionsSet) {
   if (options.showConfig) {
     console.log(options)
     process.exit()
-  } else if (options.help || options._args.length) {
+  } else if (options.help) {
     console.log('lws server [-h|--help] [--app <path>] [-p|--port <number>] [--hostname <string>] [--https] [--http2] [--config <path>] [--show-config] [--title <string>] [--morgan.format.string <string>] [--static.root.string <string>] [--custom.404.string <string>] [--spa.index.string <string>]')
     process.exit()
   }
