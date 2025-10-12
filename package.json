@@ -39,7 +39,7 @@
     "bin"
   ],
   "dependencies": {
-    "command-line-args": "github:75lb/command-line-args#next",
+    "command-line-args": "github:75lb/command-line-args#b254deb0ea53cfd60ffa4561dfb85e07c0da388f",
     "current-module-paths": "^1.1.2",
     "express": "^5.1.0",
     "morgan": "^1.10.1",
