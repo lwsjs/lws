@@ -42,7 +42,7 @@
     "bin"
   ],
   "dependencies": {
-    "@75lb/deep-merge": "^1.1.4",
+    "@75lb/deep-merge": "^1.1.5",
     "ansi-escape-sequences": "^6.2.4",
     "array-back": "^6.2.3",
     "byte-size": "^9.0.1",
